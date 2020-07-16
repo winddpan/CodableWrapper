@@ -42,3 +42,4 @@ for i in 0...10 {
 # TODO
 * Transfrom support
 * Unit test coverage
+* @CodableWrapper("intVal", default: 123456) ->  @CodableWrapper(123456)  // hard to say
