@@ -1,6 +1,10 @@
 # CodableWrapper
 CodableWrapper Experiment
 
+---
+
+# Example
+
 ```
 struct ExampleModel: Codable {
     @CodableWrapper("intVal", default: 123456)
@@ -22,13 +26,19 @@ struct Level1Model: Codable {
 ```
 
 ```
-let json = """
-{"value": {"intVal": \(i), "stringVal": "string_\(i)", "array": [123456789]}}
-"""
-
-let model = try JSONDecoder().decode(Level1Model.self, from: json.data(using: .utf8)!)
-XCTAssertEqual(model.value.intVal, i)
-XCTAssertEqual(model.value.stringVal, "string_\(i)")
-XCTAssertEqual(model.value.unImpl, "default unImpl value")
-XCTAssertEqual(model.value.array, [123456789])
+for i in 0...10 {
+	let json = """
+	{"value": {"intVal": \(i), "stringVal": "string_\(i)", "array": [123456789]}}
+	"""
+	
+	let model = try JSONDecoder().decode(Level1Model.self, from: json.data(using: .utf8)!)
+	XCTAssertEqual(model.value.intVal, i)
+	XCTAssertEqual(model.value.stringVal, "string_\(i)")
+	XCTAssertEqual(model.value.unImpl, "default unImpl value")
+	XCTAssertEqual(model.value.array, [123456789])
+}
 ```
+
+# TODO
+* Transfrom support
+* Unit test coverage
