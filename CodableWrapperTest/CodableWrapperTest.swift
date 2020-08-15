@@ -5,72 +5,101 @@
 //  Created by PAN on 2020/7/16.
 //
 
-import XCTest
 import CodableWrapper
+import XCTest
 
 struct ExampleModel: Codable {
-    @CodableWrapper("intVal", default: 123456)
+    @CodableWrapper(defaultValue: "default unImpl value")
+    var unImpl: String
+
+    @CodableWrapper(codingKeys: ["stringVal", "string_Val"], defaultValue: "abc")
+    var stringVal: String
+
+    @CodableWrapper(codingKeys: ["int_Val", "intVal"], defaultValue: 123456)
     var intVal: Int
 
-    @CodableWrapper("stringVal", default: "abc")
-    var stringVal: String
-    
-    @CodableWrapper("array", default: [1.998, 2.998, 3.998])
+    @CodableWrapper(defaultValue: [1.998, 2.998, 3.998])
     var array: [Double]
-    
-    @CodableWrapper("unImpl", default: "default unImpl value")
-    var unImpl: String
 }
 
-struct Level1Model: Codable {
-    var value: ExampleModel
+struct RootModel: Codable {
+    var root: ExampleModel
 }
-
 
 class CodableWrapperTest: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testCodingKeyDecode() throws {
+        let json = """
+        {"int_Val": 233, "string_Val": "opq"}
+        """
+        let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
+        XCTAssertEqual(model.intVal, 233)
+        XCTAssertEqual(model.stringVal, "opq")
+        XCTAssertEqual(model.unImpl, "default unImpl value")
+        XCTAssertEqual(model.array, [1.998, 2.998, 3.998])
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testCodingKeyEncode() throws {
+        let json = """
+        {"int_Val": 233, "string_Val": "opq"}
+        """
+        let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
+        
+        let data = try JSONEncoder().encode(model)
+        let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+        XCTAssertEqual(jsonObject["int_Val"] as? Int, 233)
+        XCTAssertEqual(jsonObject["stringVal"] as? String, "opq")
     }
+    
+    func testNested() throws {
+        let json = """
+        {"root": {"stringVal":"x"}}
+        """
+        let model = try JSONDecoder().decode(RootModel.self, from: json.data(using: .utf8)!)
+        XCTAssertEqual(model.root.stringVal, "x")
+    }
+    
+    func testMutiThread() throws {
+        let expectation = XCTestExpectation(description: "")
+        let expectation2 = XCTestExpectation(description: "")
 
-    func testExample() throws {
-        do {
-            for i in 0...10 {
-                let json = """
-                {"value": {"intVal": \(i), "stringVal": "string_\(i)", "array": [123456789]}}
-                """
-                let model = try JSONDecoder().decode(Level1Model.self, from: json.data(using: .utf8)!)
-                XCTAssertEqual(model.value.intVal, i)
-                XCTAssertEqual(model.value.stringVal, "string_\(i)")
-                XCTAssertEqual(model.value.unImpl, "default unImpl value")
-                XCTAssertEqual(model.value.array, [123456789])
+        DispatchQueue.global().async {
+            do {
+                for i in 5000 ... 6000 {
+                    let json = """
+                    {"int_Val": \(i)}
+                    """
+                    let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
+                    XCTAssertEqual(model.intVal, i)
+                    XCTAssertEqual(model.stringVal, "abc")
+                    XCTAssertEqual(model.unImpl, "default unImpl value")
+                    XCTAssertEqual(model.array, [1.998, 2.998, 3.998])
+                    // print(model.intVal)
+                }
+                expectation.fulfill()
+            } catch let e {
+                print(e)
             }
-            
-            for i in 0...10 {
-                let json = """
-                {"value": {"intVal": \(i)}}
-                """
-                let model = try JSONDecoder().decode(Level1Model.self, from: json.data(using: .utf8)!)
-                XCTAssertEqual(model.value.intVal, i)
-                XCTAssertEqual(model.value.stringVal, "abc")
-                XCTAssertEqual(model.value.unImpl, "default unImpl value")
-                XCTAssertEqual(model.value.array, [1.998, 2.998, 3.998])
+        }
+
+        DispatchQueue.global().async {
+            do {
+                for i in 1 ... 1000 {
+                    let json = """
+                    {"int_Val": \(i), "string_Val": "string_\(i)", "array": [123456789]}
+                    """
+                    let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
+                    XCTAssertEqual(model.intVal, i)
+                    XCTAssertEqual(model.stringVal, "string_\(i)")
+                    XCTAssertEqual(model.unImpl, "default unImpl value")
+                    XCTAssertEqual(model.array, [123456789])
+                    // print(model.stringVal)
+                }
+                expectation2.fulfill()
+            } catch let e {
+                print(e)
             }
-            
-        } catch let e {
-            print(e)
         }
-    }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
-        }
+        wait(for: [expectation, expectation2], timeout: 10.0)
     }
-
 }

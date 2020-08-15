@@ -9,29 +9,42 @@
 import Foundation
 
 @propertyWrapper
-public class CodableWrapper<Value: Codable>: Codable {
-    public struct Construct {
-        public var defaultValue: Value
+public final class CodableWrapper<Value: Codable>: Codable {
+    struct Construct {
+        var codingKeys: [String]
+        var defaultValue: Value
     }
 
-    fileprivate var construct: Construct
-    private var propertyKey: String?
-    private var storedValue: Value?
+    private var unsafeCreated: Bool
+    fileprivate var construct: Construct!
+    fileprivate var storedValue: Value?
+    fileprivate var decoderInjetion: ((CodableWrapper<Value>) -> Void)?
 
     deinit {
-        if let propertyKey = propertyKey {
-            CodableWrapperCache.shared.clearCodableWrapperConstruct(type: Value.self, propertyKey: propertyKey)
+        if !unsafeCreated, let lastWrapper = Thread.current.lastCodableWrapper as? CodableWrapper<Value> {
+            lastWrapper.invokeAfterInjection(with: construct)
+            Thread.current.lastCodableWrapper = nil
         }
     }
 
-    public convenience init(_ propertyKey: String, default defaultValue: Value) {
-        self.init(propertyKey, construct: Construct(defaultValue: defaultValue))
+    init(construct: Construct) {
+        unsafeCreated = false
+        self.construct = construct
     }
 
-    public init(_ propertyKey: String, construct: Construct) {
+    init(storedValue: Value) {
+        unsafeCreated = false
+        self.storedValue = storedValue
+    }
+
+    fileprivate init(unsafed: ()) {
+        unsafeCreated = true
+    }
+
+    private func invokeAfterInjection(with construct: Construct) {
         self.construct = construct
-        self.propertyKey = propertyKey
-        CodableWrapperCache.shared.cacheCodableWrapperConstruct(construct, propertyKey: propertyKey)
+        decoderInjetion?(self)
+        decoderInjetion = nil
     }
 
     public var wrappedValue: Value {
@@ -42,33 +55,52 @@ public class CodableWrapper<Value: Codable>: Codable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if let value = try? container.decode(Value.self) {
-            self.storedValue = value
-            // 临时构造一个
-            self.construct = Construct(defaultValue: value)
+            storedValue = value
+            unsafeCreated = true
         } else {
             throw DecodingError.valueNotFound(Value.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Expected \(Value.self) but found null value instead."))
         }
     }
 
     public func encode(to encoder: Encoder) throws {
-        try wrappedValue.encode(to: encoder)
+        // Do nothing, KeyedEncodingContainer extension has done dirty stuff
     }
 }
 
-// MARK: - KeyedDecodingContainer
+// - KeyedEncodingContainer
+
+public extension KeyedEncodingContainer {
+    mutating func encode<T, Value>(_ value: T, forKey key: Key) throws where T: CodableWrapper<Value> {
+        guard let encoder = _encoder(), let key = AnyCodingKey(stringValue: value.construct.codingKeys.first ?? key.stringValue) else { return }
+        var container = encoder.container(keyedBy: AnyCodingKey.self)
+        try value.wrappedValue.encode(to: &container, forKey: key)
+    }
+}
+
+// - KeyedDecodingContainer
 
 public extension KeyedDecodingContainer {
-    ///
-    /// Decodes successfully if key is available if not fallsback to the default value provided.
-    func decode<P>(_: CodableWrapper<P>.Type, forKey key: Key) throws -> CodableWrapper<P> {
-        guard let construct = CodableWrapperCache.shared.getCodableWrapperConstruct(type: P.self, propertyKey: key.stringValue) else {
-            throw DecodingError.valueNotFound(P.self, DecodingError.Context(codingPath: [key], debugDescription: "Not exists CodableWrapperConstruct."))
+    func decode<Value>(_: CodableWrapper<Value>.Type, forKey key: Key) throws -> CodableWrapper<Value> {
+        let injection: ((CodableWrapper<Value>) -> Void) = { wrapper in
+            guard wrapper.storedValue == nil,
+                let decoder = self._decoder(),
+                let container = try? decoder.container(keyedBy: AnyCodingKey.self) else { return }
+
+            for codingKey in [key.stringValue] + wrapper.construct.codingKeys {
+                if let anyCodingKey = AnyCodingKey(stringValue: codingKey), let value = try? container.decode(Value.self, forKey: anyCodingKey) {
+                    wrapper.storedValue = value
+                    return
+                }
+            }
         }
-        if let value = try? decodeIfPresent(CodableWrapper<P>.self, forKey: key) {
-            // 替换 construct
-            value.construct = construct
-            return value
+        var wrapper: CodableWrapper<Value>
+        if let decodeIfPresent = try? decodeIfPresent(CodableWrapper<Value>.self, forKey: key) {
+            wrapper = decodeIfPresent
+        } else {
+            wrapper = CodableWrapper<Value>(unsafed: ())
         }
-        return CodableWrapper<P>(key.stringValue, construct: construct)
+        wrapper.decoderInjetion = injection
+        Thread.current.lastCodableWrapper = wrapper
+        return wrapper
     }
 }
