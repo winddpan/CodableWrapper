@@ -13,8 +13,8 @@ public final class TransformWrapper<Value>: Codable {
     struct Construct {
         var codingKeys: [String]
         var fromNil: () -> Value
-        var fromJSON: (Any) -> TransfromTypeResult<Value?>
-        var toJSON: (Value) -> TransfromTypeResult<Encodable?>
+        var fromJSON: (Any) -> TransformTypeResult<Value?>
+        var toJSON: (Value) -> TransformTypeResult<Encodable?>
     }
 
     private var unsafeCreated: Bool

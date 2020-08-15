@@ -27,11 +27,11 @@ extension TransformWrapper {
                                            fromJSON: ((JSON) -> Value?)? = nil,
                                            toJSON: ((Value) -> JSON?)? = nil,
                                            as type: JSON.Type? = nil) {
-        let transfromOf = TransformOf<Value, JSON>(fromNil: fromNil, fromJSON: fromJSON, toJSON: toJSON)
+        let transformOf = TransformOf<Value, JSON>(fromNil: fromNil, fromJSON: fromJSON, toJSON: toJSON)
         let construct = Construct(codingKeys: codingKeys,
-                                  fromNil: transfromOf.fromNil,
-                                  fromJSON: transfromOf.fromJSON,
-                                  toJSON: transfromOf.toJSON)
+                                  fromNil: transformOf.fromNil,
+                                  fromJSON: transformOf.fromJSON,
+                                  toJSON: transformOf.toJSON)
         self.init(construct: construct)
     }
 }

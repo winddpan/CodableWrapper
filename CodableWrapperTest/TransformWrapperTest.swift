@@ -1,5 +1,5 @@
 //
-//  TransfromWrapperTest.swift
+//  TransformWrapperTest.swift
 //  CodableWrapperTest
 //
 //  Created by winddpan on 2020/8/16.
@@ -12,7 +12,7 @@ enum Enum: String {
     case a, b, c
 }
 
-class TransfromExampleModel: Codable {
+class TransformExampleModel: Codable {
     @TransformWrapper(codingKeys: ["enum", "enumValue"], fromNil: { Enum.a }, fromJSON: { Enum(rawValue: $0) }, toJSON: { $0.rawValue })
     var enumValue: Enum
     
@@ -20,12 +20,12 @@ class TransfromExampleModel: Codable {
     var string_Int: String
 }
 
-class TransfromWrapperTest: XCTestCase {
-//    func testTransfromer1() throws {
+class TransformWrapperTest: XCTestCase {
+//    func testTransformer1() throws {
 //        let json = """
 //        {"enum": "b"}
 //        """
-//        let model = try JSONDecoder().decode(TransfromExampleModel.self, from: json.data(using: .utf8)!)
+//        let model = try JSONDecoder().decode(TransformExampleModel.self, from: json.data(using: .utf8)!)
 //        XCTAssertEqual(model.enumValue, Enum.b)
 //
 //        let data = try JSONEncoder().encode(model)
@@ -35,15 +35,15 @@ class TransfromWrapperTest: XCTestCase {
 //        let json2 = """
 //        {}
 //        """
-//        let model2 = try JSONDecoder().decode(TransfromExampleModel.self, from: json2.data(using: .utf8)!)
+//        let model2 = try JSONDecoder().decode(TransformExampleModel.self, from: json2.data(using: .utf8)!)
 //        XCTAssertEqual(model2.enumValue, Enum.a)
 //    }
 
-    func testTransfromer2() throws {
+    func testTransformer2() throws {
         let json = """
         {"str": 111}
         """
-        let model = try JSONDecoder().decode(TransfromExampleModel.self, from: json.data(using: .utf8)!)
+        let model = try JSONDecoder().decode(TransformExampleModel.self, from: json.data(using: .utf8)!)
         XCTAssertEqual(model.string_Int, "111")
         
         let data = try JSONEncoder().encode(model)

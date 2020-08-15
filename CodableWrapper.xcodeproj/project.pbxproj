@@ -20,7 +20,7 @@
 		E495E20924E841FF00E11BDE /* ThreadProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E20024E841FF00E11BDE /* ThreadProperty.swift */; };
 		E495E20A24E841FF00E11BDE /* Literals.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E20124E841FF00E11BDE /* Literals.swift */; };
 		E495E20B24E841FF00E11BDE /* AnyCodingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E20224E841FF00E11BDE /* AnyCodingKey.swift */; };
-		E495E20D24E842D700E11BDE /* TransfromWrapperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E20C24E842D700E11BDE /* TransfromWrapperTest.swift */; };
+		E495E20D24E842D700E11BDE /* TransformWrapperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E20C24E842D700E11BDE /* TransformWrapperTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,7 +41,7 @@
 		E495E20024E841FF00E11BDE /* ThreadProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadProperty.swift; sourceTree = "<group>"; };
 		E495E20124E841FF00E11BDE /* Literals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Literals.swift; sourceTree = "<group>"; };
 		E495E20224E841FF00E11BDE /* AnyCodingKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCodingKey.swift; sourceTree = "<group>"; };
-		E495E20C24E842D700E11BDE /* TransfromWrapperTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransfromWrapperTest.swift; sourceTree = "<group>"; };
+		E495E20C24E842D700E11BDE /* TransformWrapperTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformWrapperTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				40D7C4CD24C05401004522F7 /* CodableWrapperTest.swift */,
-				E495E20C24E842D700E11BDE /* TransfromWrapperTest.swift */,
+				E495E20C24E842D700E11BDE /* TransformWrapperTest.swift */,
 				40D7C4CF24C05401004522F7 /* Info.plist */,
 			);
 			path = CodableWrapperTest;
@@ -218,7 +218,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E495E20D24E842D700E11BDE /* TransfromWrapperTest.swift in Sources */,
+				E495E20D24E842D700E11BDE /* TransformWrapperTest.swift in Sources */,
 				40D7C4CE24C05401004522F7 /* CodableWrapperTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

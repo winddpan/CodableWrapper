@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum TransfromTypeResult<T> {
+public enum TransformTypeResult<T> {
     case result(T)
     case unImplement
 }
@@ -16,6 +16,6 @@ public enum TransfromTypeResult<T> {
 public protocol TransformType {
     associatedtype Object
     func fromNil() -> Object
-    func fromJSON(_ json: Any) -> TransfromTypeResult<Object?>
-    func toJSON(_ object: Object) -> TransfromTypeResult<Encodable?>
+    func fromJSON(_ json: Any) -> TransformTypeResult<Object?>
+    func toJSON(_ object: Object) -> TransformTypeResult<Encodable?>
 }

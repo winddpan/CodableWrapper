@@ -23,14 +23,14 @@ open class TransformOf<Object, JSON: Codable>: TransformType {
         _fromNil()
     }
 
-    open func fromJSON(_ json: Any) -> TransfromTypeResult<Object?> {
+    open func fromJSON(_ json: Any) -> TransformTypeResult<Object?> {
         if let json = json as? JSON, let _fromJSON = _fromJSON {
             return .result(_fromJSON(json))
         }
         return .unImplement
     }
 
-    open func toJSON(_ object: Object) -> TransfromTypeResult<Encodable?> {
+    open func toJSON(_ object: Object) -> TransformTypeResult<Encodable?> {
         if let _toJSON = _toJSON {
             return .result(_toJSON(object))
         }
