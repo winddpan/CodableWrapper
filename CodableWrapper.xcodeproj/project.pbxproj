@@ -10,6 +10,7 @@
 		40D7C4CE24C05401004522F7 /* CodableWrapperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7C4CD24C05401004522F7 /* CodableWrapperTest.swift */; };
 		40D7C4DC24C05415004522F7 /* CodableWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 40D7C4DA24C05415004522F7 /* CodableWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E40DA21724E84684000DB88C /* InnerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40DA21624E84684000DB88C /* InnerExtension.swift */; };
+		E40DA21B24E85F12000DB88C /* BuiltInBridgeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40DA21A24E85F11000DB88C /* BuiltInBridgeType.swift */; };
 		E495E20324E841FF00E11BDE /* TransformType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E1FA24E841FF00E11BDE /* TransformType.swift */; };
 		E495E20424E841FF00E11BDE /* TransformOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E1FB24E841FF00E11BDE /* TransformOf.swift */; };
 		E495E20524E841FF00E11BDE /* TransformWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E1FC24E841FF00E11BDE /* TransformWrapper.swift */; };
@@ -30,6 +31,7 @@
 		40D7C4DA24C05415004522F7 /* CodableWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodableWrapper.h; sourceTree = "<group>"; };
 		40D7C4DB24C05415004522F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E40DA21624E84684000DB88C /* InnerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerExtension.swift; sourceTree = "<group>"; };
+		E40DA21A24E85F11000DB88C /* BuiltInBridgeType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuiltInBridgeType.swift; sourceTree = "<group>"; };
 		E495E1FA24E841FF00E11BDE /* TransformType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformType.swift; sourceTree = "<group>"; };
 		E495E1FB24E841FF00E11BDE /* TransformOf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformOf.swift; sourceTree = "<group>"; };
 		E495E1FC24E841FF00E11BDE /* TransformWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformWrapper.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				E495E1FA24E841FF00E11BDE /* TransformType.swift */,
 				E495E1FC24E841FF00E11BDE /* TransformWrapper.swift */,
 				40D7C4DA24C05415004522F7 /* CodableWrapper.h */,
+				E40DA21A24E85F11000DB88C /* BuiltInBridgeType.swift */,
 				40D7C4DB24C05415004522F7 /* Info.plist */,
 			);
 			path = CodableWrapper;
@@ -226,6 +229,7 @@
 			files = (
 				E495E20624E841FF00E11BDE /* CodableWrapper.swift in Sources */,
 				E495E20B24E841FF00E11BDE /* AnyCodingKey.swift in Sources */,
+				E40DA21B24E85F12000DB88C /* BuiltInBridgeType.swift in Sources */,
 				E495E20824E841FF00E11BDE /* Mirror.swift in Sources */,
 				E495E20A24E841FF00E11BDE /* Literals.swift in Sources */,
 				E495E20424E841FF00E11BDE /* TransformOf.swift in Sources */,

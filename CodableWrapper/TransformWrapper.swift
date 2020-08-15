@@ -13,8 +13,8 @@ public final class TransformWrapper<Value>: Codable {
     struct Construct {
         var codingKeys: [String]
         var fromNil: () -> Value
-        var fromJSON: (Any) -> Value?
-        var toJSON: (Value) -> Encodable?
+        var fromJSON: (Any) -> TransfromTypeResult<Value?>
+        var toJSON: (Value) -> TransfromTypeResult<Encodable?>
     }
 
     private var unsafeCreated: Bool
@@ -67,14 +67,14 @@ public final class TransformWrapper<Value>: Codable {
 
 public extension KeyedEncodingContainer {
     mutating func encode<T, Value>(_ value: T, forKey key: Key) throws where T: TransformWrapper<Value> {
-        if let json = value.construct.toJSON(value.wrappedValue) {
+        if case .result(let json) = value.construct.toJSON(value.wrappedValue) {
             if let dictionary = _container() {
                 dictionary.setValue(json, forKey: value.construct.codingKeys.first ?? key.stringValue)
             }
         } else {
             if let encoder = _encoder(), let key = AnyCodingKey(stringValue: value.construct.codingKeys.first ?? key.stringValue), let wrappedValue = value.wrappedValue as? Encodable {
                 var container = encoder.container(keyedBy: AnyCodingKey.self)
-                try? wrappedValue.encode(to: &container, forKey: key)
+                try wrappedValue.encode(to: &container, forKey: key)
             }
         }
     }
@@ -88,8 +88,14 @@ public extension KeyedDecodingContainer {
             guard wrapper.storedValue == nil, let dictionary = self._containerDictionary() else { return }
             for codingKey in [key.stringValue] + wrapper.construct.codingKeys {
                 if let json = dictionary[codingKey] {
-                    wrapper.storedValue = wrapper.construct.fromJSON(json)
-                    return
+                    if case .result(let resultValue) = wrapper.construct.fromJSON(json) {
+                        wrapper.storedValue = resultValue
+                        return
+                    }
+                    if let bridge = Value.self as? _BuiltInBridgeType.Type, let bridged = bridge._transform(from: json) as? Value {
+                        wrapper.storedValue = bridged
+                        return
+                    }
                 }
             }
             wrapper.storedValue = wrapper.construct.fromNil()

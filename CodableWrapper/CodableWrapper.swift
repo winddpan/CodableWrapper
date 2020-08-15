@@ -82,14 +82,19 @@ public extension KeyedEncodingContainer {
 public extension KeyedDecodingContainer {
     func decode<Value>(_: CodableWrapper<Value>.Type, forKey key: Key) throws -> CodableWrapper<Value> {
         let injection: ((CodableWrapper<Value>) -> Void) = { wrapper in
-            guard wrapper.storedValue == nil,
-                let decoder = self._decoder(),
-                let container = try? decoder.container(keyedBy: AnyCodingKey.self) else { return }
+            guard wrapper.storedValue == nil, let dictionary = self._containerDictionary() else { return }
+            guard let decoder = self._decoder(),  let container = try? decoder.container(keyedBy: AnyCodingKey.self) else { return }
 
             for codingKey in [key.stringValue] + wrapper.construct.codingKeys {
-                if let anyCodingKey = AnyCodingKey(stringValue: codingKey), let value = try? container.decode(Value.self, forKey: anyCodingKey) {
+                if let key = AnyCodingKey(stringValue: codingKey), let value = try? container.decode(Value.self, forKey: key) {
                     wrapper.storedValue = value
                     return
+                }
+                if let json = dictionary[codingKey] {
+                    if let bridge = Value.self as? _BuiltInBridgeType.Type, let bridged = bridge._transform(from: json) as? Value {
+                        wrapper.storedValue = bridged
+                        return
+                    }
                 }
             }
         }

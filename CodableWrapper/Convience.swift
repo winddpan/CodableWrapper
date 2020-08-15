@@ -16,22 +16,22 @@ extension CodableWrapper {
 }
 
 extension TransformWrapper {
-    public convenience init<T: TransformType>(codingKeys: [String] = [], transformer: T) where T.Object == Value {
+    public convenience init<T: TransformType>(codingKeys: [String] = [],
+                                              transformer: T) where T.Object == Value {
         let construct = Construct(codingKeys: codingKeys, fromNil: transformer.fromNil, fromJSON: transformer.fromJSON, toJSON: transformer.toJSON)
         self.init(construct: construct)
     }
 
-    public convenience init<JSON: Codable>(codingKeys: [String] = [], fromNil: @escaping () -> Value, fromJSON: ((JSON) -> Value?)? = nil, toJSON: ((Value) -> JSON?)? = nil) {
+    public convenience init<JSON: Codable>(codingKeys: [String] = [],
+                                           fromNil: @escaping () -> Value,
+                                           fromJSON: ((JSON) -> Value?)? = nil,
+                                           toJSON: ((Value) -> JSON?)? = nil,
+                                           as type: JSON.Type? = nil) {
+        let transfromOf = TransformOf<Value, JSON>(fromNil: fromNil, fromJSON: fromJSON, toJSON: toJSON)
         let construct = Construct(codingKeys: codingKeys,
-                                  fromNil: fromNil,
-                                  fromJSON: {
-                                      if let json = $0 as? JSON {
-                                          return fromJSON?(json)
-                                      }
-                                      return nil
-                                  }, toJSON: {
-                                      toJSON?($0)
-                                  })
+                                  fromNil: transfromOf.fromNil,
+                                  fromJSON: transfromOf.fromJSON,
+                                  toJSON: transfromOf.toJSON)
         self.init(construct: construct)
     }
 }
