@@ -13,10 +13,11 @@ enum Enum: String {
 }
 
 class TransformExampleModel: Codable {
-    @TransformWrapper(codingKeys: ["enum", "enumValue"], fromNil: { Enum.a }, fromJSON: { Enum(rawValue: $0) }, toJSON: { $0.rawValue })
+    @TransformWrapper(codingKeys: ["enum", "enumValue"],
+                      transformer: TransformOf<Enum, String>(fromNil: { Enum.a }, fromJSON: { Enum(rawValue: $0) }, toJSON: { $0.rawValue }))
     var enumValue: Enum
-    
-    @TransformWrapper(codingKeys: ["str"], fromNil: { "" }, as: Int.self)
+
+    @TransformWrapper(codingKeys: ["str"], fromNil: { "" }, fromJSON: { "\($0)" })
     var string_Int: String
 }
 
@@ -45,7 +46,7 @@ class TransformWrapperTest: XCTestCase {
         """
         let model = try JSONDecoder().decode(TransformExampleModel.self, from: json.data(using: .utf8)!)
         XCTAssertEqual(model.string_Int, "111")
-        
+
         let data = try JSONEncoder().encode(model)
         let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
         XCTAssertEqual(jsonObject["str"] as? String, "111")

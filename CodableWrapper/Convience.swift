@@ -22,16 +22,27 @@ extension TransformWrapper {
         self.init(construct: construct)
     }
 
-    public convenience init<JSON: Codable>(codingKeys: [String] = [],
-                                           fromNil: @escaping () -> Value,
-                                           fromJSON: ((JSON) -> Value?)? = nil,
-                                           toJSON: ((Value) -> JSON?)? = nil,
-                                           as type: JSON.Type? = nil) {
-        let transformOf = TransformOf<Value, JSON>(fromNil: fromNil, fromJSON: fromJSON, toJSON: toJSON)
+    public convenience init(codingKeys: [String] = [],
+                            fromNil: @escaping () -> Value,
+                            fromJSON: ((Any) -> Value?)? = nil,
+                            toJSON: ((Value) -> Encodable?)? = nil) {
+        
         let construct = Construct(codingKeys: codingKeys,
-                                  fromNil: transformOf.fromNil,
-                                  fromJSON: transformOf.fromJSON,
-                                  toJSON: transformOf.toJSON)
+                                  fromNil: {
+                                      fromNil()
+                                  },
+                                  fromJSON: {
+                                      if let fromJSON = fromJSON {
+                                          return TransformTypeResult<Value?>.result(fromJSON($0))
+                                      }
+                                      return TransformTypeResult<Value?>.unImplement
+                                  },
+                                  toJSON: {
+                                      if let toJSON = toJSON {
+                                          return TransformTypeResult<Encodable?>.result(toJSON($0))
+                                      }
+                                      return TransformTypeResult<Encodable?>.unImplement
+                                  })
         self.init(construct: construct)
     }
 }
