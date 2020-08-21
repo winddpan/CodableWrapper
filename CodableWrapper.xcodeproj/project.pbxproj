@@ -62,14 +62,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		40B86D3324EFCB8300762BF9 /* Transforms */ = {
+		40B86D3324EFCB8300762BF9 /* DefaultTransforms */ = {
 			isa = PBXGroup;
 			children = (
 				E495E1FB24E841FF00E11BDE /* TransformOf.swift */,
 				40B86D3824EFD0D400762BF9 /* DateTransform.swift */,
 				40FE02BA24EFD3B6006EF727 /* OmitCodable.swift */,
 			);
-			path = Transforms;
+			path = DefaultTransforms;
 			sourceTree = "<group>";
 		};
 		40D7C4BF24C053F3004522F7 = {
@@ -103,7 +103,7 @@
 		40D7C4D924C05415004522F7 /* CodableWrapper */ = {
 			isa = PBXGroup;
 			children = (
-				40B86D3324EFCB8300762BF9 /* Transforms */,
+				40B86D3324EFCB8300762BF9 /* DefaultTransforms */,
 				E495E20224E841FF00E11BDE /* AnyCodingKey.swift */,
 				E40DA21624E84684000DB88C /* InnerExtension.swift */,
 				E495E1FC24E841FF00E11BDE /* CodableWrapper.swift */,
