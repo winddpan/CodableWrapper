@@ -67,11 +67,12 @@ public final class CodableWrapper<Value>: Codable {
 
 public extension KeyedEncodingContainer {
     mutating func encode<T, Value>(_ value: T, forKey key: Key) throws where T: CodableWrapper<Value> {
-        if case let .custom(json) = value.construct.toJSON(value.wrappedValue) {
+        switch value.construct.toJSON(value.wrappedValue) {
+        case let .custom(json):
             if let dictionary = _container() {
                 dictionary.setValue(json, forKey: value.construct.codingKeys.first ?? key.stringValue)
             }
-        } else {
+        case .default:
             if let encoder = _encoder(), let key = AnyCodingKey(stringValue: value.construct.codingKeys.first ?? key.stringValue), let wrappedValue = value.wrappedValue as? Encodable {
                 var container = encoder.container(keyedBy: AnyCodingKey.self)
                 try wrappedValue.encode(to: &container, forKey: key)
@@ -106,7 +107,7 @@ public extension KeyedDecodingContainer {
             for codingKey in [key.stringValue] + wrapper.construct.codingKeys {
                 if let json = dictionary[codingKey] {
                     switch wrapper.construct.fromJSON(json) {
-                    case .custom(let resultValue):
+                    case let .custom(resultValue):
                         wrapper.storedValue = resultValue
                         return
                     case .default:
