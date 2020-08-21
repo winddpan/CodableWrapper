@@ -8,7 +8,11 @@
 import CodableWrapper
 import XCTest
 
-struct ExampleModel: Codable {
+struct NonCodable {
+    var x: String?
+}
+
+struct ExampleModel: Codable {    
     @CodableWrapper(defaultValue: "default unImpl value")
     var unImpl: String
 

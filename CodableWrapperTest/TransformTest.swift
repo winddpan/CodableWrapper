@@ -17,7 +17,8 @@ class TransformExampleModel: Codable {
                     transformer: TransformOf<Enum, String>(fromNull: { Enum.a }, fromJSON: { Enum(rawValue: $0) }, toJSON: { $0.rawValue }))
     var enumValue: Enum
 
-    @CodableWrapper(codingKeys: ["str"], fromNull: { "" }, fromJSON: { "\($0)" }, toJSON: { Int($0) })
+    @CodableWrapper(codingKeys: ["str"],
+                    transformer: TransformOf<String, Int>(fromNull: { "" }, fromJSON: { "\($0)" }, toJSON: { Int($0) }))
     var string_Int: String
 
     @CodableWrapper(codingKeys: ["str2"])
@@ -31,7 +32,7 @@ class TransformExampleModel: Codable {
 
     @CodableWrapper(transformer: SecondsDateTransform())
     var date: Date
-    
+
     @CodableWrapper(transformer: MillisecondDateTransform())
     var millSecondsDate: Date
 }

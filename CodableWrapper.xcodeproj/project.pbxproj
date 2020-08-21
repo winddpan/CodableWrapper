@@ -16,7 +16,7 @@
 		E495E20324E841FF00E11BDE /* TransformType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E1FA24E841FF00E11BDE /* TransformType.swift */; };
 		E495E20424E841FF00E11BDE /* TransformOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E1FB24E841FF00E11BDE /* TransformOf.swift */; };
 		E495E20524E841FF00E11BDE /* CodableWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E1FC24E841FF00E11BDE /* CodableWrapper.swift */; };
-		E495E20724E841FF00E11BDE /* Convience.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E1FE24E841FF00E11BDE /* Convience.swift */; };
+		E495E20724E841FF00E11BDE /* CodableWrapperInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E1FE24E841FF00E11BDE /* CodableWrapperInit.swift */; };
 		E495E20924E841FF00E11BDE /* ThreadProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E20024E841FF00E11BDE /* ThreadProperty.swift */; };
 		E495E20A24E841FF00E11BDE /* Literals.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E20124E841FF00E11BDE /* Literals.swift */; };
 		E495E20B24E841FF00E11BDE /* AnyCodingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E20224E841FF00E11BDE /* AnyCodingKey.swift */; };
@@ -37,7 +37,7 @@
 		E495E1FA24E841FF00E11BDE /* TransformType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformType.swift; sourceTree = "<group>"; };
 		E495E1FB24E841FF00E11BDE /* TransformOf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformOf.swift; sourceTree = "<group>"; };
 		E495E1FC24E841FF00E11BDE /* CodableWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodableWrapper.swift; sourceTree = "<group>"; };
-		E495E1FE24E841FF00E11BDE /* Convience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convience.swift; sourceTree = "<group>"; };
+		E495E1FE24E841FF00E11BDE /* CodableWrapperInit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodableWrapperInit.swift; sourceTree = "<group>"; };
 		E495E20024E841FF00E11BDE /* ThreadProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadProperty.swift; sourceTree = "<group>"; };
 		E495E20124E841FF00E11BDE /* Literals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Literals.swift; sourceTree = "<group>"; };
 		E495E20224E841FF00E11BDE /* AnyCodingKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCodingKey.swift; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 				E495E20224E841FF00E11BDE /* AnyCodingKey.swift */,
 				E40DA21624E84684000DB88C /* InnerExtension.swift */,
 				E495E1FC24E841FF00E11BDE /* CodableWrapper.swift */,
-				E495E1FE24E841FF00E11BDE /* Convience.swift */,
+				E495E1FE24E841FF00E11BDE /* CodableWrapperInit.swift */,
 				E495E20124E841FF00E11BDE /* Literals.swift */,
 				E495E20024E841FF00E11BDE /* ThreadProperty.swift */,
 				E495E1FA24E841FF00E11BDE /* TransformType.swift */,
@@ -242,7 +242,7 @@
 				E495E20424E841FF00E11BDE /* TransformOf.swift in Sources */,
 				E495E20324E841FF00E11BDE /* TransformType.swift in Sources */,
 				E495E20524E841FF00E11BDE /* CodableWrapper.swift in Sources */,
-				E495E20724E841FF00E11BDE /* Convience.swift in Sources */,
+				E495E20724E841FF00E11BDE /* CodableWrapperInit.swift in Sources */,
 				E40DA21724E84684000DB88C /* InnerExtension.swift in Sources */,
 				40B86D3924EFD0D400762BF9 /* DateTransform.swift in Sources */,
 				E495E20924E841FF00E11BDE /* ThreadProperty.swift in Sources */,

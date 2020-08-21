@@ -37,13 +37,3 @@ open class TransformOf<Object, JSON: Codable>: TransformType {
         return .default
     }
 }
-
-extension CodableWrapper {
-    public convenience init<JSON: Codable>(codingKeys: [String] = [],
-                                           fromNull: @escaping () -> Value,
-                                           fromJSON: ((JSON) -> Value?)? = nil,
-                                           toJSON: ((Value) -> JSON?)? = nil) {
-        let t = TransformOf(fromNull: fromNull, fromJSON: fromJSON, toJSON: toJSON)
-        self.init(codingKeys: codingKeys, transformer: t)
-    }
-}
