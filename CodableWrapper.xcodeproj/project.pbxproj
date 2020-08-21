@@ -7,41 +7,41 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		40D7C4CE24C05401004522F7 /* CodableWrapperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7C4CD24C05401004522F7 /* CodableWrapperTest.swift */; };
+		40B86D3924EFD0D400762BF9 /* DateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B86D3824EFD0D400762BF9 /* DateTransform.swift */; };
+		40D7C4CE24C05401004522F7 /* DefaultTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7C4CD24C05401004522F7 /* DefaultTest.swift */; };
 		40D7C4DC24C05415004522F7 /* CodableWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 40D7C4DA24C05415004522F7 /* CodableWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		40FE02BB24EFD3B6006EF727 /* OmitCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FE02BA24EFD3B6006EF727 /* OmitCodable.swift */; };
 		E40DA21724E84684000DB88C /* InnerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40DA21624E84684000DB88C /* InnerExtension.swift */; };
 		E40DA21B24E85F12000DB88C /* BuiltInBridgeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40DA21A24E85F11000DB88C /* BuiltInBridgeType.swift */; };
 		E495E20324E841FF00E11BDE /* TransformType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E1FA24E841FF00E11BDE /* TransformType.swift */; };
 		E495E20424E841FF00E11BDE /* TransformOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E1FB24E841FF00E11BDE /* TransformOf.swift */; };
-		E495E20524E841FF00E11BDE /* TransformWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E1FC24E841FF00E11BDE /* TransformWrapper.swift */; };
-		E495E20624E841FF00E11BDE /* CodableWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E1FD24E841FF00E11BDE /* CodableWrapper.swift */; };
+		E495E20524E841FF00E11BDE /* CodableWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E1FC24E841FF00E11BDE /* CodableWrapper.swift */; };
 		E495E20724E841FF00E11BDE /* Convience.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E1FE24E841FF00E11BDE /* Convience.swift */; };
-		E495E20824E841FF00E11BDE /* Mirror.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E1FF24E841FF00E11BDE /* Mirror.swift */; };
 		E495E20924E841FF00E11BDE /* ThreadProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E20024E841FF00E11BDE /* ThreadProperty.swift */; };
 		E495E20A24E841FF00E11BDE /* Literals.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E20124E841FF00E11BDE /* Literals.swift */; };
 		E495E20B24E841FF00E11BDE /* AnyCodingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E20224E841FF00E11BDE /* AnyCodingKey.swift */; };
-		E495E20D24E842D700E11BDE /* TransformWrapperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E20C24E842D700E11BDE /* TransformWrapperTest.swift */; };
+		E495E20D24E842D700E11BDE /* TransformTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E20C24E842D700E11BDE /* TransformTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		40B86D3824EFD0D400762BF9 /* DateTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTransform.swift; sourceTree = "<group>"; };
 		40D7C4CA24C05401004522F7 /* CodableWrapperTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CodableWrapperTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		40D7C4CD24C05401004522F7 /* CodableWrapperTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableWrapperTest.swift; sourceTree = "<group>"; };
+		40D7C4CD24C05401004522F7 /* DefaultTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTest.swift; sourceTree = "<group>"; };
 		40D7C4CF24C05401004522F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		40D7C4D824C05415004522F7 /* CodableWrapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CodableWrapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40D7C4DA24C05415004522F7 /* CodableWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodableWrapper.h; sourceTree = "<group>"; };
 		40D7C4DB24C05415004522F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		40FE02BA24EFD3B6006EF727 /* OmitCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OmitCodable.swift; sourceTree = "<group>"; };
 		E40DA21624E84684000DB88C /* InnerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerExtension.swift; sourceTree = "<group>"; };
 		E40DA21A24E85F11000DB88C /* BuiltInBridgeType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuiltInBridgeType.swift; sourceTree = "<group>"; };
 		E495E1FA24E841FF00E11BDE /* TransformType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformType.swift; sourceTree = "<group>"; };
 		E495E1FB24E841FF00E11BDE /* TransformOf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformOf.swift; sourceTree = "<group>"; };
-		E495E1FC24E841FF00E11BDE /* TransformWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformWrapper.swift; sourceTree = "<group>"; };
-		E495E1FD24E841FF00E11BDE /* CodableWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodableWrapper.swift; sourceTree = "<group>"; };
+		E495E1FC24E841FF00E11BDE /* CodableWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodableWrapper.swift; sourceTree = "<group>"; };
 		E495E1FE24E841FF00E11BDE /* Convience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convience.swift; sourceTree = "<group>"; };
-		E495E1FF24E841FF00E11BDE /* Mirror.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mirror.swift; sourceTree = "<group>"; };
 		E495E20024E841FF00E11BDE /* ThreadProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadProperty.swift; sourceTree = "<group>"; };
 		E495E20124E841FF00E11BDE /* Literals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Literals.swift; sourceTree = "<group>"; };
 		E495E20224E841FF00E11BDE /* AnyCodingKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCodingKey.swift; sourceTree = "<group>"; };
-		E495E20C24E842D700E11BDE /* TransformWrapperTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformWrapperTest.swift; sourceTree = "<group>"; };
+		E495E20C24E842D700E11BDE /* TransformTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +62,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		40B86D3324EFCB8300762BF9 /* Transforms */ = {
+			isa = PBXGroup;
+			children = (
+				E495E1FB24E841FF00E11BDE /* TransformOf.swift */,
+				40B86D3824EFD0D400762BF9 /* DateTransform.swift */,
+				40FE02BA24EFD3B6006EF727 /* OmitCodable.swift */,
+			);
+			path = Transforms;
+			sourceTree = "<group>";
+		};
 		40D7C4BF24C053F3004522F7 = {
 			isa = PBXGroup;
 			children = (
@@ -83,8 +93,8 @@
 		40D7C4CC24C05401004522F7 /* CodableWrapperTest */ = {
 			isa = PBXGroup;
 			children = (
-				40D7C4CD24C05401004522F7 /* CodableWrapperTest.swift */,
-				E495E20C24E842D700E11BDE /* TransformWrapperTest.swift */,
+				40D7C4CD24C05401004522F7 /* DefaultTest.swift */,
+				E495E20C24E842D700E11BDE /* TransformTest.swift */,
 				40D7C4CF24C05401004522F7 /* Info.plist */,
 			);
 			path = CodableWrapperTest;
@@ -93,16 +103,14 @@
 		40D7C4D924C05415004522F7 /* CodableWrapper */ = {
 			isa = PBXGroup;
 			children = (
+				40B86D3324EFCB8300762BF9 /* Transforms */,
 				E495E20224E841FF00E11BDE /* AnyCodingKey.swift */,
 				E40DA21624E84684000DB88C /* InnerExtension.swift */,
-				E495E1FD24E841FF00E11BDE /* CodableWrapper.swift */,
+				E495E1FC24E841FF00E11BDE /* CodableWrapper.swift */,
 				E495E1FE24E841FF00E11BDE /* Convience.swift */,
 				E495E20124E841FF00E11BDE /* Literals.swift */,
-				E495E1FF24E841FF00E11BDE /* Mirror.swift */,
 				E495E20024E841FF00E11BDE /* ThreadProperty.swift */,
-				E495E1FB24E841FF00E11BDE /* TransformOf.swift */,
 				E495E1FA24E841FF00E11BDE /* TransformType.swift */,
-				E495E1FC24E841FF00E11BDE /* TransformWrapper.swift */,
 				40D7C4DA24C05415004522F7 /* CodableWrapper.h */,
 				E40DA21A24E85F11000DB88C /* BuiltInBridgeType.swift */,
 				40D7C4DB24C05415004522F7 /* Info.plist */,
@@ -218,8 +226,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E495E20D24E842D700E11BDE /* TransformWrapperTest.swift in Sources */,
-				40D7C4CE24C05401004522F7 /* CodableWrapperTest.swift in Sources */,
+				E495E20D24E842D700E11BDE /* TransformTest.swift in Sources */,
+				40D7C4CE24C05401004522F7 /* DefaultTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,16 +235,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E495E20624E841FF00E11BDE /* CodableWrapper.swift in Sources */,
 				E495E20B24E841FF00E11BDE /* AnyCodingKey.swift in Sources */,
+				40FE02BB24EFD3B6006EF727 /* OmitCodable.swift in Sources */,
 				E40DA21B24E85F12000DB88C /* BuiltInBridgeType.swift in Sources */,
-				E495E20824E841FF00E11BDE /* Mirror.swift in Sources */,
 				E495E20A24E841FF00E11BDE /* Literals.swift in Sources */,
 				E495E20424E841FF00E11BDE /* TransformOf.swift in Sources */,
 				E495E20324E841FF00E11BDE /* TransformType.swift in Sources */,
-				E495E20524E841FF00E11BDE /* TransformWrapper.swift in Sources */,
+				E495E20524E841FF00E11BDE /* CodableWrapper.swift in Sources */,
 				E495E20724E841FF00E11BDE /* Convience.swift in Sources */,
 				E40DA21724E84684000DB88C /* InnerExtension.swift in Sources */,
+				40B86D3924EFD0D400762BF9 /* DateTransform.swift in Sources */,
 				E495E20924E841FF00E11BDE /* ThreadProperty.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

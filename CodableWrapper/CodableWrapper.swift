@@ -1,18 +1,20 @@
 //
-//  CodableWrapper.swift
-//  CodableWrapper
+//  TransformWrapper.swift
+//  CodableWrapperDev
 //
-//  Created by PAN on 2020/7/16.
+//  Created by winddpan on 2020/8/15.
 //  Copyright © 2020 YR. All rights reserved.
 //
 
 import Foundation
 
 @propertyWrapper
-public final class CodableWrapper<Value: Codable>: Codable {
+public final class CodableWrapper<Value>: Codable {
     struct Construct {
         var codingKeys: [String]
-        var defaultValue: Value
+        var fromNull: () -> Value
+        var fromJSON: (Any) -> TransformTypeResult<Value?>
+        var toJSON: (Value) -> TransformTypeResult<Encodable?>
     }
 
     private var unsafeCreated: Bool
@@ -48,18 +50,12 @@ public final class CodableWrapper<Value: Codable>: Codable {
     }
 
     public var wrappedValue: Value {
-        get { storedValue ?? construct.defaultValue }
+        get { storedValue ?? construct.fromNull() }
         set { storedValue = newValue }
     }
 
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(Value.self) {
-            storedValue = value
-            unsafeCreated = true
-        } else {
-            throw DecodingError.valueNotFound(Value.self, DecodingError.Context(codingPath: container.codingPath, debugDescription: "Expected \(Value.self) but found null value instead."))
-        }
+        unsafeCreated = true
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -71,31 +67,62 @@ public final class CodableWrapper<Value: Codable>: Codable {
 
 public extension KeyedEncodingContainer {
     mutating func encode<T, Value>(_ value: T, forKey key: Key) throws where T: CodableWrapper<Value> {
-        guard let encoder = _encoder(), let key = AnyCodingKey(stringValue: value.construct.codingKeys.first ?? key.stringValue) else { return }
-        var container = encoder.container(keyedBy: AnyCodingKey.self)
-        try value.wrappedValue.encode(to: &container, forKey: key)
+        if case let .custom(json) = value.construct.toJSON(value.wrappedValue) {
+            if let dictionary = _container() {
+                dictionary.setValue(json, forKey: value.construct.codingKeys.first ?? key.stringValue)
+            }
+        } else {
+            if let encoder = _encoder(), let key = AnyCodingKey(stringValue: value.construct.codingKeys.first ?? key.stringValue), let wrappedValue = value.wrappedValue as? Encodable {
+                var container = encoder.container(keyedBy: AnyCodingKey.self)
+                try wrappedValue.encode(to: &container, forKey: key)
+            }
+        }
     }
 }
 
 // - KeyedDecodingContainer
 
 public extension KeyedDecodingContainer {
-    func decode<Value>(_: CodableWrapper<Value>.Type, forKey key: Key) throws -> CodableWrapper<Value> {
+    func decode<Value>(_ type: CodableWrapper<Value>.Type, forKey key: Key) throws -> CodableWrapper<Value> {
+        return try _decode(type, forKey: key) { (_, _) -> Value? in
+            nil
+        }
+    }
+
+    func decode<Value: Decodable>(_ type: CodableWrapper<Value>.Type, forKey key: Key) throws -> CodableWrapper<Value> {
+        return try _decode(type, forKey: key) { (container, key) -> Value? in
+            if let key = AnyCodingKey(stringValue: key), let value = try? container.decode(Value.self, forKey: key) {
+                return value
+            }
+            return nil
+        }
+    }
+
+    private func _decode<Value>(_ type: CodableWrapper<Value>.Type, forKey key: Key, onDecoding: @escaping ((KeyedDecodingContainer<AnyCodingKey>, String) -> Value?)) throws -> CodableWrapper<Value> {
         let injection: ((CodableWrapper<Value>) -> Void) = { wrapper in
             guard wrapper.storedValue == nil, let dictionary = self._containerDictionary() else { return }
-            guard let decoder = self._decoder(),  let container = try? decoder.container(keyedBy: AnyCodingKey.self) else { return }
+            guard let decoder = self._decoder(), let container = try? decoder.container(keyedBy: AnyCodingKey.self) else { return }
 
             for codingKey in [key.stringValue] + wrapper.construct.codingKeys {
-                if let key = AnyCodingKey(stringValue: codingKey), let value = try? container.decode(Value.self, forKey: key) {
-                    wrapper.storedValue = value
-                    return
-                }
                 if let json = dictionary[codingKey] {
+                    switch wrapper.construct.fromJSON(json) {
+                    case .custom(let resultValue):
+                        wrapper.storedValue = resultValue
+                        return
+                    case .default:
+                        if let decoded = onDecoding(container, codingKey) {
+                            wrapper.storedValue = decoded
+                            return
+                        }
+                    }
                     if let bridge = Value.self as? _BuiltInBridgeType.Type, let bridged = bridge._transform(from: json) as? Value {
                         wrapper.storedValue = bridged
                         return
                     }
                 }
+            }
+            if wrapper.storedValue == nil {
+                wrapper.storedValue = wrapper.construct.fromNull()
             }
         }
         var wrapper: CodableWrapper<Value>

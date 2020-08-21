@@ -9,13 +9,13 @@
 import Foundation
 
 public enum TransformTypeResult<T> {
-    case result(T)
-    case unImplement
+    case custom(T)
+    case `default`
 }
 
 public protocol TransformType {
     associatedtype Object
-    func fromNil() -> Object
+    func fromNull() -> Object
     func fromJSON(_ json: Any) -> TransformTypeResult<Object?>
     func toJSON(_ object: Object) -> TransformTypeResult<Encodable?>
 }

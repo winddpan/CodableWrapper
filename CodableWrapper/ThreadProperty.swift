@@ -9,7 +9,6 @@
 import Foundation
 
 private var lastCodableWrapperKey: Void?
-private var lastTransformWrapperKey: Void?
 
 extension Thread {
     var lastCodableWrapper: AnyObject? {
@@ -18,15 +17,6 @@ extension Thread {
         }
         get {
             return objc_getAssociatedObject(self, &lastCodableWrapperKey) as AnyObject
-        }
-    }
-    
-    var lastTransformWrapper: AnyObject? {
-        set {
-            objc_setAssociatedObject(self, &lastTransformWrapperKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
-        }
-        get {
-            return objc_getAssociatedObject(self, &lastTransformWrapperKey) as AnyObject
         }
     }
 }

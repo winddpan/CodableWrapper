@@ -156,3 +156,14 @@ extension NSDictionary: _BuiltInBridgeType {
         return object as? Self
     }
 }
+
+extension Optional: _BuiltInBridgeType {
+    static func _transform(from object: Any) -> Optional? {
+        if let value = (Wrapped.self as? _BuiltInBridgeType.Type)?._transform(from: object) as? Wrapped {
+            return Optional(value)
+        } else if let value = object as? Wrapped {
+            return Optional(value)
+        }
+        return nil
+    }
+}
