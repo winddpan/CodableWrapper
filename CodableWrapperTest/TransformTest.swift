@@ -19,15 +19,21 @@ class TransformExampleModel: Codable {
 
     @CodableWrapper(codingKeys: ["str"], fromNull: { "" }, fromJSON: { "\($0)" }, toJSON: { Int($0) })
     var string_Int: String
-    
+
     @CodableWrapper(codingKeys: ["str2"])
     var ok: String?
-    
+
     @CodableWrapper(transformer: OmitEncoding())
     var omitEncoding: String?
-    
+
     @CodableWrapper(transformer: OmitDecoding())
     var omitDecoding: String?
+
+    @CodableWrapper(transformer: SecondsDateTransform())
+    var date: Date
+    
+    @CodableWrapper(transformer: MillisecondDateTransform())
+    var millSecondsDate: Date
 }
 
 class TransformTest: XCTestCase {
@@ -61,7 +67,7 @@ class TransformTest: XCTestCase {
         let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
         XCTAssertEqual(jsonObject["str"] as? Int, 111)
     }
-    
+
     func testTransformer3() throws {
         let json = """
         {"omitEncoding": 123, "omitDecoding": "abc"}
@@ -74,5 +80,16 @@ class TransformTest: XCTestCase {
         let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
         XCTAssertEqual(jsonObject["omitEncoding"] as? String, nil)
         XCTAssertEqual(jsonObject["omitDecoding"] as? String, nil)
+    }
+
+    func testDateTransfrom() throws {
+        let date = Date()
+        let json = """
+        {"date": \(date.timeIntervalSince1970), "millSecondsDate": \(date.timeIntervalSince1970 * 1000)}
+        """
+
+        let model = try JSONDecoder().decode(TransformExampleModel.self, from: json.data(using: .utf8)!)
+        XCTAssertEqual(model.date.timeIntervalSince1970, date.timeIntervalSince1970)
+        XCTAssertEqual(model.millSecondsDate.timeIntervalSince1970, date.timeIntervalSince1970)
     }
 }

@@ -8,8 +8,10 @@
 import Foundation
 
 public struct SecondsDateTransform: TransformType {
+    public let defaultDate: Date?
+
     public func fromNull() -> Date {
-        return Date(timeIntervalSince1970: 0)
+        return defaultDate ?? Date(timeIntervalSince1970: 0)
     }
 
     public func fromJSON(_ json: Any) -> TransformTypeResult<Date?> {
@@ -26,11 +28,17 @@ public struct SecondsDateTransform: TransformType {
     public func toJSON(_ object: Date) -> TransformTypeResult<Encodable?> {
         return .custom(Double(object.timeIntervalSince1970))
     }
+
+    public init(defaultDate: Date? = nil) {
+        self.defaultDate = defaultDate
+    }
 }
 
 public struct MillisecondDateTransform: TransformType {
+    public let defaultDate: Date?
+
     public func fromNull() -> Date {
-        return Date(timeIntervalSince1970: 0)
+        return defaultDate ?? Date(timeIntervalSince1970: 0)
     }
 
     public func fromJSON(_ json: Any) -> TransformTypeResult<Date?> {
@@ -46,6 +54,10 @@ public struct MillisecondDateTransform: TransformType {
 
     public func toJSON(_ object: Date) -> TransformTypeResult<Encodable?> {
         return .custom(Double(object.timeIntervalSince1970) * 1000)
+    }
+
+    public init(defaultDate: Date? = nil) {
+        self.defaultDate = defaultDate
     }
 }
 
