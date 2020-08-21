@@ -20,7 +20,8 @@
 		E495E20924E841FF00E11BDE /* ThreadProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E20024E841FF00E11BDE /* ThreadProperty.swift */; };
 		E495E20A24E841FF00E11BDE /* Literals.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E20124E841FF00E11BDE /* Literals.swift */; };
 		E495E20B24E841FF00E11BDE /* AnyCodingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E20224E841FF00E11BDE /* AnyCodingKey.swift */; };
-		E495E20D24E842D700E11BDE /* TransformTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E495E20C24E842D700E11BDE /* TransformTest.swift */; };
+		E4DBD5CA24F01FBE002B63F7 /* FeatureExampleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBD5C924F01FBE002B63F7 /* FeatureExampleTest.swift */; };
+		E4DBD5CC24F02542002B63F7 /* BuiltInTransfromsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBD5CB24F02542002B63F7 /* BuiltInTransfromsTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,7 +42,8 @@
 		E495E20024E841FF00E11BDE /* ThreadProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadProperty.swift; sourceTree = "<group>"; };
 		E495E20124E841FF00E11BDE /* Literals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Literals.swift; sourceTree = "<group>"; };
 		E495E20224E841FF00E11BDE /* AnyCodingKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCodingKey.swift; sourceTree = "<group>"; };
-		E495E20C24E842D700E11BDE /* TransformTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformTest.swift; sourceTree = "<group>"; };
+		E4DBD5C924F01FBE002B63F7 /* FeatureExampleTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureExampleTest.swift; sourceTree = "<group>"; };
+		E4DBD5CB24F02542002B63F7 /* BuiltInTransfromsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInTransfromsTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,14 +64,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		40B86D3324EFCB8300762BF9 /* DefaultTransforms */ = {
+		40B86D3324EFCB8300762BF9 /* BuiltInTransforms */ = {
 			isa = PBXGroup;
 			children = (
 				E495E1FB24E841FF00E11BDE /* TransformOf.swift */,
 				40B86D3824EFD0D400762BF9 /* DateTransform.swift */,
 				40FE02BA24EFD3B6006EF727 /* OmitCodable.swift */,
 			);
-			path = DefaultTransforms;
+			path = BuiltInTransforms;
 			sourceTree = "<group>";
 		};
 		40D7C4BF24C053F3004522F7 = {
@@ -94,7 +96,8 @@
 			isa = PBXGroup;
 			children = (
 				40D7C4CD24C05401004522F7 /* DefaultTest.swift */,
-				E495E20C24E842D700E11BDE /* TransformTest.swift */,
+				E4DBD5C924F01FBE002B63F7 /* FeatureExampleTest.swift */,
+				E4DBD5CB24F02542002B63F7 /* BuiltInTransfromsTest.swift */,
 				40D7C4CF24C05401004522F7 /* Info.plist */,
 			);
 			path = CodableWrapperTest;
@@ -103,7 +106,7 @@
 		40D7C4D924C05415004522F7 /* CodableWrapper */ = {
 			isa = PBXGroup;
 			children = (
-				40B86D3324EFCB8300762BF9 /* DefaultTransforms */,
+				40B86D3324EFCB8300762BF9 /* BuiltInTransforms */,
 				E495E20224E841FF00E11BDE /* AnyCodingKey.swift */,
 				E40DA21624E84684000DB88C /* InnerExtension.swift */,
 				E495E1FC24E841FF00E11BDE /* CodableWrapper.swift */,
@@ -226,7 +229,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E495E20D24E842D700E11BDE /* TransformTest.swift in Sources */,
+				E4DBD5CC24F02542002B63F7 /* BuiltInTransfromsTest.swift in Sources */,
+				E4DBD5CA24F01FBE002B63F7 /* FeatureExampleTest.swift in Sources */,
 				40D7C4CE24C05401004522F7 /* DefaultTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
