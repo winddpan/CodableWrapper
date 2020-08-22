@@ -2,10 +2,10 @@
 CodableWrapper是一个基于Swift的PropertyWrapper特性，为Codable协议提供额外能力的库。
 基于原生JSONEncoder和JSONDecoder，无痛接入。
 
-Codable协议从Swift4.0出现已经有一段时间了，体感使用有一些不便：
-* 无容错能力，比如JSON内是Int，模型定义是String，会解析失败
-* 当只需要重新映射一个CodingKey的时候，必须重载 init(from decoder: Decoder) 或者 encode(to encoder: Encoder) 并手动处理所有值的Decode或者Encode。
-* 自定义映射也需要重载  init(from decoder: Decoder)  或者 encode(to encoder: Encoder)
+Codable协议从Swift4.0出现已经有一段时间了，但使用有一些不便：
+1. 无容错能力，比如JSON内是Int，模型定义是String，会解析失败
+2. 当只需要重新映射一个CodingKey的时候，必须重载 init(from decoder: Decoder) 或者 encode(to encoder: Encoder) 并手动处理所有值的Decode或者Encode。
+3. 自定义映射也需要重载  init(from decoder: Decoder)  或者 encode(to encoder: Encoder)
 
 ---
 
@@ -33,6 +33,7 @@ struct ExampleModel: Codable {
 let json = """
 {"int_Val": "233", "string_Val": "opq", "bool": "1"}
 """
+
 let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
 XCTAssertEqual(model.intVal, 233)
 XCTAssertEqual(model.stringVal, "opq")
@@ -44,12 +45,12 @@ XCTAssertEqual(model.bool, true)
 ---
 
 ## Feature
-
+* 基于原生JSONEncoder和JSONDecoder，可插拔无负担
 * DefaultValue
 * 多CodingKey支持
 * 自定义Transform支持，不需要值遵循Codable协议
 * Optional支持良好
-* BasicTypeBridge容错能力，String Number Bool 等基本类型自动互转 (使用了HandyJSON中的部分源码)
+* BasicTypeBridge容错能力，String Number Bool 等基本类型自动互转
 
 ---
 
@@ -62,6 +63,7 @@ struct ExampleModel: Codable {
 let json = """
 {"bool":"wrong value"}
 """
+
 let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
 XCTAssertEqual(model.bool, false)
 ```
@@ -80,6 +82,7 @@ struct ExampleModel: Codable {
 let json = """
 {"int_Val": "233", "int_optional": 234}
 """
+
 let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
 XCTAssertEqual(model.intVal, 233)
 XCTAssertEqual(model.intOptional, 234)
@@ -105,6 +108,7 @@ struct ExampleModel: Codable {
 let json = """
 {"enumValue": 2}
 """
+
 let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
 XCTAssertEqual(model.enumValue, EnumInt.third)
 
@@ -136,6 +140,7 @@ struct ExampleModel: Codable {
 let json = """
 {"int": "1", "string": 2, "bool": true}
 """
+
 let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
 XCTAssertEqual(model.int, 1)
 XCTAssertEqual(model.string, "2")
@@ -181,6 +186,7 @@ struct ExampleModel: Codable {
 let json = """
 {"omitEncoding": 123, "omitDecoding": "abc"}
 """
+
 let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
 XCTAssertEqual(model.omitEncoding, "123")
 XCTAssertEqual(model.omitDecoding, nil)
