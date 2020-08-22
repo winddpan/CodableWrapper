@@ -8,6 +8,11 @@ Codable协议从Swift4.0出现已经有一段时间了，但使用有一些不�
 3. 自定义映射也需要重载  init(from decoder: Decoder)  或者 encode(to encoder: Encoder)
 
 ---
+## Improvement
+
+相比于用泛型记录某一信息量的库 [BetterCodable](https://github.com/marksands/BetterCodable)   [CodableWrappers](https://github.com/GottaGetSwifty/CodableWrappers)，本库找到了一种可以记录自定义配置的方法，扩展性强了不少，可自行实现TransformType协议做定制化的事情。
+
+---
 
 ## Example
 
@@ -28,8 +33,8 @@ struct ExampleModel: Codable {
     @CodableWrapper(defaultValue: false)
     var bool: Bool
 }
-```
-```Swift
+
+
 let json = """
 {"int_Val": "233", "string_Val": "opq", "bool": "1"}
 """
@@ -60,6 +65,7 @@ struct ExampleModel: Codable {
     @CodableWrapper(defaultValue: false)
     var bool: Bool
 }
+
 let json = """
 {"bool":"wrong value"}
 """
@@ -97,7 +103,7 @@ XCTAssertEqual(jsonObject["intOptional"] as? Int, 234)
 ### Transform
 ```swift
 enum EnumInt: Int {
-	case none, first, second, third
+    case none, first, second, third
 }
 struct ExampleModel: Codable {
     @CodableWrapper(codingKeys: ["enum", "enumValue"],
