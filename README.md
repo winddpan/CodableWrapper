@@ -48,6 +48,15 @@ XCTAssertEqual(model.bool, true)
 ```
 
 ---
+## Installation
+
+#### Cocoapods
+pod 'CodableWrapper'
+
+#### Swift Package Manager
+Select File > Swift Packages > Add Package Dependency. Enter https://github.com/winddpan/CodableWrapper in the "Choose Package Repository" dialog.
+
+---
 
 ## Feature
 * 基于原生JSONEncoder和JSONDecoder，可插拔无负担
@@ -107,7 +116,7 @@ enum EnumInt: Int {
 }
 struct ExampleModel: Codable {
     @CodableWrapper(codingKeys: ["enum", "enumValue"],
-    transformer: TransformOf<EnumInt, Int>(fromNull: { EnumInt.none }, fromJSON: { EnumInt(rawValue: $0 + 1) }, toJSON: { $0.rawValue }))
+                    transformer: TransformOf<EnumInt, Int>(fromNull: { EnumInt.none }, fromJSON: { EnumInt(rawValue: $0 + 1) }, toJSON: { $0.rawValue }))
     var enumValue: EnumInt
 }
 
