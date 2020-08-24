@@ -8,43 +8,47 @@
 import CodableWrapper
 import XCTest
 
-struct ExampleModel: Codable {
-    @CodableWrapper(defaultValue: "default unImpl value")
-    var unImpl: String
-
-    @CodableWrapper(codingKeys: ["stringVal", "string_Val"], defaultValue: "abc")
-    var stringVal: String
-
-    @CodableWrapper(codingKeys: ["int_Val", "intVal"], defaultValue: 123456)
-    var intVal: Int
-
-    @CodableWrapper(defaultValue: [1.998, 2.998, 3.998])
-    var array: [Double]
-    
-    @CodableWrapper(defaultValue: false)
-    var bool: Bool
-}
-
-struct SimpleModel: Codable {
-    @CodableWrapper(defaultValue: 2)
-    var val: Int
-}
-
-struct RootModel: Codable {
-    var root: ExampleModel
-}
-
-struct  OptionalModel: Codable {
-    @CodableWrapper(defaultValue: "default")
-    var val: String?
-}
-
-struct  Optional2Model: Codable {
-    @CodableWrapper(codingKeys: ["val2"], defaultValue: nil)
-    var val: String?
-}
-
 class DefaultTest: XCTestCase {
+    struct NonCodable {
+        var x: String?
+    }
+
+    struct ExampleModel: Codable {
+        @CodableWrapper(defaultValue: "default unImpl value")
+        var unImpl: String
+
+        @CodableWrapper(codingKeys: ["stringVal", "string_Val"], defaultValue: "abc")
+        var stringVal: String
+
+        @CodableWrapper(codingKeys: ["int_Val", "intVal"], defaultValue: 123456)
+        var intVal: Int
+
+        @CodableWrapper(defaultValue: [1.998, 2.998, 3.998])
+        var array: [Double]
+
+        @CodableWrapper(defaultValue: false)
+        var bool: Bool
+    }
+
+    struct SimpleModel: Codable {
+        @CodableWrapper(defaultValue: 2)
+        var val: Int
+    }
+
+    struct RootModel: Codable {
+        var root: ExampleModel
+    }
+
+    struct OptionalModel: Codable {
+        @CodableWrapper(defaultValue: "default")
+        var val: String?
+    }
+
+    struct Optional2Model: Codable {
+        @CodableWrapper(codingKeys: ["val2"], defaultValue: nil)
+        var val: String?
+    }
+
     func testCodingKeyDecode() throws {
         let json = """
         {"int_Val": "233", "string_Val": "opq", "bool": "1"}
@@ -56,19 +60,19 @@ class DefaultTest: XCTestCase {
         XCTAssertEqual(model.array, [1.998, 2.998, 3.998])
         XCTAssertEqual(model.bool, true)
     }
-    
+
     func testCodingKeyEncode() throws {
         let json = """
         {"int_Val": 233, "string_Val": "opq"}
         """
         let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
-        
+
         let data = try JSONEncoder().encode(model)
         let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
         XCTAssertEqual(jsonObject["int_Val"] as? Int, 233)
         XCTAssertEqual(jsonObject["stringVal"] as? String, "opq")
     }
-    
+
     func testNested() throws {
         let json = """
         {"root": {"stringVal":"x"}}
@@ -76,7 +80,7 @@ class DefaultTest: XCTestCase {
         let model = try JSONDecoder().decode(RootModel.self, from: json.data(using: .utf8)!)
         XCTAssertEqual(model.root.stringVal, "x")
     }
-    
+
     func testOptional() throws {
         let json = """
         {"val": "default2"}
@@ -84,7 +88,7 @@ class DefaultTest: XCTestCase {
         let model = try JSONDecoder().decode(OptionalModel.self, from: json.data(using: .utf8)!)
         XCTAssertEqual(model.val, "default2")
     }
-    
+
     func testOptional2() throws {
         let json = """
         {"val2": null}
@@ -92,7 +96,7 @@ class DefaultTest: XCTestCase {
         let model = try JSONDecoder().decode(Optional2Model.self, from: json.data(using: .utf8)!)
         XCTAssertEqual(model.val, nil)
     }
-    
+
     func testMutiThread() throws {
         let expectation = XCTestExpectation(description: "")
         let expectation2 = XCTestExpectation(description: "")
