@@ -18,10 +18,11 @@ Codable协议从Swift4.0出现后Feature几乎没有改进，使用上有一些�
 ## Example
 
 ```Swift
-struct ExampleModel: Codable {
-    @CodableWrapper(defaultValue: "default unImpl value")
-    var unImpl: String
+struct NonCodable {
+    var value: String?
+}
 
+struct ExampleModel: Codable {
     @CodableWrapper(codingKeys: ["stringVal", "string_Val"], defaultValue: "abc")
     var stringVal: String
 
@@ -30,14 +31,22 @@ struct ExampleModel: Codable {
 
     @CodableWrapper(defaultValue: [1.998, 2.998, 3.998])
     var array: [Double]
-    
+
     @CodableWrapper(defaultValue: false)
     var bool: Bool
+
+    @CodableWrapper(transformer: TransformOf<NonCodable, String?>(fromNull: { NonCodable() }, 
+                                                                  fromJSON: { NonCodable(value: $0) },
+                                                                  toJSON: { $0.value }))
+    var nonCodable: NonCodable
+
+    @CodableWrapper(defaultValue: "default unImpl value")
+    var unImpl: String
 }
 
 
 let json = """
-{"int_Val": "233", "string_Val": "opq", "bool": "1"}
+{"int_Val": "233", "string_Val": "opq", "bool": "1", "nonCodable": "ok"}
 """
 
 let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
@@ -46,6 +55,7 @@ XCTAssertEqual(model.stringVal, "opq")
 XCTAssertEqual(model.unImpl, "default unImpl value")
 XCTAssertEqual(model.array, [1.998, 2.998, 3.998])
 XCTAssertEqual(model.bool, true)
+XCTAssertEqual(model.nonCodable.value, "ok")
 ```
 
 ---
