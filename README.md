@@ -153,18 +153,19 @@ XCTAssertEqual(model2.enumValue, EnumInt.none)
 
 ```swift
 struct ExampleModel: Codable {
+    // test init()
     @CodableWrapper()
     var int: Int?
-
-    @CodableWrapper()
+    
+    @CodableWrapper
     var string: String?
 
-    @CodableWrapper()
+    @CodableWrapper
     var bool: Bool?
 }
 
 let json = """
-{"int": "1", "string": 2, "bool": true}
+{"int": "1", "string": 2, "bool": "true"}
 """
 
 let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)

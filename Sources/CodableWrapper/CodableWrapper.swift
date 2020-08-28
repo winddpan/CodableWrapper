@@ -101,7 +101,7 @@ public extension KeyedDecodingContainer {
 
     private func _decode<Value>(_ type: CodableWrapper<Value>.Type, forKey key: Key, onDecoding: @escaping ((KeyedDecodingContainer<AnyCodingKey>, String) -> Value?)) throws -> CodableWrapper<Value> {
         let injection: ((CodableWrapper<Value>) -> Void) = { wrapper in
-            guard wrapper.storedValue == nil, let dictionary = self._containerDictionary() else { return }
+            guard let dictionary = self._containerDictionary() else { return }
             guard let decoder = self._decoder(), let container = try? decoder.container(keyedBy: AnyCodingKey.self) else { return }
 
             for codingKey in [key.stringValue] + wrapper.construct.codingKeys {
@@ -126,11 +126,20 @@ public extension KeyedDecodingContainer {
                 wrapper.storedValue = wrapper.construct.fromNull()
             }
         }
+
         var wrapper: CodableWrapper<Value>
         if let decodeIfPresent = try? decodeIfPresent(CodableWrapper<Value>.self, forKey: key) {
             wrapper = decodeIfPresent
         } else {
             wrapper = CodableWrapper<Value>(unsafed: ())
+        }
+        
+        // Try parse bridged type at first
+        if let bridge = Value.self as? _BuiltInBridgeType.Type,
+            let dictionary = _containerDictionary(),
+            let json = dictionary[key.stringValue],
+            let bridged = bridge._transform(from: json) as? Value {
+            wrapper.storedValue = bridged
         }
         wrapper.decoderInjetion = injection
         Thread.current.lastCodableWrapper = wrapper
