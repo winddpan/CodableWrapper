@@ -18,12 +18,12 @@ public final class CodableWrapper<Value>: Codable {
     }
 
     private var unsafeCreated: Bool
-    fileprivate var construct: Construct!
+    fileprivate var construct: Construct?
     fileprivate var storedValue: Value?
     fileprivate var decoderInjetion: ((CodableWrapper<Value>) -> Void)?
 
     deinit {
-        if !unsafeCreated, let lastWrapper = Thread.current.lastCodableWrapper as? CodableWrapper<Value> {
+        if !unsafeCreated, let construct = construct, let lastWrapper = Thread.current.lastCodableWrapper as? CodableWrapper<Value> {
             lastWrapper.invokeAfterInjection(with: construct)
             Thread.current.lastCodableWrapper = nil
         }
@@ -50,7 +50,7 @@ public final class CodableWrapper<Value>: Codable {
     }
 
     public var wrappedValue: Value {
-        get { storedValue ?? construct.fromNull() }
+        get { storedValue ?? construct!.fromNull() }
         set { storedValue = newValue }
     }
 
@@ -67,16 +67,21 @@ public final class CodableWrapper<Value>: Codable {
 
 public extension KeyedEncodingContainer {
     mutating func encode<T, Value>(_ value: T, forKey key: Key) throws where T: CodableWrapper<Value> {
-        switch value.construct.toJSON(value.wrappedValue) {
-        case let .custom(json):
-            if let dictionary = _container() {
-                dictionary.setValue(json, forKey: value.construct.codingKeys.first ?? key.stringValue)
+        if let construct = value.construct {
+            switch construct.toJSON(value.wrappedValue) {
+            case let .custom(json):
+                if let dictionary = _container() {
+                    dictionary.setValue(json, forKey: construct.codingKeys.first ?? key.stringValue)
+                }
+            case .default:
+                if let encoder = _encoder(), let key = AnyCodingKey(stringValue: construct.codingKeys.first ?? key.stringValue), let wrappedValue = value.wrappedValue as? Encodable {
+                    var container = encoder.container(keyedBy: AnyCodingKey.self)
+                    try wrappedValue.encode(to: &container, forKey: key)
+                }
             }
-        case .default:
-            if let encoder = _encoder(), let key = AnyCodingKey(stringValue: value.construct.codingKeys.first ?? key.stringValue), let wrappedValue = value.wrappedValue as? Encodable {
-                var container = encoder.container(keyedBy: AnyCodingKey.self)
-                try wrappedValue.encode(to: &container, forKey: key)
-            }
+        } else if let encoder = _encoder(), let key = AnyCodingKey(stringValue: key.stringValue), let wrappedValue = value.wrappedValue as? Encodable {
+            var container = encoder.container(keyedBy: AnyCodingKey.self)
+            try wrappedValue.encode(to: &container, forKey: key)
         }
     }
 }
@@ -101,12 +106,12 @@ public extension KeyedDecodingContainer {
 
     private func _decode<Value>(_ type: CodableWrapper<Value>.Type, forKey key: Key, onDecoding: @escaping ((KeyedDecodingContainer<AnyCodingKey>, String) -> Value?)) throws -> CodableWrapper<Value> {
         let injection: ((CodableWrapper<Value>) -> Void) = { wrapper in
-            guard let dictionary = self._containerDictionary() else { return }
+            guard let construct = wrapper.construct, let dictionary = self._containerDictionary() else { return }
             guard let decoder = self._decoder(), let container = try? decoder.container(keyedBy: AnyCodingKey.self) else { return }
 
-            for codingKey in [key.stringValue] + wrapper.construct.codingKeys {
+            for codingKey in [key.stringValue] + construct.codingKeys {
                 if let json = dictionary[codingKey] {
-                    switch wrapper.construct.fromJSON(json) {
+                    switch construct.fromJSON(json) {
                     case let .custom(resultValue):
                         wrapper.storedValue = resultValue
                         return
@@ -123,7 +128,7 @@ public extension KeyedDecodingContainer {
                 }
             }
             if wrapper.storedValue == nil {
-                wrapper.storedValue = wrapper.construct.fromNull()
+                wrapper.storedValue = construct.fromNull()
             }
         }
 
@@ -133,7 +138,7 @@ public extension KeyedDecodingContainer {
         } else {
             wrapper = CodableWrapper<Value>(unsafed: ())
         }
-        
+
         // Try parse bridged type at first
         if let bridge = Value.self as? _BuiltInBridgeType.Type,
             let dictionary = _containerDictionary(),

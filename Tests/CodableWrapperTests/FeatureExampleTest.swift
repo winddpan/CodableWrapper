@@ -91,5 +91,9 @@ class FeatureExampleTest: XCTestCase {
         XCTAssertEqual(model.int, 1)
         XCTAssertEqual(model.string, "2")
         XCTAssertEqual(model.bool, true)
+        
+        let jsonData = try JSONEncoder().encode(model)
+        let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: []) as! [String: Any]
+        XCTAssertEqual(jsonObject["string"] as? String, "2")
     }
 }
