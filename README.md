@@ -3,10 +3,15 @@
 **CodableWrapper** 是一个基于Swift的PropertyWrapper特性，为Codable协议提供额外能力的库。
 基于原生JSONEncoder和JSONDecoder，无任何其他依赖。
 
-Codable协议从Swift4.0出现后Feature几乎没有改进，使用上有一些不便：
-1. 无容错能力，比如JSON内是Int，模型定义是String，会解析失败
-2. 当只需要重新映射一个CodingKey的时候，必须重载 init(from decoder: Decoder) 或者 encode(to encoder: Encoder) 并手动处理所有值的Decode或者Encode
-3. 自定义映射也需要重载  init(from decoder: Decoder)  或者 encode(to encoder: Encoder)
+---
+
+## Feature
+* 基于原生JSONEncoder和JSONDecoder，可插拔无负担
+* DefaultValue
+* 多CodingKey支持
+* 自定义Transform支持，不需要值遵循Codable协议
+* Optional支持良好
+* BasicTypeBridge容错能力，String Number Bool 等基本类型自动互转
 
 ---
 ## Improvement
@@ -69,15 +74,6 @@ Select File > Swift Packages > Add Package Dependency. Enter https://github.com/
 
 ---
 
-## Feature
-* 基于原生JSONEncoder和JSONDecoder，可插拔无负担
-* DefaultValue
-* 多CodingKey支持
-* 自定义Transform支持，不需要值遵循Codable协议
-* Optional支持良好
-* BasicTypeBridge容错能力，String Number Bool 等基本类型自动互转
-
----
 
 ### DefaultValue（需要属性实现Codable协议）
 ```swift
