@@ -19,7 +19,6 @@
 相比于用泛型记录某一信息量的库 [BetterCodable](https://github.com/marksands/BetterCodable)   [CodableWrappers](https://github.com/GottaGetSwifty/CodableWrappers)，本库找到了一种可以记录自定义配置的方法，扩展性强了不少，可自行实现TransformType协议做定制化的事情。
 
 ---
-
 ## Example
 
 ```Swift
@@ -70,10 +69,64 @@ XCTAssertEqual(model.nonCodable.value, "ok")
 pod 'CodableWrapper'
 
 #### Swift Package Manager
-Select File > Swift Packages > Add Package Dependency. Enter https://github.com/winddpan/CodableWrapper in the "Choose Package Repository" dialog.
+https://github.com/winddpan/CodableWrapper
 
 ---
 
+---
+## How it works
+```Swift
+struct DataModel: Codable {
+    @CodableWrapper(defaultValue: "OK")
+    var stringVal: String
+}
+
+/* Swift Build -> */
+struct DataModel: Codable {
+    var _stringVal = CodableWrapper<String>(defaultValue: "OK")
+
+    var stringVal: String {
+        get {
+            return _stringVal.wrappedValue
+        }
+        set {
+            _stringVal.wrappedValue = newValue
+        }
+    }
+
+    enum CodingKeys: CodingKey {
+        case stringVal
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        // decode 'new Wrapper' at first
+        // remember 'new Wrapper' at first: Thread.current.lastCodableWrapper = wrapper
+        /*
+         extension KeyedDecodingContainer {
+            func decode<Value>(_ type: CodableWrapper<Value>.Type, forKey key: Key) throws -> CodableWrapper<Value> {
+                ...
+                let wrapper = CodableWrapper<Value>(unsafed: ())
+                Thread.current.lastCodableWrapper = wrapper
+                ...
+            }
+         }
+         */
+        let newWrapper = try container.decode(CodableWrapper<String>.self, forKey: CodingKeys.stringVal)
+
+        // 'old Wrapper' deinit
+        // 'old Wrapper' invokeAfterInjection called: transform 'old Wrapper' Configs to 'new Wrapper'
+        /*
+         if !unsafeCreated, let construct = construct, let lastWrapper = Thread.current.lastCodableWrapper as? CodableWrapper<Value> {
+             lastWrapper.invokeAfterInjection(with: construct)
+             Thread.current.lastCodableWrapper = nil
+         }
+         */
+        self._stringVal = newWrapper
+    }
+}
+```
 
 ### DefaultValue（需要属性实现Codable协议）
 ```swift
@@ -90,7 +143,7 @@ let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .
 XCTAssertEqual(model.bool, false)
 ```
 
-### CodingKeys （Decode时会依次尝试，Encode时会使用第一个CodingKey作为JSON的键值
+### CodingKeys （Decode时会依次尝试，Encode时会使用第一个CodingKey作为JSON的键值）
 ```swift
 struct ExampleModel: Codable {
     @CodableWrapper(codingKeys: ["int_Val", "intVal"], defaultValue: 123456)
