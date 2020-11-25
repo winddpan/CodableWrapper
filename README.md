@@ -72,8 +72,6 @@ pod 'CodableWrapper'
 https://github.com/winddpan/CodableWrapper
 
 ---
-
----
 ## How it works
 ```Swift
 struct DataModel: Codable {
@@ -101,8 +99,8 @@ struct DataModel: Codable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        // decode 'new Wrapper' at first
-        // remember 'new Wrapper' at first: Thread.current.lastCodableWrapper = wrapper
+        // decode `new Wrapper`
+        // remember `new Wrapper`: Thread.current.lastCodableWrapper = wrapper
         /*
          extension KeyedDecodingContainer {
             func decode<Value>(_ type: CodableWrapper<Value>.Type, forKey key: Key) throws -> CodableWrapper<Value> {
@@ -115,8 +113,8 @@ struct DataModel: Codable {
          */
         let newWrapper = try container.decode(CodableWrapper<String>.self, forKey: CodingKeys.stringVal)
 
-        // 'old Wrapper' deinit
-        // 'old Wrapper' invokeAfterInjection called: transform 'old Wrapper' Configs to 'new Wrapper'
+        // `old Wrapper` deinit
+        // `old Wrapper` invokeAfterInjection called: transform `old Wrapper` Configs to `new Wrapper`
         /*
          if !unsafeCreated, let construct = construct, let lastWrapper = Thread.current.lastCodableWrapper as? CodableWrapper<Value> {
              lastWrapper.invokeAfterInjection(with: construct)
@@ -128,7 +126,9 @@ struct DataModel: Codable {
 }
 ```
 
-### DefaultValue（需要属性实现Codable协议）
+---
+
+### DefaultValue（defaultValue should implement `Codable` protocol）
 ```swift
 struct ExampleModel: Codable {
     @CodableWrapper(defaultValue: false)
@@ -143,7 +143,7 @@ let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .
 XCTAssertEqual(model.bool, false)
 ```
 
-### CodingKeys （Decode时会依次尝试，Encode时会使用第一个CodingKey作为JSON的键值）
+### CodingKeys （while Decode: try each until succeed; while Encode: use first CodingKey as JSON's key）
 ```swift
 struct ExampleModel: Codable {
     @CodableWrapper(codingKeys: ["int_Val", "intVal"], defaultValue: 123456)
