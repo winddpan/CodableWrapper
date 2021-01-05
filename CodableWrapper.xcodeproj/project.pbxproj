@@ -67,12 +67,12 @@
 		4066812824F375AB00562E47 /* CodableWrapper */ = {
 			isa = PBXGroup;
 			children = (
+				4066812C24F375AB00562E47 /* CodableWrapper.h */,
 				4066812924F375AB00562E47 /* CodableWrapper.swift */,
 				4066812A24F375AB00562E47 /* CodableWrapperInit.swift */,
-				4066812B24F375AB00562E47 /* InnerExtension.swift */,
-				4066812C24F375AB00562E47 /* CodableWrapper.h */,
-				4066812D24F375AB00562E47 /* AnyCodingKey.swift */,
 				4066812E24F375AB00562E47 /* Literals.swift */,
+				4066812B24F375AB00562E47 /* InnerExtension.swift */,
+				4066812D24F375AB00562E47 /* AnyCodingKey.swift */,
 				4066812F24F375AB00562E47 /* BuiltInBridgeType.swift */,
 				4066813024F375AB00562E47 /* ThreadProperty.swift */,
 				4066813124F375AB00562E47 /* TransformType.swift */,
@@ -464,7 +464,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Sources/CodableWrapper/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -538,7 +538,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Sources/CodableWrapper/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

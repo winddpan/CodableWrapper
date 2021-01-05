@@ -17,7 +17,7 @@ public final class CodableWrapper<Value>: Codable {
         var toJSON: (Value) -> TransformTypeResult<Encodable?>
     }
 
-    private var unsafeCreated: Bool
+    private let unsafeCreated: Bool
     fileprivate var construct: Construct?
     fileprivate var storedValue: Value?
     fileprivate var decoderInjetion: ((CodableWrapper<Value>) -> Void)?
