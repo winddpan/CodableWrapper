@@ -99,8 +99,8 @@ struct DataModel: Codable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        // decode `new Wrapper`
-        // remember `new Wrapper`: Thread.current.lastCodableWrapper = wrapper
+        /* decode `newStringVal` */
+        /* remember `newStringVal`: Thread.current.lastCodableWrapper = wrapper */
         /*
          extension KeyedDecodingContainer {
             func decode<Value>(_ type: CodableWrapper<Value>.Type, forKey key: Key) throws -> CodableWrapper<Value> {
@@ -111,17 +111,19 @@ struct DataModel: Codable {
             }
          }
          */
-        let newWrapper = try container.decode(CodableWrapper<String>.self, forKey: CodingKeys.stringVal)
+        let newStringVal = try container.decode(CodableWrapper<String>.self, forKey: CodingKeys.stringVal)
 
-        // `old Wrapper` deinit
-        // `old Wrapper` invokeAfterInjection called: transform `old Wrapper` Configs to `new Wrapper`
-        /*
-         if !unsafeCreated, let construct = construct, let lastWrapper = Thread.current.lastCodableWrapper as? CodableWrapper<Value> {
-             lastWrapper.invokeAfterInjection(with: construct)
-             Thread.current.lastCodableWrapper = nil
+        /* old `_stringVal` deinit */
+        /* old `_stringVal` invokeAfterInjection called: transform old `_stringVal` Configs to `newStringVal` */
+        /* 
+         deinit {
+             if !unsafeCreated, let construct = construct, let lastWrapper = Thread.current.lastCodableWrapper as? CodableWrapper<Value> {
+                 lastWrapper.invokeAfterInjection(with: construct)
+                 Thread.current.lastCodableWrapper = nil
+             }
          }
-         */
-        self._stringVal = newWrapper
+        */
+        self._stringVal = newStringVal
     }
 }
 ```
