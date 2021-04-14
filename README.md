@@ -45,7 +45,6 @@
 ``` https://github.com/winddpan/CodableWrapper ```
 
 ## Example
-
 ```Swift
 struct NonCodable {
     var value: String?
@@ -148,7 +147,7 @@ struct DataModel: Codable {
 ## Advanced usage
 
 #### DefaultValue
->（defaultValue should implement `Codable` protocol）
+> DefaultValue should implement `Codable` protocol
 ```swift
 struct ExampleModel: Codable {
     @CodableWrapper(defaultValue: false)
@@ -164,7 +163,7 @@ XCTAssertEqual(model.bool, false)
 ```
 
 #### CodingKeys 
->（while Decode: try each until succeed; while Encode: use first CodingKey as JSON's key）
+> While Decoding: try each CodingKey until succeed; while Encoding: use first CodingKey as Dictionary key
 ```swift
 struct ExampleModel: Codable {
     @CodableWrapper(codingKeys: ["int_Val", "intVal"], defaultValue: 123456)
@@ -220,7 +219,6 @@ XCTAssertEqual(model2.enumValue, EnumInt.none)
 ```
 
 #### BasicTypeBridge
-
 ```swift
 struct ExampleModel: Codable {
     // test init()
@@ -270,7 +268,6 @@ XCTAssertEqual(model.millSecondsDate.timeIntervalSince1970, date.timeIntervalSin
 ```
 
 #### OmitCoding
-
 ```swift
 struct ExampleModel: Codable {
     @CodableWrapper(transformer: OmitEncoding())
