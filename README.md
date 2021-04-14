@@ -5,27 +5,27 @@
   </p>
 </p>
 <ol>
-  <li><a href="#About The Project">About The Project</a></li>
+  <li><a href="#about-the-project">About The Project</a></li>
   <li><a href="#installation">Installation</a></li>
-  <li><a href="#Example">Example</a></li>
-  <li><a href="#How it works">How it works</a></li>
+  <li><a href="#example">Example</a></li>
+  <li><a href="#how-it-works">How it works</a></li>
   <li>
-    <a href="#Advanced usage">Advanced usage</a>
+    <a href="#advanced-usage">Advanced usage</a>
     <ul>
-      <li><a href="#DefaultValue">DefaultValue</a></li>
-      <li><a href="#CodingKeys">CodingKeys</a></li>
-      <li><a href="#Transform">Transform</a></li>
-      <li><a href="#BasicTypeBridge">BasicTypeBridge</a></li>
+      <li><a href="#defaultValue">DefaultValue</a></li>
+      <li><a href="#codingKeys">CodingKeys</a></li>
+      <li><a href="#transform">Transform</a></li>
+      <li><a href="#basictypebridge">BasicTypeBridge</a></li>
     </ul>
   </li>
   <li>
-    <a href="#BuiltIn Transfroms">BuiltIn Transfroms</a>
+    <a href="#builtIn-transfroms">BuiltIn Transfroms</a>
     <ul>
-      <li><a href="#SecondsDateTransform / MillisecondDateTransform">SecondsDateTransform / MillisecondDateTransform</a></li>
-      <li><a href="#OmitCoding">OmitCoding</a></li>
+      <li><a href="#secondsdatetransform-/-milliseconddatetransform">SecondsDateTransform / MillisecondDateTransform</a></li>
+      <li><a href="#omitcoding">OmitCoding</a></li>
     </ul>
   </li>
-  <li><a href="#License">License</a></li>
+  <li><a href="#license">License</a></li>
 </ol>
 
 ## About The Project
