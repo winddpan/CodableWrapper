@@ -1,24 +1,49 @@
-# Codable + PropertyWrapper = ☕
+<p align="center">
+  <h3 align="center">CodableWrapper</h3>
+  <p align="center">
+    Codable + PropertyWrapper = ☕
+  </p>
+</p>
+<ol>
+  <li><a href="#About The Project">About The Project</a></li>
+  <li><a href="#installation">Installation</a></li>
+  <li><a href="#Example">Example</a></li>
+  <li><a href="#How it works">How it works</a></li>
+  <li>
+    <a href="#Advanced usage">Advanced usage</a>
+    <ul>
+      <li><a href="#DefaultValue">DefaultValue</a></li>
+      <li><a href="#CodingKeys">CodingKeys</a></li>
+      <li><a href="#Transform">Transform</a></li>
+      <li><a href="#BasicTypeBridge">BasicTypeBridge</a></li>
+    </ul>
+  </li>
+  <li>
+    <a href="#BuiltIn Transfroms">BuiltIn Transfroms</a>
+    <ul>
+      <li><a href="#SecondsDateTransform / MillisecondDateTransform">SecondsDateTransform / MillisecondDateTransform</a></li>
+      <li><a href="#OmitCoding">OmitCoding</a></li>
+    </ul>
+  </li>
+  <li><a href="#License">License</a></li>
+</ol>
 
-**CodableWrapper** 是一个基于Swift的PropertyWrapper特性，为Codable协议提供额外能力的库。
-基于原生JSONEncoder和JSONDecoder，无任何其他依赖。
+## About The Project
+* This project is use `PropertyWrapper` to improve your `Codable` use experience.
+* Simply based on `JSONEncoder` `JSONDecoder`.
+* Powerful and simplifily API than  [BetterCodable](https://github.com/marksands/BetterCodable) or [CodableWrappers](https://github.com/GottaGetSwifty/CodableWrappers).
+* Pass configuration avaiable, `@CodableWrapper(codingKeys: ..., transformer: TransformOf<EnumInt, nt>(fromNull: { ... }, fromJSON: { ... }, toJSON: { ... }))`
+* Implement your own `TransformType` to do more stuff.
+* Auto fix basic type convertation, between `String` `Number` `Bool` ...
 
----
+## Installation
 
-## Feature
-* 基于原生JSONEncoder和JSONDecoder，可插拔无负担
-* DefaultValue
-* 多CodingKey支持
-* 自定义Transform支持，不需要值遵循Codable协议
-* Optional支持良好
-* BasicTypeBridge容错能力，String Number Bool 等基本类型自动互转
+#### Cocoapods
+``` pod 'CodableWrapper' ```
 
----
-## Improvement
+#### Swift Package Manager
+``` https://github.com/winddpan/CodableWrapper ```
 
-相比于用泛型记录某一信息量的库 [BetterCodable](https://github.com/marksands/BetterCodable)   [CodableWrappers](https://github.com/GottaGetSwifty/CodableWrappers)，本库找到了一种可以记录自定义配置的方法，扩展性强了不少，可自行实现TransformType协议做定制化的事情。
-
----
 ## Example
 
 ```Swift
@@ -62,16 +87,7 @@ XCTAssertEqual(model.bool, true)
 XCTAssertEqual(model.nonCodable.value, "ok")
 ```
 
----
-## Installation
 
-#### Cocoapods
-pod 'CodableWrapper'
-
-#### Swift Package Manager
-https://github.com/winddpan/CodableWrapper
-
----
 ## How it works
 ```Swift
 struct DataModel: Codable {
@@ -128,9 +144,11 @@ struct DataModel: Codable {
 }
 ```
 
----
 
-### DefaultValue（defaultValue should implement `Codable` protocol）
+## Advanced usage
+
+#### DefaultValue
+>（defaultValue should implement `Codable` protocol）
 ```swift
 struct ExampleModel: Codable {
     @CodableWrapper(defaultValue: false)
@@ -145,7 +163,8 @@ let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .
 XCTAssertEqual(model.bool, false)
 ```
 
-### CodingKeys （while Decode: try each until succeed; while Encode: use first CodingKey as JSON's key）
+#### CodingKeys 
+>（while Decode: try each until succeed; while Encode: use first CodingKey as JSON's key）
 ```swift
 struct ExampleModel: Codable {
     @CodableWrapper(codingKeys: ["int_Val", "intVal"], defaultValue: 123456)
@@ -171,7 +190,7 @@ XCTAssertEqual(jsonObject["intOptional"] as? Int, 234)
 
 ```
 
-### Transform
+#### Transform
 ```swift
 enum EnumInt: Int {
     case none, first, second, third
@@ -200,7 +219,7 @@ let model2 = try JSONDecoder().decode(ExampleModel.self, from: json2.data(using:
 XCTAssertEqual(model2.enumValue, EnumInt.none)
 ```
 
-### BasicTypeBridge
+#### BasicTypeBridge
 
 ```swift
 struct ExampleModel: Codable {
@@ -225,11 +244,10 @@ XCTAssertEqual(model.string, "2")
 XCTAssertEqual(model.bool, true)
 ```
 
----
 
 ## BuiltIn Transfroms
 
-### SecondsDateTransform / MillisecondDateTransform
+#### SecondsDateTransform / MillisecondDateTransform
 
 ```swift
 struct ExampleModel: Codable {
@@ -250,7 +268,7 @@ XCTAssertEqual(model.sencondsDate.timeIntervalSince1970, date.timeIntervalSince1
 XCTAssertEqual(model.millSecondsDate.timeIntervalSince1970, date.timeIntervalSince1970)
 ```
 
-OmitCoding
+#### OmitCoding
 
 ```swift
 struct ExampleModel: Codable {
@@ -275,3 +293,5 @@ XCTAssertEqual(jsonObject["omitEncoding"] as? String, nil)
 XCTAssertEqual(jsonObject["omitDecoding"] as? String, nil)
 ```
 
+## License
+Distributed under the MIT License. See `LICENSE` for more information.
