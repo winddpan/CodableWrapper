@@ -32,7 +32,9 @@
 * This project is use `PropertyWrapper` to improve your `Codable` use experience.
 * Simply based on `JSONEncoder` `JSONDecoder`.
 * Powerful and simplifily API than  [BetterCodable](https://github.com/marksands/BetterCodable) or [CodableWrappers](https://github.com/GottaGetSwifty/CodableWrappers).
-* Pass configuration avaiable, `@CodableWrapper(codingKeys: ..., transformer: TransformOf<EnumInt, nt>(fromNull: { ... }, fromJSON: { ... }, toJSON: { ... }))`
+* Pass configuration available:
+  > `@CodableWrapper(codingKeys: ..., defaultValue: ...)`  
+  > `@CodableWrapper(codingKeys: ..., transformer: ...)`
 * Implement your own `TransformType` to do more stuff.
 * Auto fix basic type convertation, between `String` `Number` `Bool` ...
 
