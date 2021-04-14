@@ -12,16 +12,16 @@
   <li>
     <a href="#advanced-usage">Advanced usage</a>
     <ul>
-      <li><a href="#defaultValue">DefaultValue</a></li>
-      <li><a href="#codingKeys">CodingKeys</a></li>
+      <li><a href="#defaultvalue">DefaultValue</a></li>
+      <li><a href="#codingkeys">CodingKeys</a></li>
       <li><a href="#transform">Transform</a></li>
       <li><a href="#basictypebridge">BasicTypeBridge</a></li>
     </ul>
   </li>
   <li>
-    <a href="#builtIn-transfroms">BuiltIn Transfroms</a>
+    <a href="#builtin-transfroms">BuiltIn Transfroms</a>
     <ul>
-      <li><a href="#secondsdatetransform-/-milliseconddatetransform">SecondsDateTransform / MillisecondDateTransform</a></li>
+      <li><a href="#datetransform">DateTransform</a></li>
       <li><a href="#omitcoding">OmitCoding</a></li>
     </ul>
   </li>
@@ -247,7 +247,8 @@ XCTAssertEqual(model.bool, true)
 
 ## BuiltIn Transfroms
 
-#### SecondsDateTransform / MillisecondDateTransform
+#### DateTransform
+> SecondsDateTransform / MillisecondDateTransform
 
 ```swift
 struct ExampleModel: Codable {
