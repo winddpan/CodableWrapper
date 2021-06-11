@@ -29,14 +29,14 @@ public final class CodableWrapper<Value>: Codable {
         }
     }
 
+    @available(*, unavailable, message: "directly `@CodableWrapper` only support optional value")
+    public init() {
+        fatalError()
+    }
+
     init(construct: Construct) {
         unsafeCreated = false
         self.construct = construct
-    }
-
-    init(storedValue: Value) {
-        unsafeCreated = false
-        self.storedValue = storedValue
     }
 
     fileprivate init(unsafed: ()) {
@@ -141,9 +141,10 @@ public extension KeyedDecodingContainer {
 
         // Try parse bridged type at first
         if let bridge = Value.self as? _BuiltInBridgeType.Type,
-            let dictionary = _containerDictionary(),
-            let json = dictionary[key.stringValue],
-            let bridged = bridge._transform(from: json) as? Value {
+           let dictionary = _containerDictionary(),
+           let json = dictionary[key.stringValue],
+           let bridged = bridge._transform(from: json) as? Value
+        {
             wrapper.storedValue = bridged
         }
         wrapper.decoderInjetion = injection

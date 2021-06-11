@@ -22,6 +22,7 @@
 		4066815224F375C000562E47 /* DefaultTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066814E24F375C000562E47 /* DefaultTest.swift */; };
 		4066815324F375C000562E47 /* FeatureExampleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066814F24F375C000562E47 /* FeatureExampleTest.swift */; };
 		4066815424F375C000562E47 /* BuiltInTransfromsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066815024F375C000562E47 /* BuiltInTransfromsTest.swift */; };
+		40C744AD26732F410099FC20 /* CodableWrapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40D7C4D824C05415004522F7 /* CodableWrapper.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40C744AD26732F410099FC20 /* CodableWrapper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,12 +107,20 @@
 			path = Tests/CodableWrapperTests;
 			sourceTree = "<group>";
 		};
+		40C744AC26732F410099FC20 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		40D7C4BF24C053F3004522F7 = {
 			isa = PBXGroup;
 			children = (
 				4066812824F375AB00562E47 /* CodableWrapper */,
 				4066814D24F375C000562E47 /* CodableWrapperTests */,
 				40D7C4CB24C05401004522F7 /* Products */,
+				40C744AC26732F410099FC20 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
