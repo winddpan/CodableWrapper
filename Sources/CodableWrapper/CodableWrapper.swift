@@ -17,13 +17,17 @@ public final class CodableWrapper<Value>: Codable {
         var toJSON: (Value) -> TransformTypeResult<Encodable?>
     }
 
-    private let unsafeCreated: Bool
     fileprivate var construct: Construct?
     fileprivate var storedValue: Value?
     fileprivate var decoderInjetion: ((CodableWrapper<Value>) -> Void)?
+    
+    public var wrappedValue: Value {
+        get { storedValue ?? construct!.fromNull() }
+        set { storedValue = newValue }
+    }
 
     deinit {
-        if !unsafeCreated, let construct = construct, let lastWrapper = Thread.current.lastCodableWrapper as? CodableWrapper<Value> {
+        if let construct = construct, let lastWrapper = Thread.current.lastCodableWrapper as? CodableWrapper<Value> {
             lastWrapper.invokeAfterInjection(with: construct)
             Thread.current.lastCodableWrapper = nil
         }
@@ -35,13 +39,12 @@ public final class CodableWrapper<Value>: Codable {
     }
 
     init(construct: Construct) {
-        unsafeCreated = false
         self.construct = construct
     }
-
-    fileprivate init(unsafed: ()) {
-        unsafeCreated = true
-    }
+    
+    public required init(from decoder: Decoder) throws {}
+    
+    fileprivate init(unsafed: ()) {}
 
     private func invokeAfterInjection(with construct: Construct) {
         self.construct = construct
@@ -49,18 +52,8 @@ public final class CodableWrapper<Value>: Codable {
         decoderInjetion = nil
     }
 
-    public var wrappedValue: Value {
-        get { storedValue ?? construct!.fromNull() }
-        set { storedValue = newValue }
-    }
-
-    public required init(from decoder: Decoder) throws {
-        unsafeCreated = true
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        // Do nothing, KeyedEncodingContainer extension has done dirty stuff
-    }
+    // Do nothing, KeyedEncodingContainer extension has done dirty stuff
+    public func encode(to encoder: Encoder) throws {}
 }
 
 // - KeyedEncodingContainer
