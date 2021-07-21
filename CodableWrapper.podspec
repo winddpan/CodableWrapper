@@ -8,14 +8,14 @@
 
 Pod::Spec.new do |spec|
   spec.name         = "CodableWrapper"
-  spec.version      = "0.1.2"
+  spec.version      = "0.2.0"
   spec.requires_arc = true
   spec.summary      = "Codable + PropertyWrapper"
   spec.description  = "Codable + PropertyWrapper = ☕"
 
   spec.homepage     = "https://github.com/winddpan/CodableWrapper"
   spec.license      = "MIT"
-  spec.author             = { "winddpan" => "winddpan@126.com" }
+  spec.authors      = { "winddpan" => "winddpan@126.com", "scyano" => "scyano@icloud.com" }
 
   spec.source       = { :git => "https://github.com/winddpan/CodableWrapper.git", :tag => "#{spec.version}" }
   spec.source_files  = "Sources/CodableWrapper/**/*.swift"
