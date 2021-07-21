@@ -11,46 +11,37 @@ import Foundation
 public final class CodableWrapper<Value>: Codable {
     typealias DecoderInjection = (_ target: CodableWrapper<Value>, _ customKeys: [String]) -> Void
     
-    struct Construct {
-        var codingKeys: [String]
-        var fromNull: () -> Value
-        var fromJSON: (Any) -> TransformTypeResult<Value?>
-        var toJSON: (Value) -> TransformTypeResult<Encodable?>
-    }
-
-    var construct: Construct?
+    var storedValue: Value?
+    var codingKeys: [String] = []
     var decoderInjection: DecoderInjection?
-    fileprivate var storedValue: Value?
     
     public var wrappedValue: Value {
-        get { storedValue ?? construct!.fromNull() }
+        get { storedValue! }
         set { storedValue = newValue }
     }
 
     deinit {
-        if let construct = construct, let lastWrapper = Thread.current.lastCodableWrapper as? CodableWrapper<Value> {
-            lastWrapper.invokeAfterInjection(with: construct)
+        if let value = storedValue, let lastWrapper = Thread.current.lastCodableWrapper as? CodableWrapper<Value> {
+            lastWrapper.invokeAfterInjection(value: value, keys: codingKeys)
             Thread.current.lastCodableWrapper = nil
         }
     }
 
-    @available(*, unavailable, message: "directly `@CodableWrapper` only support optional value")
+    @available(*, unavailable, message: "Provide a default value or use optional Type")
     public init() {
         fatalError()
     }
-
-    init(construct: Construct) {
-        self.construct = construct
-    }
     
     public required init(from decoder: Decoder) throws {}
-    
+
     init(unsafed: ()) {}
 
-    private func invokeAfterInjection(with construct: Construct) {
-        self.construct = construct
-        decoderInjection?(self, construct.codingKeys)
+    private func invokeAfterInjection(value: Value, keys: [String]) {
+        decoderInjection?(self, keys)
         decoderInjection = nil
+        if self.storedValue == nil {
+            self.wrappedValue = value
+        }
     }
 
     // Do nothing, KeyedEncodingContainer extension has done dirty stuff

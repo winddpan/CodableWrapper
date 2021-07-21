@@ -12,7 +12,7 @@ import Foundation
 public extension KeyedEncodingContainer {
     
     mutating func encode<T, Value>(_ value: T, forKey key: Key) throws where T: CodableWrapper<Value> {
-        if let encoder = _encoder(), let key = AnyCodingKey(stringValue: value.construct?.codingKeys.first ?? key.stringValue), let wrappedValue = value.wrappedValue as? Encodable {
+        if let encoder = _encoder(), let key = AnyCodingKey(stringValue: value.codingKeys.first ?? key.stringValue), let wrappedValue = value.wrappedValue as? Encodable {
             var container = encoder.container(keyedBy: AnyCodingKey.self)
             try wrappedValue.encode(to: &container, forKey: key)
         } else if let encoder = _encoder(), let key = AnyCodingKey(stringValue: key.stringValue), let wrappedValue = value.wrappedValue as? Encodable {
