@@ -1,11 +1,12 @@
 <p align="center">
   <h3 align="center">CodableWrapper</h3>
   <p align="center">
-    Codable + PropertyWrapper = ☕
+    Codable + PropertyWrapper = @Codec("encoder", "decoder") var cool: Bool = true
   </p>
 </p>
 <ol>
-  <li><a href="#about-the-project">About The Project</a></li>
+  <li><a href="#about-the-project">About</a></li>
+  <li><a href="#feature">Feature</a></li>
   <li><a href="#installation">Installation</a></li>
   <li><a href="#example">Example</a></li>
   <li><a href="#how-it-works">How it works</a></li>
@@ -14,29 +15,26 @@
     <ul>
       <li><a href="#defaultvalue">DefaultValue</a></li>
       <li><a href="#codingkeys">CodingKeys</a></li>
-      <li><a href="#transform">Transform</a></li>
       <li><a href="#basictypebridge">BasicTypeBridge</a></li>
     </ul>
   </li>
   <li>
-    <a href="#builtin-transfroms">BuiltIn Transfroms</a>
-    <ul>
-      <li><a href="#datetransform">DateTransform</a></li>
-      <li><a href="#omitcoding">OmitCoding</a></li>
-    </ul>
+    <a href="#transform">Transform</a>
   </li>
-  <li><a href="#license">License</a></li>
 </ol>
 
-## About The Project
+
+## About
 * This project is use `PropertyWrapper` to improve your `Codable` use experience.
 * Simply based on `JSONEncoder` `JSONDecoder`.
 * Powerful and simplifily API than  [BetterCodable](https://github.com/marksands/BetterCodable) or [CodableWrappers](https://github.com/GottaGetSwifty/CodableWrappers).
-* Pass configuration available:
-  > `@CodableWrapper(codingKeys: ..., defaultValue: ...)`  
-  > `@CodableWrapper(codingKeys: ..., transformer: ...)`
-* Implement your own `TransformType` to do more stuff.
-* Auto fix basic type convertation, between `String` `Number` `Bool` ...
+
+## Feature
+
+* Default value supported
+* Basic type convertible, between `String`  `Bool` `Number` 
+* Fix parsing failure due to missing fields from server
+* Fix parsing failure due to mismatch Enum raw value
 
 ## Installation
 
@@ -48,55 +46,44 @@
 
 ## Example
 ```Swift
-struct NonCodable {
-    var value: String?
-}
-
 struct ExampleModel: Codable {
-    @CodableWrapper(codingKeys: ["stringVal", "string_Val"], defaultValue: "abc")
-    var stringVal: String
-
-    @CodableWrapper(codingKeys: ["int_Val", "intVal"], defaultValue: 123456)
-    var intVal: Int
-
-    @CodableWrapper(defaultValue: [1.998, 2.998, 3.998])
-    var array: [Double]
-
-    @CodableWrapper(defaultValue: false)
-    var bool: Bool
-
-    @CodableWrapper(transformer: TransformOf<NonCodable, String?>(fromNull: { NonCodable() }, 
-                                                                  fromJSON: { NonCodable(value: $0) },
-                                                                  toJSON: { $0.value }))
-    var nonCodable: NonCodable
-
-    @CodableWrapper(defaultValue: "default unImpl value")
-    var unImpl: String
+    @Codec("stringVal", "string_Val") 
+  	var stringVal: String = "scyano"
+  
+    @Codec("int_Val", "intVal") 
+  	var intVal: Int = 123456
+  
+    @Codec var array: [Double] = [1.998, 2.998, 3.998]
+  
+    @Codec var bool: Bool = false
+  
+    @Codec var unImpl: String?
 }
 
 
 let json = """
-{"int_Val": "233", "string_Val": "opq", "bool": "1", "nonCodable": "ok"}
+{"int_Val": "233", "string_Val": "pan", "bool": "1", "nonCodable": "ok"}
 """
 
 let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
 XCTAssertEqual(model.intVal, 233)
-XCTAssertEqual(model.stringVal, "opq")
-XCTAssertEqual(model.unImpl, "default unImpl value")
+XCTAssertEqual(model.stringVal, "pan")
+XCTAssertEqual(model.unImpl, "nil")
 XCTAssertEqual(model.array, [1.998, 2.998, 3.998])
 XCTAssertEqual(model.bool, true)
-XCTAssertEqual(model.nonCodable.value, "ok")
 ```
 
+*For more examples, please check the unit tests*
 
 ## How it works
+
 ```Swift
 struct DataModel: Codable {
     @CodableWrapper(defaultValue: "OK")
     var stringVal: String
 }
 
-/* Swift Build -> */
+/* pseudocode from Swift open source lib: Codable.Swift -> */
 struct DataModel: Codable {
     var _stringVal = CodableWrapper<String>(defaultValue: "OK")
 
@@ -152,8 +139,7 @@ struct DataModel: Codable {
 > DefaultValue should implement `Codable` protocol
 ```swift
 struct ExampleModel: Codable {
-    @CodableWrapper(defaultValue: false)
-    var bool: Bool
+    @Codec var bool: Bool = false
 }
 
 let json = """
@@ -168,11 +154,10 @@ XCTAssertEqual(model.bool, false)
 > While Decoding: try each CodingKey until succeed; while Encoding: use first CodingKey as Dictionary key
 ```swift
 struct ExampleModel: Codable {
-    @CodableWrapper(codingKeys: ["int_Val", "intVal"], defaultValue: 123456)
-    var intVal: Int
+    @CodableWrapper("int_Val", "intVal")
+    var intVal: Int = 123456
 
-    // Optional可以省略defaultValue，默认为nil
-    @CodableWrapper(codingKeys: ["intOptional", "int_optional"])
+    @CodableWrapper("intOptional", "int_optional")
     var intOptional: Int?
 }
 
@@ -191,47 +176,14 @@ XCTAssertEqual(jsonObject["intOptional"] as? Int, 234)
 
 ```
 
-#### Transform
-```swift
-enum EnumInt: Int {
-    case none, first, second, third
-}
-struct ExampleModel: Codable {
-    @CodableWrapper(codingKeys: ["enum", "enumValue"],
-                    transformer: TransformOf<EnumInt, Int>(fromNull: { EnumInt.none }, fromJSON: { EnumInt(rawValue: $0 + 1) }, toJSON: { $0.rawValue }))
-    var enumValue: EnumInt
-}
-
-let json = """
-{"enumValue": 2}
-"""
-
-let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
-XCTAssertEqual(model.enumValue, EnumInt.third)
-
-let jsonData = try JSONEncoder().encode(model)
-let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: []) as! [String: Any]
-XCTAssertEqual(jsonObject["enum"] as? Int, 3)
-
-let json2 = """
-{"enum": 233}
-"""
-let model2 = try JSONDecoder().decode(ExampleModel.self, from: json2.data(using: .utf8)!)
-XCTAssertEqual(model2.enumValue, EnumInt.none)
-```
-
 #### BasicTypeBridge
 ```swift
 struct ExampleModel: Codable {
-    // test init()
-    @CodableWrapper()
-    var int: Int?
+    @Codec var int: Int?
     
-    @CodableWrapper
-    var string: String?
+    @Codec var string: String?
 
-    @CodableWrapper
-    var bool: Bool?
+    @Codec var bool: Bool?
 }
 
 let json = """
@@ -244,53 +196,10 @@ XCTAssertEqual(model.string, "2")
 XCTAssertEqual(model.bool, true)
 ```
 
-
-## BuiltIn Transfroms
-
-#### DateTransform
-> SecondsDateTransform / MillisecondDateTransform
+#### Transform
 
 ```swift
-struct ExampleModel: Codable {
-    @CodableWrapper(transformer: SecondsDateTransform())
-    var sencondsDate: Date
-
-    @CodableWrapper(transformer: MillisecondDateTransform())
-    var millSecondsDate: Date
-}
-
-let date = Date()
-let json = """
-{"sencondsDate": \(date.timeIntervalSince1970), "millSecondsDate": \(date.timeIntervalSince1970 * 1000)}
-"""
-
-let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
-XCTAssertEqual(model.sencondsDate.timeIntervalSince1970, date.timeIntervalSince1970)
-XCTAssertEqual(model.millSecondsDate.timeIntervalSince1970, date.timeIntervalSince1970)
-```
-
-#### OmitCoding
-```swift
-struct ExampleModel: Codable {
-    @CodableWrapper(transformer: OmitEncoding())
-    var omitEncoding: String?
-
-    @CodableWrapper(transformer: OmitDecoding())
-    var omitDecoding: String?
-}
-
-let json = """
-{"omitEncoding": 123, "omitDecoding": "abc"}
-"""
-
-let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
-XCTAssertEqual(model.omitEncoding, "123")
-XCTAssertEqual(model.omitDecoding, nil)
-
-let data = try JSONEncoder().encode(model)
-let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-XCTAssertEqual(jsonObject["omitEncoding"] as? String, nil)
-XCTAssertEqual(jsonObject["omitDecoding"] as? String, nil)
+🚀 In development 🚀...
 ```
 
 ## License

@@ -15,7 +15,7 @@ class DefaultTest: XCTestCase {
 
     struct ExampleModel: Codable {
         @Codec("stringVal", "string_Val")
-        var stringVal: String = "abc"
+        var stringVal: String = "scyano"
 
         @Codec("int_Val", "intVal")
         var intVal: Int = 123456
@@ -24,7 +24,7 @@ class DefaultTest: XCTestCase {
 
         @Codec var bool: Bool = false
         
-        @Codec var unImpl: String = "default unImpl value"
+        @Codec var unImpl: String?
 
 //        @Codec(transformer: TransformOf<NonCodable, String?>(fromNull: { NonCodable() }, fromJSON: { NonCodable(value: $0) }, toJSON: { $0.value }))
 //        var nonCodable: NonCodable
@@ -48,12 +48,12 @@ class DefaultTest: XCTestCase {
 
     func testCodingKeyDecode() throws {
         let json = """
-        {"int_Val": "233", "string_Val": "opq", "bool": "1", "nonCodable": "ok"}
+        {"int_Val": "233", "string_Val": "pan", "bool": "1", "nonCodable": "ok"}
         """
         let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
         XCTAssertEqual(model.intVal, 233)
-        XCTAssertEqual(model.stringVal, "opq")
-        XCTAssertEqual(model.unImpl, "default unImpl value")
+        XCTAssertEqual(model.stringVal, "pan")
+        XCTAssertEqual(model.unImpl, nil)
         XCTAssertEqual(model.array, [1.998, 2.998, 3.998])
         XCTAssertEqual(model.bool, true)
         // TODO: XCTAssertEqual failed: ("nil") is not equal to ("Optional("ok")")
@@ -63,14 +63,14 @@ class DefaultTest: XCTestCase {
 
     func testCodingKeyEncode() throws {
         let json = """
-        {"int_Val": 233, "string_Val": "opq"}
+        {"int_Val": 233, "string_Val": "pan"}
         """
         let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
 
         let data = try JSONEncoder().encode(model)
         let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
         XCTAssertEqual(jsonObject["int_Val"] as? Int, 233)
-        XCTAssertEqual(jsonObject["stringVal"] as? String, "opq")
+        XCTAssertEqual(jsonObject["stringVal"] as? String, "pan")
     }
 
     func testNested() throws {
@@ -109,8 +109,8 @@ class DefaultTest: XCTestCase {
                     """
                     let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
                     XCTAssertEqual(model.intVal, i)
-                    XCTAssertEqual(model.stringVal, "abc")
-                    XCTAssertEqual(model.unImpl, "default unImpl value")
+                    XCTAssertEqual(model.stringVal, "scyano")
+                    XCTAssertEqual(model.unImpl, nil)
                     XCTAssertEqual(model.array, [1.998, 2.998, 3.998])
                     // print(model.intVal)
                 }
@@ -129,7 +129,7 @@ class DefaultTest: XCTestCase {
                     let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
                     XCTAssertEqual(model.intVal, i)
                     XCTAssertEqual(model.stringVal, "string_\(i)")
-                    XCTAssertEqual(model.unImpl, "default unImpl value")
+                    XCTAssertEqual(model.unImpl, nil)
                     XCTAssertEqual(model.array, [123456789])
                     // print(model.stringVal)
                 }
