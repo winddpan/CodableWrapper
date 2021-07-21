@@ -44,8 +44,10 @@ public final class Codec<Value>: Codable {
     private func invokeAfterInjection(value: Value, keys: [String]) {
         decoderInjection?(self, keys)
         decoderInjection = nil
-        if self.storedValue == nil {
-            self.wrappedValue = value
+        
+        codingKeys = keys
+        if storedValue == nil {
+            wrappedValue = value
         }
     }
 
