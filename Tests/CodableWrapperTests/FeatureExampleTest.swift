@@ -11,7 +11,7 @@ import XCTest
 class FeatureExampleTest: XCTestCase {
     func testDefaultVale() throws {
         struct ExampleModel: Codable {
-            @CodableWrapper(defaultValue: false)
+            @Codec(defaultValue: false)
             var bool: Bool
         }
         let json = """
@@ -23,11 +23,11 @@ class FeatureExampleTest: XCTestCase {
 
     func testCodingKeys() throws {
         struct ExampleModel: Codable {
-            @CodableWrapper(codingKeys: ["int_Val", "intVal"], defaultValue: 123456)
+            @Codec(codingKeys: ["int_Val", "intVal"], defaultValue: 123456)
             var intVal: Int
 
             // Optional可以省略defaultValue，默认为nil
-            @CodableWrapper(codingKeys: ["intOptional", "int_optional"])
+            @Codec(codingKeys: ["intOptional", "int_optional"])
             var intOptional: Int?
         }
 
@@ -49,7 +49,7 @@ class FeatureExampleTest: XCTestCase {
             case none, first, second, third
         }
         struct ExampleModel: Codable {
-            @CodableWrapper(codingKeys: ["enum", "enumValue"],
+            @Codec(codingKeys: ["enum", "enumValue"],
                             transformer: TransformOf<EnumInt, Int>(fromNull: { EnumInt.none }, fromJSON: { EnumInt(rawValue: $0 + 1) }, toJSON: { $0.rawValue }))
             var enumValue: EnumInt
         }
@@ -74,13 +74,13 @@ class FeatureExampleTest: XCTestCase {
     func testBasicTypeBridge() throws {
         struct ExampleModel: Codable {
             // test init()
-            @CodableWrapper()
+            @Codec()
             var int: Int?
             
-            @CodableWrapper
+            @Codec
             var string: String?
 
-            @CodableWrapper
+            @Codec
             var bool: Bool?
         }
         

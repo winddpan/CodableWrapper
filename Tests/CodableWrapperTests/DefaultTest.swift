@@ -14,27 +14,27 @@ class DefaultTest: XCTestCase {
     }
 
     struct ExampleModel: Codable {
-        @CodableWrapper(codingKeys: ["stringVal", "string_Val"], defaultValue: "abc")
+        @Codec(codingKeys: ["stringVal", "string_Val"], defaultValue: "abc")
         var stringVal: String
 
-        @CodableWrapper(codingKeys: ["int_Val", "intVal"], defaultValue: 123456)
+        @Codec(codingKeys: ["int_Val", "intVal"], defaultValue: 123456)
         var intVal: Int
 
-        @CodableWrapper(defaultValue: [1.998, 2.998, 3.998])
+        @Codec(defaultValue: [1.998, 2.998, 3.998])
         var array: [Double]
 
-        @CodableWrapper(defaultValue: false)
+        @Codec(defaultValue: false)
         var bool: Bool
 
-        @CodableWrapper(transformer: TransformOf<NonCodable, String?>(fromNull: { NonCodable() }, fromJSON: { NonCodable(value: $0) }, toJSON: { $0.value }))
+        @Codec(transformer: TransformOf<NonCodable, String?>(fromNull: { NonCodable() }, fromJSON: { NonCodable(value: $0) }, toJSON: { $0.value }))
         var nonCodable: NonCodable
 
-        @CodableWrapper(defaultValue: "default unImpl value")
+        @Codec(defaultValue: "default unImpl value")
         var unImpl: String
     }
 
     struct SimpleModel: Codable {
-        @CodableWrapper(defaultValue: 2)
+        @Codec(defaultValue: 2)
         var val: Int
     }
 
@@ -43,12 +43,12 @@ class DefaultTest: XCTestCase {
     }
 
     struct OptionalModel: Codable {
-        @CodableWrapper(defaultValue: "default")
+        @Codec(defaultValue: "default")
         var val: String?
     }
 
     struct Optional2Model: Codable {
-        @CodableWrapper(codingKeys: ["val2"], defaultValue: nil)
+        @Codec(codingKeys: ["val2"], defaultValue: nil)
         var val: String?
     }
 

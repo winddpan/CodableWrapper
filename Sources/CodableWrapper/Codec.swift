@@ -8,8 +8,8 @@
 import Foundation
 
 @propertyWrapper
-public final class CodableWrapper<Value>: Codable {
-    typealias DecoderInjection = (_ target: CodableWrapper<Value>, _ customKeys: [String]) -> Void
+public final class Codec<Value>: Codable {
+    typealias DecoderInjection = (_ target: Codec<Value>, _ customKeys: [String]) -> Void
     
     var storedValue: Value?
     var codingKeys: [String] = []
@@ -21,7 +21,7 @@ public final class CodableWrapper<Value>: Codable {
     }
 
     deinit {
-        if let value = storedValue, let lastWrapper = Thread.current.lastCodableWrapper as? CodableWrapper<Value> {
+        if let value = storedValue, let lastWrapper = Thread.current.lastCodableWrapper as? Codec<Value> {
             lastWrapper.invokeAfterInjection(value: value, keys: codingKeys)
             Thread.current.lastCodableWrapper = nil
         }
@@ -35,6 +35,11 @@ public final class CodableWrapper<Value>: Codable {
     public required init(from decoder: Decoder) throws {}
 
     init(unsafed: ()) {}
+    
+    init(codingKeys: [String], defaultValue: Value) {
+        self.codingKeys = codingKeys
+        self.wrappedValue = defaultValue
+    }
 
     private func invokeAfterInjection(value: Value, keys: [String]) {
         decoderInjection?(self, keys)

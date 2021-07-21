@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension CodableWrapper: CustomStringConvertible, CustomDebugStringConvertible {
+extension Codec: CustomStringConvertible, CustomDebugStringConvertible {
     public var description: String {
         "\(wrappedValue)"
     }
