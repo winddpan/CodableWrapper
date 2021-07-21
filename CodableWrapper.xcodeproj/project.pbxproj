@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B00E95F26A7F87200FA2060 /* UnsafePropertyFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00E95E26A7F87200FA2060 /* UnsafePropertyFetcher.swift */; };
 		4066813724F375AB00562E47 /* CodableWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066812924F375AB00562E47 /* CodableWrapper.swift */; };
 		4066813824F375AB00562E47 /* CodableWrapperInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066812A24F375AB00562E47 /* CodableWrapperInit.swift */; };
-		4066813924F375AB00562E47 /* InnerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066812B24F375AB00562E47 /* InnerExtension.swift */; };
+		4066813924F375AB00562E47 /* EncodableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066812B24F375AB00562E47 /* EncodableExtension.swift */; };
 		4066813A24F375AB00562E47 /* CodableWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 4066812C24F375AB00562E47 /* CodableWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4066813B24F375AB00562E47 /* AnyCodingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066812D24F375AB00562E47 /* AnyCodingKey.swift */; };
 		4066813D24F375AB00562E47 /* BuiltInBridgeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066812F24F375AB00562E47 /* BuiltInBridgeType.swift */; };
@@ -25,9 +26,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B00E95E26A7F87200FA2060 /* UnsafePropertyFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsafePropertyFetcher.swift; sourceTree = "<group>"; };
 		4066812924F375AB00562E47 /* CodableWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodableWrapper.swift; sourceTree = "<group>"; };
 		4066812A24F375AB00562E47 /* CodableWrapperInit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodableWrapperInit.swift; sourceTree = "<group>"; };
-		4066812B24F375AB00562E47 /* InnerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InnerExtension.swift; sourceTree = "<group>"; };
+		4066812B24F375AB00562E47 /* EncodableExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncodableExtension.swift; sourceTree = "<group>"; };
 		4066812C24F375AB00562E47 /* CodableWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodableWrapper.h; sourceTree = "<group>"; };
 		4066812D24F375AB00562E47 /* AnyCodingKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCodingKey.swift; sourceTree = "<group>"; };
 		4066812F24F375AB00562E47 /* BuiltInBridgeType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuiltInBridgeType.swift; sourceTree = "<group>"; };
@@ -70,11 +72,11 @@
 				4066812C24F375AB00562E47 /* CodableWrapper.h */,
 				4066812924F375AB00562E47 /* CodableWrapper.swift */,
 				4066812A24F375AB00562E47 /* CodableWrapperInit.swift */,
-				4066812B24F375AB00562E47 /* InnerExtension.swift */,
+				4066812B24F375AB00562E47 /* EncodableExtension.swift */,
+				2B00E95E26A7F87200FA2060 /* UnsafePropertyFetcher.swift */,
 				4066812D24F375AB00562E47 /* AnyCodingKey.swift */,
 				4066812F24F375AB00562E47 /* BuiltInBridgeType.swift */,
 				4066813024F375AB00562E47 /* ThreadProperty.swift */,
-				4066813124F375AB00562E47 /* TransformType.swift */,
 				4066813224F375AB00562E47 /* BuiltInTransforms */,
 				4066813624F375AB00562E47 /* Info.plist */,
 			);
@@ -85,6 +87,7 @@
 		4066813224F375AB00562E47 /* BuiltInTransforms */ = {
 			isa = PBXGroup;
 			children = (
+				4066813124F375AB00562E47 /* TransformType.swift */,
 				4066813324F375AB00562E47 /* OmitCodable.swift */,
 				4066813424F375AB00562E47 /* DateTransform.swift */,
 				4066813524F375AB00562E47 /* TransformOf.swift */,
@@ -252,12 +255,13 @@
 				4066813E24F375AB00562E47 /* ThreadProperty.swift in Sources */,
 				4066813824F375AB00562E47 /* CodableWrapperInit.swift in Sources */,
 				4066814024F375AB00562E47 /* OmitCodable.swift in Sources */,
+				2B00E95F26A7F87200FA2060 /* UnsafePropertyFetcher.swift in Sources */,
 				4066813724F375AB00562E47 /* CodableWrapper.swift in Sources */,
 				4066813D24F375AB00562E47 /* BuiltInBridgeType.swift in Sources */,
 				4066813F24F375AB00562E47 /* TransformType.swift in Sources */,
 				4066814124F375AB00562E47 /* DateTransform.swift in Sources */,
 				4066813B24F375AB00562E47 /* AnyCodingKey.swift in Sources */,
-				4066813924F375AB00562E47 /* InnerExtension.swift in Sources */,
+				4066813924F375AB00562E47 /* EncodableExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
