@@ -1,9 +1,8 @@
 //
 //  ThreadProperty.swift
-//  CodableWrapperDev
+//  CodableWrapper
 //
 //  Created by winddpan on 2020/8/15.
-//  Copyright © 2020 YR. All rights reserved.
 //
 
 import Foundation
