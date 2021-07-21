@@ -79,13 +79,12 @@ XCTAssertEqual(model.bool, true)
 
 ```Swift
 struct DataModel: Codable {
-    @CodableWrapper(defaultValue: "OK")
-    var stringVal: String
+    @Codec var stringVal: String = "OK"
 }
 
 /* pseudocode from Swift open source lib: Codable.Swift -> */
 struct DataModel: Codable {
-    var _stringVal = CodableWrapper<String>(defaultValue: "OK")
+    var _stringVal = Codec<String>(defaultValue: "OK")
 
     var stringVal: String {
         get {
@@ -107,21 +106,21 @@ struct DataModel: Codable {
         /* remember `newStringVal`: Thread.current.lastCodableWrapper = wrapper */
         /*
          extension KeyedDecodingContainer {
-            func decode<Value>(_ type: CodableWrapper<Value>.Type, forKey key: Key) throws -> CodableWrapper<Value> {
+            func decode<Value>(_ type: Codec<Value>.Type, forKey key: Key) throws -> Codec<Value> {
                 ...
-                let wrapper = CodableWrapper<Value>(unsafed: ())
+                let wrapper = Codec<Value>(unsafed: ())
                 Thread.current.lastCodableWrapper = wrapper
                 ...
             }
          }
          */
-        let newStringVal = try container.decode(CodableWrapper<String>.self, forKey: CodingKeys.stringVal)
+        let newStringVal = try container.decode(Codec<String>.self, forKey: CodingKeys.stringVal)
 
         /* old `_stringVal` deinit */
         /* old `_stringVal` invokeAfterInjection called: transform old `_stringVal` Configs to `newStringVal` */
         /* 
          deinit {
-             if !unsafeCreated, let construct = construct, let lastWrapper = Thread.current.lastCodableWrapper as? CodableWrapper<Value> {
+             if !unsafeCreated, let construct = construct, let lastWrapper = Thread.current.lastCodableWrapper as? Codec<Value> {
                  lastWrapper.invokeAfterInjection(with: construct)
                  Thread.current.lastCodableWrapper = nil
              }
@@ -154,10 +153,10 @@ XCTAssertEqual(model.bool, false)
 > While Decoding: try each CodingKey until succeed; while Encoding: use first CodingKey as Dictionary key
 ```swift
 struct ExampleModel: Codable {
-    @CodableWrapper("int_Val", "intVal")
+    @Codec("int_Val", "intVal")
     var intVal: Int = 123456
 
-    @CodableWrapper("intOptional", "int_optional")
+    @Codec("intOptional", "int_optional")
     var intOptional: Int?
 }
 
