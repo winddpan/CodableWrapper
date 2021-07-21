@@ -62,6 +62,8 @@ class DefaultTest: XCTestCase {
         XCTAssertEqual(model.unImpl, "default unImpl value")
         XCTAssertEqual(model.array, [1.998, 2.998, 3.998])
         XCTAssertEqual(model.bool, true)
+        // TODO: XCTAssertEqual failed: ("nil") is not equal to ("Optional("ok")")
+        // 是否需要支持 non-Codable 类型
         XCTAssertEqual(model.nonCodable.value, "ok")
     }
 
