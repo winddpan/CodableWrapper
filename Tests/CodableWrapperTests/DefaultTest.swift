@@ -26,8 +26,9 @@ class DefaultTest: XCTestCase {
         
         @Codec var unImpl: String?
 
-//        @Codec(transformer: TransformOf<NonCodable, String?>(fromNull: { NonCodable() }, fromJSON: { NonCodable(value: $0) }, toJSON: { $0.value }))
-//        var nonCodable: NonCodable
+        @Codec(transformer: TransformOf<NonCodable?, String?>(fromNull: { NonCodable() }, fromJSON: { NonCodable(value: $0) }, toJSON: { $0?.value }))
+        var nonCodable: NonCodable?
+//        
     }
 
     struct SimpleModel: Codable {
@@ -58,7 +59,7 @@ class DefaultTest: XCTestCase {
         XCTAssertEqual(model.bool, true)
         // TODO: XCTAssertEqual failed: ("nil") is not equal to ("Optional("ok")")
         // 是否需要支持 non-Codable 类型
-//        XCTAssertEqual(model.nonCodable.value, "ok")
+        XCTAssertEqual(model.nonCodable?.value, "ok")
     }
 
     func testCodingKeyEncode() throws {

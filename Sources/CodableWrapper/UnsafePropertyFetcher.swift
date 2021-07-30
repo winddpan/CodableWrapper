@@ -16,7 +16,6 @@ import Foundation
  | | |
  */
 extension KeyedDecodingContainer {
-    
     func _decoder() -> Decoder? {
         let stackPointer = withUnsafePointer(to: self) { UnsafeRawPointer($0) }
         let box = stackPointer.load(as: UnsafeRawPointer.self)
@@ -55,7 +54,6 @@ extension KeyedDecodingContainer {
 }
 
 extension KeyedEncodingContainer {
-    
     func _encoder() -> Encoder? {
         let stackPointer = withUnsafePointer(to: self) { UnsafeRawPointer($0) }
         let box = stackPointer.load(as: UnsafeRawPointer.self)
@@ -75,20 +73,28 @@ extension KeyedEncodingContainer {
     }
 
     func _container() -> NSMutableDictionary? {
+        let mirror0 = Mirror(reflecting: self)
+        let mirror1 = Mirror(reflecting: mirror0.children.first!.value)
+        let mirror2 = Mirror(reflecting: mirror1.children.first!.value)
+        if let container = mirror2.children.first(where: { $0.label == "container" })?.value as? NSMutableDictionary {
+            return container
+        }
+        return nil
+        
         let stackPointer = withUnsafePointer(to: self) { UnsafeRawPointer($0) }
         let box = stackPointer.load(as: UnsafeRawPointer.self)
         let concrete = box.load(fromByteOffset: 24, as: UnsafeMutableRawPointer.self)
         let metatype = concrete.load(as: Int.self)
-        
+
         var refCount = concrete.load(fromByteOffset: 12, as: Int32.self)
         refCount += 2
         concrete.storeBytes(of: refCount, toByteOffset: 12, as: Int32.self)
-        
+
         var container: Any = 0
         let containerPointer = withUnsafePointer(to: &container) { UnsafeMutableRawPointer(mutating: $0) }
         containerPointer.storeBytes(of: concrete, as: UnsafeRawPointer.self)
         containerPointer.storeBytes(of: metatype, toByteOffset: 24, as: Int.self)
-        
+
         return container as? NSMutableDictionary
     }
 }

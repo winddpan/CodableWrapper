@@ -41,47 +41,46 @@ class FeatureExampleTest: XCTestCase {
         XCTAssertEqual(jsonObject["int_Val"] as? Int, 233)
         XCTAssertEqual(jsonObject["intOptional"] as? Int, 234)
     }
-    
-//    func testCustomTransform() throws {
-//        enum EnumInt: Int {
-//            case none, first, second, third
-//        }
-//        struct ExampleModel: Codable {
-//            @Codec(codingKeys: ["enum", "enumValue"],
-//                            transformer: TransformOf<EnumInt, Int>(fromNull: { EnumInt.none }, fromJSON: { EnumInt(rawValue: $0 + 1) }, toJSON: { $0.rawValue }))
-//            var enumValue: EnumInt
-//        }
-//
-//        let json = """
-//        {"enumValue": 2}
-//        """
-//        let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
-//        XCTAssertEqual(model.enumValue, EnumInt.third)
-//
-//        let jsonData = try JSONEncoder().encode(model)
-//        let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: []) as! [String: Any]
-//        XCTAssertEqual(jsonObject["enum"] as? Int, 3)
-//
-//        let json2 = """
-//        {"enum": 233}
-//        """
-//        let model2 = try JSONDecoder().decode(ExampleModel.self, from: json2.data(using: .utf8)!)
-//        XCTAssertEqual(model2.enumValue, EnumInt.none)
-//    }
-    
+
+    func testCustomTransform() throws {
+        enum EnumInt: Int {
+            case none, first, second, third
+        }
+        struct ExampleModel: Codable {
+            @Codec("enum", "enumValue", transformer: TransformOf(fromNull: { .none }, fromJSON: { EnumInt(rawValue: $0 + 1) }, toJSON: { $0.rawValue }))
+            var enumValue: EnumInt = .none
+        }
+
+        let json = """
+        {"enumValue": 2}
+        """
+        let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
+        XCTAssertEqual(model.enumValue, EnumInt.third)
+
+        let jsonData = try JSONEncoder().encode(model)
+        let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: []) as! [String: Any]
+        XCTAssertEqual(jsonObject["enum"] as? Int, 3)
+
+        let json2 = """
+        {"enum": 233}
+        """
+        let model2 = try JSONDecoder().decode(ExampleModel.self, from: json2.data(using: .utf8)!)
+        XCTAssertEqual(model2.enumValue, EnumInt.none)
+    }
+
     func testBasicTypeBridge() throws {
         struct ExampleModel: Codable {
             // test init()
             @Codec()
             var int: Int?
-            
+
             @Codec
             var string: String?
 
             @Codec
             var bool: Bool?
         }
-        
+
         let json = """
         {"int": "1", "string": 2, "bool": "true"}
         """
@@ -89,7 +88,7 @@ class FeatureExampleTest: XCTestCase {
         XCTAssertEqual(model.int, 1)
         XCTAssertEqual(model.string, "2")
         XCTAssertEqual(model.bool, true)
-        
+
         let jsonData = try JSONEncoder().encode(model)
         let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: []) as! [String: Any]
         XCTAssertEqual(jsonObject["string"] as? String, "2")

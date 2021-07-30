@@ -9,21 +9,28 @@ import Foundation
 
 @propertyWrapper
 public final class Codec<Value>: Codable {
-    typealias DecoderInjection = (_ target: Codec<Value>, _ customKeys: [String]) -> Void
-    
+    class Construct {
+        var codingKeys: [String] = []
+        var transformer: TransfromTypeTunk<Value>?
+
+        init(codingKeys: [String], transformer: TransfromTypeTunk<Value>?) {
+            self.codingKeys = codingKeys
+            self.transformer = transformer
+        }
+    }
+
     var storedValue: Value?
-    var codingKeys: [String] = []
-    var decoderInjection: DecoderInjection?
-    
+    var construct: Construct!
+
     public var wrappedValue: Value {
         get { storedValue! }
         set { storedValue = newValue }
     }
 
     deinit {
-        if let value = storedValue, let lastWrapper = Thread.current.lastCodableWrapper as? Codec<Value> {
-            lastWrapper.invokeAfterInjection(value: value, keys: codingKeys)
-            Thread.current.lastCodableWrapper = nil
+        if let lastKeeper = Thread.current.lastInjectionKeeper as? InjectionKeeper<Value> {
+            lastKeeper.codec.invokeAfterInjection(injection: lastKeeper.injection, from: self)
+            Thread.current.lastInjectionKeeper = nil
         }
     }
 
@@ -31,23 +38,22 @@ public final class Codec<Value>: Codable {
     public init() {
         fatalError()
     }
-    
+
     public required init(from decoder: Decoder) throws {}
 
     init(unsafed: ()) {}
-    
-    init(codingKeys: [String], defaultValue: Value) {
-        self.codingKeys = codingKeys
+
+    init(codingKeys: [String], defaultValue: Value, transformer: TransfromTypeTunk<Value>? = nil) {
+        self.construct = Construct(codingKeys: codingKeys, transformer: transformer)
         self.wrappedValue = defaultValue
     }
 
-    private func invokeAfterInjection(value: Value, keys: [String]) {
-        decoderInjection?(self, keys)
-        decoderInjection = nil
+    private func invokeAfterInjection(injection: (Codec<Value>) -> Void, from last: Codec<Value>) {
+        construct = last.construct
+        injection(self)
         
-        codingKeys = keys
         if storedValue == nil {
-            wrappedValue = value
+            storedValue = last.wrappedValue
         }
     }
 

@@ -10,12 +10,15 @@ import Foundation
 // MARK: - KeyedEncodingContainer
 
 public extension KeyedEncodingContainer {
-    
     mutating func encode<T, Value>(_ value: T, forKey key: Key) throws where T: Codec<Value> {
-        if let encoder = _encoder(), let key = AnyCodingKey(stringValue: value.codingKeys.first ?? key.stringValue), let wrappedValue = value.wrappedValue as? Encodable {
-            var container = encoder.container(keyedBy: AnyCodingKey.self)
-            try wrappedValue.encode(to: &container, forKey: key)
-        } else if let encoder = _encoder(), let key = AnyCodingKey(stringValue: key.stringValue), let wrappedValue = value.wrappedValue as? Encodable {
+        let codingKey = value.construct?.codingKeys.first ?? key.stringValue
+        if let construct = value.construct, let toJSON = construct.transformer?.toJSON {
+            if let transformed = toJSON(value.wrappedValue) {
+                if let dictionary = _container() {
+                    dictionary.setValue(transformed, forKey: codingKey)
+                }
+            }
+        } else if let encoder = _encoder(), let key = AnyCodingKey(stringValue: codingKey), let wrappedValue = value.wrappedValue as? Encodable {
             var container = encoder.container(keyedBy: AnyCodingKey.self)
             try wrappedValue.encode(to: &container, forKey: key)
         }
@@ -42,28 +45,25 @@ public extension KeyedDecodingContainer {
     }
 
     private func _decode<Value>(_ type: Codec<Value>.Type, forKey key: Key, onDecoding: @escaping ((KeyedDecodingContainer<AnyCodingKey>, String) -> Value?)) throws -> Codec<Value> {
-        let injection: Codec<Value>.DecoderInjection = { wrapper, customKeys in
-            guard let dictionary = _containerDictionary() else { return }
-            let keys = customKeys + [key.stringValue]
-            
-            var resolved = false
-            if let decoder = self._decoder(), let container = try? decoder.container(keyedBy: AnyCodingKey.self) {
-                for codingKey in keys {
-                    if let decoded = onDecoding(container, codingKey) {
-                        wrapper.wrappedValue = decoded
-                        resolved = true
-                        break
+        let injection: ((Codec<Value>) -> Void) = { wrapper in
+            guard let construct = wrapper.construct, let dictionary = self._containerDictionary() else { return }
+            let keys = wrapper.construct.codingKeys + [key.stringValue]
+            let container = try? self._decoder()?.container(keyedBy: AnyCodingKey.self)
+            let bridge = Value.self as? _BuiltInBridgeType.Type
+
+            for codingKey in keys {
+                if let json = dictionary[codingKey] {
+                    if let fromJSON = construct.transformer?.fromJSON {
+                        wrapper.storedValue = fromJSON(json)
+                        return
                     }
-                }
-            }
-            
-            if !resolved, let bridge = Value.self as? _BuiltInBridgeType.Type {
-                for codingKey in keys {
-                    guard let json = dictionary[codingKey] else { continue }
-                    if let bridged = bridge._transform(from: json) as? Value {
-                        wrapper.wrappedValue = bridged
-                        resolved = true
-                        break
+                    if let container = container, let decoded = onDecoding(container, codingKey) {
+                        wrapper.storedValue = decoded
+                        return
+                    }
+                    if let bridged = bridge?._transform(from: json) as? Value {
+                        wrapper.storedValue = bridged
+                        return
                     }
                 }
             }
@@ -76,8 +76,7 @@ public extension KeyedDecodingContainer {
             wrapper = Codec<Value>(unsafed: ())
         }
 
-        wrapper.decoderInjection = injection
-        Thread.current.lastCodableWrapper = wrapper
+        Thread.current.lastInjectionKeeper = InjectionKeeper(codec: wrapper, injection: injection)
         return wrapper
     }
 }
