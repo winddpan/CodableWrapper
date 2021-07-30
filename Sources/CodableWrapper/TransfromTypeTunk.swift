@@ -7,14 +7,25 @@
 
 import Foundation
 
-struct TransfromTypeTunk<Object>: TransformType {
-    let fromNull: (() -> Object)?
-    let fromJSON: ((Any?) -> Object)?
-    let toJSON: ((Object) -> Encodable?)?
+struct TransfromTypeTunk<Value>: TransformType {
+    let fromNull: (() -> Value)?
+    let fromJSON: ((Any?) -> Value)?
+    let toJSON: ((Value) -> Encodable?)?
 
-    init<T: TransformType>(_ raw: T) where T.Object == Object {
+    init<T: TransformType>(_ raw: T) where T.Value == Value {
         fromNull = raw.fromNull
         fromJSON = raw.fromJSON
         toJSON = raw.toJSON
+    }
+
+    init<T: TransformType>(_ raw: T) where T.Value? == Value {
+        fromNull = raw.fromNull
+        fromJSON = raw.fromJSON
+        toJSON = { value in
+            if let value = value {
+                return raw.toJSON?(value)
+            }
+            return nil
+        }
     }
 }

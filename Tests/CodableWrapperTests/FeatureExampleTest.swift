@@ -49,17 +49,22 @@ class FeatureExampleTest: XCTestCase {
         struct ExampleModel: Codable {
             @Codec("enum", "enumValue", transformer: TransformOf(fromNull: { .none }, fromJSON: { EnumInt(rawValue: $0 + 1) }, toJSON: { $0.rawValue }))
             var enumValue: EnumInt = .none
+            
+            @Codec(transformer: TransformOf(fromNull: { .none }, fromJSON: { EnumInt(rawValue: $0) }, toJSON: { $0.rawValue }))
+            var enumOptional: EnumInt?
         }
 
         let json = """
-        {"enumValue": 2}
+        {"enumValue": 2, "enumOptional": 1}
         """
         let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
         XCTAssertEqual(model.enumValue, EnumInt.third)
+        XCTAssertEqual(model.enumOptional, EnumInt.first)
 
         let jsonData = try JSONEncoder().encode(model)
         let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: []) as! [String: Any]
         XCTAssertEqual(jsonObject["enum"] as? Int, 3)
+        XCTAssertEqual(jsonObject["enumOptional"] as? Int, 1)
 
         let json2 = """
         {"enum": 233}

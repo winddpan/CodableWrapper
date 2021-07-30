@@ -9,8 +9,8 @@
 import Foundation
 
 public protocol TransformType {
-    associatedtype Object
-    var fromNull: (() -> Object)? { get }
-    var fromJSON: ((Any?) -> Object)? { get }
-    var toJSON: ((Object) -> Encodable?)? { get }
+    associatedtype Value
+    var fromNull: (() -> Value)? { get }
+    var fromJSON: ((Any?) -> Value)? { get }
+    var toJSON: ((Value) -> Encodable?)? { get }
 }
