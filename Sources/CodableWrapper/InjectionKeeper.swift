@@ -8,10 +8,12 @@
 import Foundation
 
 class InjectionKeeper<Value> {
-    let codec: Codec<Value>
-    let injection: (Codec<Value>) -> Void
+    typealias InjectionClosure = (Codec<Value>, Value) -> Void
 
-    init(codec: Codec<Value>, injection: @escaping (Codec<Value>) -> Void) {
+    let codec: Codec<Value>
+    let injection: InjectionClosure
+
+    init(codec: Codec<Value>, injection: @escaping InjectionClosure) {
         self.codec = codec
         self.injection = injection
     }

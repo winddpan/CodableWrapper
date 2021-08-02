@@ -1,5 +1,5 @@
 //
-//  CodableWrapperTest.swift
+//  ExampleTest.swift
 //  CodableWrapperTest
 //
 //  Created by PAN on 2020/7/16.
@@ -8,45 +8,51 @@
 import CodableWrapper
 import XCTest
 
-class DefaultTest: XCTestCase {
-    struct NonCodable {
-        var value: String?
-    }
+/** Model */
 
-    struct ExampleModel: Codable {
-        @Codec("stringVal", "string_Val")
-        var stringVal: String = "scyano"
+struct NonCodable {
+    var value: String?
+}
 
-        @Codec("int_Val", "intVal")
-        var intVal: Int = 123456
+struct ExampleModel: Codable {
+    @Codec("stringVal", "string_Val")
+    var stringVal: String = "scyano"
 
-        @Codec var array: [Double] = [1.998, 2.998, 3.998]
+    @Codec("int_Val", "intVal")
+    var intVal: Int = 123456
 
-        @Codec var bool: Bool = false
-        
-        @Codec var unImpl: String?
+    @Codec var array: [Double] = [1.998, 2.998, 3.998]
 
-        @Codec(transformer: TransformOf<NonCodable?, String?>(fromNull: { NonCodable() }, fromJSON: { NonCodable(value: $0) }, toJSON: { $0?.value }))
-        var nonCodable: NonCodable?
-//        
-    }
+    @Codec var bool: Bool = false
 
-    struct SimpleModel: Codable {
-        @Codec var val: Int = 2
-    }
+    @Codec var unImpl: String?
 
-    struct RootModel: Codable {
-        var root: ExampleModel
-    }
+    @Codec(transformer: TransformOf<NonCodable?, String?>(fromNull: { NonCodable() },
+                                                          fromJSON: { NonCodable(value: $0) },
+                                                          toJSON: { $0?.value }))
+    var nonCodable: NonCodable?
+}
 
-    struct OptionalModel: Codable {
-        @Codec var val: String? = "default"
-    }
+struct SimpleModel: Codable {
+    @Codec var val: Int = 2
+}
 
-    struct Optional2Model: Codable {
-        @Codec("val2") var val: String?
-    }
+struct RootModel: Codable {
+    var root: ExampleModel
+    @Codec var value: String = "a"
+}
 
+struct OptionalModel: Codable {
+    @Codec var val: String? = "default"
+}
+
+struct OptionalNullModel: Codable {
+    @Codec("val2") var val: String?
+}
+
+/** ExampleTest */
+
+class ExampleTest: XCTestCase {
     func testCodingKeyDecode() throws {
         let json = """
         {"int_Val": "233", "string_Val": "pan", "bool": "1", "nonCodable": "ok"}
@@ -57,9 +63,15 @@ class DefaultTest: XCTestCase {
         XCTAssertEqual(model.unImpl, nil)
         XCTAssertEqual(model.array, [1.998, 2.998, 3.998])
         XCTAssertEqual(model.bool, true)
-        // TODO: XCTAssertEqual failed: ("nil") is not equal to ("Optional("ok")")
-        // 是否需要支持 non-Codable 类型
         XCTAssertEqual(model.nonCodable?.value, "ok")
+    }
+
+    func testDefaultVale() throws {
+        let json = """
+        {"intVal": "wrong value"}
+        """
+        let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
+        XCTAssertEqual(model.intVal, 123456)
     }
 
     func testCodingKeyEncode() throws {
@@ -80,9 +92,10 @@ class DefaultTest: XCTestCase {
         """
         let model = try JSONDecoder().decode(RootModel.self, from: json.data(using: .utf8)!)
         XCTAssertEqual(model.root.stringVal, "x")
+        XCTAssertEqual(model.value, "a")
     }
 
-    func testOptional() throws {
+    func testOptionalWithValue() throws {
         let json = """
         {"val": "default2"}
         """
@@ -90,12 +103,26 @@ class DefaultTest: XCTestCase {
         XCTAssertEqual(model.val, "default2")
     }
 
-    func testOptional2() throws {
+    func testOptionalWithNull() throws {
         let json = """
         {"val2": null}
         """
-        let model = try JSONDecoder().decode(Optional2Model.self, from: json.data(using: .utf8)!)
+        let model = try JSONDecoder().decode(OptionalNullModel.self, from: json.data(using: .utf8)!)
         XCTAssertEqual(model.val, nil)
+    }
+
+    func testBasicTypeBridge() throws {
+        let json = """
+        {"intVal": "1", "stringVal": 2, "bool": "true"}
+        """
+        let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
+        XCTAssertEqual(model.intVal, 1)
+        XCTAssertEqual(model.stringVal, "2")
+        XCTAssertEqual(model.bool, true)
+
+        let jsonData = try JSONEncoder().encode(model)
+        let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: []) as! [String: Any]
+        XCTAssertEqual(jsonObject["stringVal"] as? String, "2")
     }
 
     func testMutiThread() throws {

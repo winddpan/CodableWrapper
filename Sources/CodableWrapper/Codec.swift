@@ -29,7 +29,7 @@ public final class Codec<Value>: Codable {
 
     deinit {
         if let lastKeeper = Thread.current.lastInjectionKeeper as? InjectionKeeper<Value> {
-            lastKeeper.codec.invokeAfterInjection(injection: lastKeeper.injection, from: self)
+            Self.invokeAfterInjection(injection: lastKeeper.injection, new: lastKeeper.codec, last: self)
             Thread.current.lastInjectionKeeper = nil
         }
     }
@@ -43,20 +43,16 @@ public final class Codec<Value>: Codable {
 
     init(unsafed: ()) {}
 
-    init(codingKeys: [String], defaultValue: Value, transformer: TransfromTypeTunk<Value>? = nil) {
-        self.construct = Construct(codingKeys: codingKeys, transformer: transformer)
+    init(defaultValue: Value, construct: Construct) {
+        self.construct = construct
         self.wrappedValue = defaultValue
-    }
-
-    private func invokeAfterInjection(injection: (Codec<Value>) -> Void, from last: Codec<Value>) {
-        construct = last.construct
-        injection(self)
-        
-        if storedValue == nil {
-            storedValue = last.wrappedValue
-        }
     }
 
     // Do nothing, KeyedEncodingContainer extension has done dirty stuff
     public func encode(to encoder: Encoder) throws {}
+
+    private class func invokeAfterInjection(injection: InjectionKeeper<Value>.InjectionClosure, new: Codec<Value>, last: Codec<Value>) {
+        new.construct = last.construct
+        injection(new, last.wrappedValue)
+    }
 }

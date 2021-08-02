@@ -1,5 +1,4 @@
 import XCTest
-
 import CodableWrapperTests
 
 var tests = [XCTestCaseEntry]()

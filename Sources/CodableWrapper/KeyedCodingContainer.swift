@@ -45,7 +45,7 @@ public extension KeyedDecodingContainer {
     }
 
     private func _decode<Value>(_ type: Codec<Value>.Type, forKey key: Key, onDecoding: @escaping ((KeyedDecodingContainer<AnyCodingKey>, String) -> Value?)) throws -> Codec<Value> {
-        let injection: ((Codec<Value>) -> Void) = { wrapper in
+        let injection: ((Codec<Value>, Value) -> Void) = { wrapper, storedValue in
             guard let construct = wrapper.construct, let dictionary = self._containerDictionary() else { return }
             let keys = wrapper.construct.codingKeys + [key.stringValue]
             let container = try? self._decoder()?.container(keyedBy: AnyCodingKey.self)
@@ -67,6 +67,11 @@ public extension KeyedDecodingContainer {
                     }
                 }
             }
+            if let fromNull = construct.transformer?.fromNull {
+                wrapper.storedValue = fromNull()
+                return
+            }
+            wrapper.storedValue = storedValue
         }
 
         var wrapper: Codec<Value>

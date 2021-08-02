@@ -14,7 +14,7 @@ public extension Codec where Value: Codable {
     /// @Coding("userId") var uid: String?
     ///
     convenience init<Wrapped>(_ key: String ...) where Value == Wrapped? {
-        self.init(codingKeys: key, defaultValue: Wrapped?.none)
+        self.init(defaultValue: Wrapped?.none, construct: Construct(codingKeys: key, transformer: nil))
     }
 
     ///
@@ -23,7 +23,7 @@ public extension Codec where Value: Codable {
     /// @Coding("userId") var uid: String? = nil
     ///
     convenience init(wrappedValue: Value, _ key: String ...) {
-        self.init(codingKeys: key, defaultValue: wrappedValue)
+        self.init(defaultValue: wrappedValue, construct: Construct(codingKeys: key, transformer: nil))
     }
 }
 
@@ -34,24 +34,24 @@ public extension Codec {
     /// var enumValue: EnumInt?
     ///
     convenience init<Wrapped, T: TransformType>(_ key: String ..., transformer: T) where Value == Wrapped?, T.Value == Wrapped {
-        self.init(codingKeys: key, defaultValue: Wrapped?.none, transformer: TransfromTypeTunk(transformer))
+        self.init(defaultValue: Wrapped?.none, construct: Construct(codingKeys: key, transformer: TransfromTypeTunk(transformer)))
     }
-    
+
     ///
     /// ```
     /// @Codec("enum", "enumValue", transformer: TransformOf<EnumInt?, Int>(fromNull: { .none }, fromJSON: { EnumInt(rawValue: $0) }, toJSON: { $0.rawValue }))
     /// var enumValue: EnumInt?
     ///
     convenience init<Wrapped, T: TransformType>(_ key: String ..., transformer: T) where Value == Wrapped?, T.Value == Wrapped? {
-        self.init(codingKeys: key, defaultValue: Wrapped?.none, transformer: TransfromTypeTunk(transformer))
+        self.init(defaultValue: Wrapped?.none, construct: Construct(codingKeys: key, transformer: TransfromTypeTunk(transformer)))
     }
-    
+
     ///
     /// ```
     /// @Codec("enum", "enumValue", transformer: TransformOf<EnumInt, Int>(fromNull: { .none }, fromJSON: { EnumInt(rawValue: $0) }, toJSON: { $0.rawValue }))
     /// var enumValue: EnumInt = .none
     ///
     convenience init<T: TransformType>(wrappedValue: Value, _ key: String ..., transformer: T) where T.Value == Value {
-        self.init(codingKeys: key, defaultValue: wrappedValue, transformer: TransfromTypeTunk(transformer))
+        self.init(defaultValue: wrappedValue, construct: Construct(codingKeys: key, transformer: TransfromTypeTunk(transformer)))
     }
 }

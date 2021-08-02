@@ -12,14 +12,15 @@
 		2B00E96526A8054B00FA2060 /* CodableWrapperDebug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00E96426A8054B00FA2060 /* CodableWrapperDebug.swift */; };
 		2B00E96726A8088000FA2060 /* CodecInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00E96626A8088000FA2060 /* CodecInit.swift */; };
 		403CCBD026B39D0800BFED51 /* TransfromTypeTunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403CCBCF26B39D0800BFED51 /* TransfromTypeTunk.swift */; };
+		4061B56C26B801A700FA4E87 /* TransformTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4061B56B26B801A700FA4E87 /* TransformTest.swift */; };
+		4061B57026B8022D00FA4E87 /* DateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4061B56E26B8022D00FA4E87 /* DateTransform.swift */; };
 		4066813724F375AB00562E47 /* Codec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066812924F375AB00562E47 /* Codec.swift */; };
 		4066813924F375AB00562E47 /* EncodableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066812B24F375AB00562E47 /* EncodableExtension.swift */; };
 		4066813A24F375AB00562E47 /* CodableWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 4066812C24F375AB00562E47 /* CodableWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4066813B24F375AB00562E47 /* AnyCodingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066812D24F375AB00562E47 /* AnyCodingKey.swift */; };
 		4066813D24F375AB00562E47 /* BuiltInBridgeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066812F24F375AB00562E47 /* BuiltInBridgeType.swift */; };
 		4066813E24F375AB00562E47 /* InjectionKeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066813024F375AB00562E47 /* InjectionKeeper.swift */; };
-		4066815224F375C000562E47 /* DefaultTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066814E24F375C000562E47 /* DefaultTest.swift */; };
-		4066815324F375C000562E47 /* FeatureExampleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066814F24F375C000562E47 /* FeatureExampleTest.swift */; };
+		4066815224F375C000562E47 /* ExampleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066814E24F375C000562E47 /* ExampleTest.swift */; };
 		407295B926B2B8BF00B361C2 /* TransformType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407295B826B2B8BF00B361C2 /* TransformType.swift */; };
 		407295C026B2B8F900B361C2 /* TransformOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407295BD26B2B8F900B361C2 /* TransformOf.swift */; };
 		40C744AD26732F410099FC20 /* CodableWrapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40D7C4D824C05415004522F7 /* CodableWrapper.framework */; };
@@ -31,6 +32,8 @@
 		2B00E96426A8054B00FA2060 /* CodableWrapperDebug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableWrapperDebug.swift; sourceTree = "<group>"; };
 		2B00E96626A8088000FA2060 /* CodecInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodecInit.swift; sourceTree = "<group>"; };
 		403CCBCF26B39D0800BFED51 /* TransfromTypeTunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransfromTypeTunk.swift; sourceTree = "<group>"; };
+		4061B56B26B801A700FA4E87 /* TransformTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformTest.swift; sourceTree = "<group>"; };
+		4061B56E26B8022D00FA4E87 /* DateTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTransform.swift; sourceTree = "<group>"; };
 		4066812924F375AB00562E47 /* Codec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Codec.swift; sourceTree = "<group>"; };
 		4066812B24F375AB00562E47 /* EncodableExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncodableExtension.swift; sourceTree = "<group>"; };
 		4066812C24F375AB00562E47 /* CodableWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodableWrapper.h; sourceTree = "<group>"; };
@@ -38,9 +41,7 @@
 		4066812F24F375AB00562E47 /* BuiltInBridgeType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuiltInBridgeType.swift; sourceTree = "<group>"; };
 		4066813024F375AB00562E47 /* InjectionKeeper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InjectionKeeper.swift; sourceTree = "<group>"; };
 		4066813624F375AB00562E47 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4066814E24F375C000562E47 /* DefaultTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultTest.swift; sourceTree = "<group>"; };
-		4066814F24F375C000562E47 /* FeatureExampleTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureExampleTest.swift; sourceTree = "<group>"; };
-		4066815024F375C000562E47 /* BuiltInTransfromsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuiltInTransfromsTest.swift; sourceTree = "<group>"; };
+		4066814E24F375C000562E47 /* ExampleTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleTest.swift; sourceTree = "<group>"; };
 		4066815124F375C000562E47 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		407295B826B2B8BF00B361C2 /* TransformType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformType.swift; sourceTree = "<group>"; };
 		407295BD26B2B8F900B361C2 /* TransformOf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformOf.swift; sourceTree = "<group>"; };
@@ -92,9 +93,8 @@
 		4066814D24F375C000562E47 /* CodableWrapperTests */ = {
 			isa = PBXGroup;
 			children = (
-				4066814E24F375C000562E47 /* DefaultTest.swift */,
-				4066814F24F375C000562E47 /* FeatureExampleTest.swift */,
-				4066815024F375C000562E47 /* BuiltInTransfromsTest.swift */,
+				4066814E24F375C000562E47 /* ExampleTest.swift */,
+				4061B56B26B801A700FA4E87 /* TransformTest.swift */,
 				4066815124F375C000562E47 /* Info.plist */,
 			);
 			name = CodableWrapperTests;
@@ -104,6 +104,7 @@
 		407295BA26B2B8F900B361C2 /* Transforms */ = {
 			isa = PBXGroup;
 			children = (
+				4061B56E26B8022D00FA4E87 /* DateTransform.swift */,
 				407295BD26B2B8F900B361C2 /* TransformOf.swift */,
 			);
 			path = Transforms;
@@ -243,8 +244,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4066815224F375C000562E47 /* DefaultTest.swift in Sources */,
-				4066815324F375C000562E47 /* FeatureExampleTest.swift in Sources */,
+				4066815224F375C000562E47 /* ExampleTest.swift in Sources */,
+				4061B56C26B801A700FA4E87 /* TransformTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,6 +259,7 @@
 				4066813E24F375AB00562E47 /* InjectionKeeper.swift in Sources */,
 				2B00E96526A8054B00FA2060 /* CodableWrapperDebug.swift in Sources */,
 				2B00E95F26A7F87200FA2060 /* UnsafePropertyFetcher.swift in Sources */,
+				4061B57026B8022D00FA4E87 /* DateTransform.swift in Sources */,
 				4066813724F375AB00562E47 /* Codec.swift in Sources */,
 				4066813D24F375AB00562E47 /* BuiltInBridgeType.swift in Sources */,
 				4066813B24F375AB00562E47 /* AnyCodingKey.swift in Sources */,
@@ -314,6 +316,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -385,6 +388,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";

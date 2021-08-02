@@ -9,11 +9,11 @@
 import Foundation
 
 open class TransformOf<Object, JSON: Codable>: TransformType {
-    open var fromNull: (() -> Object)?
-    open var fromJSON: ((Any?) -> Object)?
-    open var toJSON: ((Object) -> Encodable?)?
+    open private(set) var fromNull: (() -> Object)?
+    open private(set) var fromJSON: ((Any?) -> Object)?
+    open private(set) var toJSON: ((Object) -> Encodable?)?
 
-    public init(fromNull: @escaping (() -> Object), fromJSON: ((JSON) -> Object?)? = nil, toJSON: ((Object) -> JSON?)? = nil) {
+    public init(fromNull: @escaping (() -> Object), fromJSON: ((JSON) -> Object?)?, toJSON: ((Object) -> JSON?)?) {
         self.fromNull = fromNull
         self.fromJSON = { json in
             if let json = json as? JSON, let transfromed = fromJSON?(json) {
