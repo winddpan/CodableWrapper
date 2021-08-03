@@ -14,7 +14,7 @@ public extension Codec where Value: Codable {
     /// @Coding("userId") var uid: String?
     ///
     convenience init<Wrapped>(_ key: String ...) where Value == Wrapped? {
-        self.init(defaultValue: Wrapped?.none, construct: Construct(codingKeys: key, transformer: nil))
+        self.init(defaultValue: Wrapped?.none, construct: CodecConstruct(codingKeys: key))
     }
 
     ///
@@ -23,7 +23,7 @@ public extension Codec where Value: Codable {
     /// @Coding("userId") var uid: String? = nil
     ///
     convenience init(wrappedValue: Value, _ key: String ...) {
-        self.init(defaultValue: wrappedValue, construct: Construct(codingKeys: key, transformer: nil))
+        self.init(defaultValue: wrappedValue, construct: CodecConstruct(codingKeys: key))
     }
 }
 
@@ -34,7 +34,7 @@ public extension Codec {
     /// var enumValue: EnumInt?
     ///
     convenience init<Wrapped, T: TransformType>(_ key: String ..., transformer: T) where Value == Wrapped?, T.Value == Wrapped {
-        self.init(defaultValue: Wrapped?.none, construct: Construct(codingKeys: key, transformer: TransfromTypeTunk(transformer)))
+        self.init(defaultValue: Wrapped?.none, construct: CodecConstruct(codingKeys: key, transformer: AnyTransfromTypeTunk(transformer)))
     }
 
     ///
@@ -43,7 +43,7 @@ public extension Codec {
     /// var enumValue: EnumInt?
     ///
     convenience init<Wrapped, T: TransformType>(_ key: String ..., transformer: T) where Value == Wrapped?, T.Value == Wrapped? {
-        self.init(defaultValue: Wrapped?.none, construct: Construct(codingKeys: key, transformer: TransfromTypeTunk(transformer)))
+        self.init(defaultValue: Wrapped?.none, construct: CodecConstruct(codingKeys: key, transformer: AnyTransfromTypeTunk(transformer)))
     }
 
     ///
@@ -52,6 +52,6 @@ public extension Codec {
     /// var enumValue: EnumInt = .none
     ///
     convenience init<T: TransformType>(wrappedValue: Value, _ key: String ..., transformer: T) where T.Value == Value {
-        self.init(defaultValue: wrappedValue, construct: Construct(codingKeys: key, transformer: TransfromTypeTunk(transformer)))
+        self.init(defaultValue: wrappedValue, construct: CodecConstruct(codingKeys: key, transformer: AnyTransfromTypeTunk(transformer)))
     }
 }

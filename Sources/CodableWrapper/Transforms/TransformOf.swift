@@ -9,11 +9,12 @@
 import Foundation
 
 open class TransformOf<Object, JSON: Codable>: TransformType {
-    open private(set) var fromNull: (() -> Object)?
-    open private(set) var fromJSON: ((Any?) -> Object)?
-    open private(set) var toJSON: ((Object) -> Encodable?)?
+    open var fromNull: (() -> Object)?
+    open var fromJSON: ((Any?) -> Object)?
+    open var toJSON: ((Object) -> Encodable?)?
+    open var hashValue: Int
 
-    public init(fromNull: @escaping (() -> Object), fromJSON: ((JSON) -> Object?)?, toJSON: ((Object) -> JSON?)?) {
+    public init(fromNull: @escaping (() -> Object), fromJSON: ((JSON) -> Object?)?, toJSON: ((Object) -> JSON?)?, file: String = #file, line: Int = #line, column: Int = #column) {
         self.fromNull = fromNull
         self.fromJSON = { json in
             if let json = json as? JSON, let transfromed = fromJSON?(json) {
@@ -22,5 +23,10 @@ open class TransformOf<Object, JSON: Codable>: TransformType {
             return fromNull()
         }
         self.toJSON = toJSON
+        hashValue = HasherChain()
+            .combine(String(describing: Object.self))
+            .combine(file).combine(line)
+            .combine(column)
+            .hashValue
     }
 }

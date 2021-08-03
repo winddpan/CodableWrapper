@@ -25,6 +25,8 @@ struct ExampleModel: Codable {
 
     @Codec var bool: Bool = false
 
+    @Codec var bool2: Bool = true
+
     @Codec var unImpl: String?
 
     @Codec(transformer: TransformOf<NonCodable?, String?>(fromNull: { NonCodable() },
@@ -40,6 +42,7 @@ struct SimpleModel: Codable {
 struct RootModel: Codable {
     var root: ExampleModel
     @Codec var value: String = "a"
+    var valueWithoutCodec: String? = "a"
 }
 
 struct OptionalModel: Codable {
@@ -93,6 +96,7 @@ class ExampleTest: XCTestCase {
         let model = try JSONDecoder().decode(RootModel.self, from: json.data(using: .utf8)!)
         XCTAssertEqual(model.root.stringVal, "x")
         XCTAssertEqual(model.value, "a")
+        XCTAssertEqual(model.valueWithoutCodec, nil)
     }
 
     func testOptionalWithValue() throws {
@@ -129,9 +133,12 @@ class ExampleTest: XCTestCase {
         let expectation = XCTestExpectation(description: "")
         let expectation2 = XCTestExpectation(description: "")
 
+        var array: [ExampleModel] = []
+        var array2: [ExampleModel] = []
+
         DispatchQueue.global().async {
             do {
-                for i in 5000 ... 6000 {
+                for i in 5000 ..< 6000 {
                     let json = """
                     {"int_Val": \(i)}
                     """
@@ -141,6 +148,8 @@ class ExampleTest: XCTestCase {
                     XCTAssertEqual(model.unImpl, nil)
                     XCTAssertEqual(model.array, [1.998, 2.998, 3.998])
                     // print(model.intVal)
+
+                    array.append(model)
                 }
                 expectation.fulfill()
             } catch let e {
@@ -150,7 +159,7 @@ class ExampleTest: XCTestCase {
 
         DispatchQueue.global().async {
             do {
-                for i in 1 ... 1000 {
+                for i in 1 ..< 1000 {
                     let json = """
                     {"int_Val": \(i), "string_Val": "string_\(i)", "array": [123456789]}
                     """
@@ -159,7 +168,8 @@ class ExampleTest: XCTestCase {
                     XCTAssertEqual(model.stringVal, "string_\(i)")
                     XCTAssertEqual(model.unImpl, nil)
                     XCTAssertEqual(model.array, [123456789])
-                    // print(model.stringVal)
+
+                    array2.append(model)
                 }
                 expectation2.fulfill()
             } catch let e {

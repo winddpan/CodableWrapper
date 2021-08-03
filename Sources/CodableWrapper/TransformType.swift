@@ -13,4 +13,5 @@ public protocol TransformType {
     var fromNull: (() -> Value)? { get }
     var fromJSON: ((Any?) -> Value)? { get }
     var toJSON: ((Value) -> Encodable?)? { get }
+    var hashValue: Int { get }
 }

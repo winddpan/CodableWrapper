@@ -54,7 +54,7 @@ public extension KeyedDecodingContainer {
             for codingKey in keys {
                 if let json = dictionary[codingKey] {
                     if let fromJSON = construct.transformer?.fromJSON {
-                        wrapper.storedValue = fromJSON(json)
+                        wrapper.storedValue = fromJSON(json) as? Value
                         return
                     }
                     if let container = container, let decoded = onDecoding(container, codingKey) {
@@ -68,7 +68,7 @@ public extension KeyedDecodingContainer {
                 }
             }
             if let fromNull = construct.transformer?.fromNull {
-                wrapper.storedValue = fromNull()
+                wrapper.storedValue = fromNull() as? Value
                 return
             }
             wrapper.storedValue = storedValue
