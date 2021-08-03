@@ -43,27 +43,27 @@ class BenchmarkTest: XCTestCase {
         }
     }
 
-//    func testModel60_Codec() throws {
-//        array = []
-//        measure(metrics: metrics, options: measureOptions) {
-//            for _ in 0...1000 {
-//                let model = try! JSONDecoder().decode(Model60_Codec.self, from: testData)
-//                XCTAssertEqual(model.val1, "d")
-//                array.append(model)
-//            }
-//        }
-//    }
-//
-//    func testModel60_Native() throws {
-//        array = []
-//        measure(metrics: metrics, options: measureOptions) {
-//            for _ in 0...1000 {
-//                let model = try! JSONDecoder().decode(Model60_Native.self, from: testData)
-//                XCTAssertEqual(model.val1, "d")
-//                array.append(model)
-//            }
-//        }
-//    }
+    func testModel60_Codec() throws {
+        array = []
+        measure(metrics: metrics, options: measureOptions) {
+            for _ in 0...1000 {
+                let model = try! JSONDecoder().decode(Model60_Codec.self, from: testData)
+                XCTAssertEqual(model.val1, "d")
+                array.append(model)
+            }
+        }
+    }
+
+    func testModel60_Native() throws {
+        array = []
+        measure(metrics: metrics, options: measureOptions) {
+            for _ in 0...1000 {
+                let model = try! JSONDecoder().decode(Model60_Native.self, from: testData)
+                XCTAssertEqual(model.val1, "d")
+                array.append(model)
+            }
+        }
+    }
 }
 
 let testJSON = """
@@ -134,16 +134,16 @@ struct Model60_Codec: Codable {
     @Codec var val48: String = "l"
     @Codec var val49: String = "n"
     @Codec var val50: Bool = false
-    @Codec(transformer: SecondDateTransform()) var val51: Date?
-    @Codec(transformer: SecondDateTransform()) var val52: Date?
-    @Codec(transformer: SecondDateTransform()) var val53: Date?
-    @Codec(transformer: SecondDateTransform()) var val54: Date?
-    @Codec(transformer: SecondDateTransform()) var val55: Date?
-    @Codec(transformer: SecondDateTransform()) var val56: Date?
-    @Codec(transformer: SecondDateTransform()) var val57: Date?
-    @Codec(transformer: SecondDateTransform()) var val58: Date?
-    @Codec(transformer: SecondDateTransform()) var val59: Date?
-    @Codec(transformer: SecondDateTransform()) var val60: Date?
+//    @Codec(transformer: SecondDateTransform()) var val51: Date?
+//    @Codec(transformer: SecondDateTransform()) var val52: Date?
+//    @Codec(transformer: SecondDateTransform()) var val53: Date?
+//    @Codec(transformer: SecondDateTransform()) var val54: Date?
+//    @Codec(transformer: SecondDateTransform()) var val55: Date?
+//    @Codec(transformer: SecondDateTransform()) var val56: Date?
+//    @Codec(transformer: SecondDateTransform()) var val57: Date?
+//    @Codec(transformer: SecondDateTransform()) var val58: Date?
+//    @Codec(transformer: SecondDateTransform()) var val59: Date?
+//    @Codec(transformer: SecondDateTransform()) var val60: Date?
 }
 
 struct Model10_Native: Codable {
@@ -223,14 +223,14 @@ struct Model60_Native: Codable {
     var val48: String = "l"
     var val49: String = "n"
     var val50: Bool = false
-    var val51: Date?
-    var val52: Date?
-    var val53: Date?
-    var val54: Date?
-    var val55: Date?
-    var val56: Date?
-    var val57: Date?
-    var val58: Date?
-    var val59: Date?
-    var val60: Date?
+//    var val51: Date?
+//    var val52: Date?
+//    var val53: Date?
+//    var val54: Date?
+//    var val55: Date?
+//    var val56: Date?
+//    var val57: Date?
+//    var val58: Date?
+//    var val59: Date?
+//    var val60: Date?
 }
