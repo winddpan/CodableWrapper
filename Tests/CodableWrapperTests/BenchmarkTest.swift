@@ -71,7 +71,7 @@ let testJSON = """
 """
 
 struct Model10_Codec: Codable {
-    @Codec var val1: String = "d"
+    @Codec var val1: String = "b"
     @Codec var val2: Int = 17050
     @Codec var val3: Int = 98150
     @Codec var val4: Int = 83752
@@ -84,7 +84,7 @@ struct Model10_Codec: Codable {
 }
 
 struct Model60_Codec: Codable {
-    @Codec var val1: String = "d"
+    @Codec var val1: String = "b"
     @Codec var val2: Int = 17050
     @Codec var val3: Int = 98150
     @Codec var val4: Int = 83752
@@ -134,20 +134,20 @@ struct Model60_Codec: Codable {
     @Codec var val48: String = "l"
     @Codec var val49: String = "n"
     @Codec var val50: Bool = false
-//    @Codec(transformer: SecondDateTransform()) var val51: Date?
-//    @Codec(transformer: SecondDateTransform()) var val52: Date?
-//    @Codec(transformer: SecondDateTransform()) var val53: Date?
-//    @Codec(transformer: SecondDateTransform()) var val54: Date?
-//    @Codec(transformer: SecondDateTransform()) var val55: Date?
-//    @Codec(transformer: SecondDateTransform()) var val56: Date?
-//    @Codec(transformer: SecondDateTransform()) var val57: Date?
-//    @Codec(transformer: SecondDateTransform()) var val58: Date?
-//    @Codec(transformer: SecondDateTransform()) var val59: Date?
-//    @Codec(transformer: SecondDateTransform()) var val60: Date?
+    @Codec(transformer: SecondDateTransform()) var val51: Date?
+    @Codec(transformer: SecondDateTransform()) var val52: Date?
+    @Codec(transformer: SecondDateTransform()) var val53: Date?
+    @Codec(transformer: SecondDateTransform()) var val54: Date?
+    @Codec(transformer: SecondDateTransform()) var val55: Date?
+    @Codec(transformer: SecondDateTransform()) var val56: Date?
+    @Codec(transformer: SecondDateTransform()) var val57: Date?
+    @Codec(transformer: SecondDateTransform()) var val58: Date?
+    @Codec(transformer: SecondDateTransform()) var val59: Date?
+    @Codec(transformer: SecondDateTransform()) var val60: Date?
 }
 
 struct Model10_Native: Codable {
-    var val1: String = "d"
+    var val1: String = "b"
     var val2: Int = 17050
     var val3: Int = 98150
     var val4: Int = 83752
@@ -173,7 +173,7 @@ struct Model10_2_Native: Codable {
 }
 
 struct Model60_Native: Codable {
-    var val1: String = "d"
+    var val1: String = "b"
     var val2: Int = 17050
     var val3: Int = 98150
     var val4: Int = 83752
@@ -223,14 +223,14 @@ struct Model60_Native: Codable {
     var val48: String = "l"
     var val49: String = "n"
     var val50: Bool = false
-//    var val51: Date?
-//    var val52: Date?
-//    var val53: Date?
-//    var val54: Date?
-//    var val55: Date?
-//    var val56: Date?
-//    var val57: Date?
-//    var val58: Date?
-//    var val59: Date?
-//    var val60: Date?
+    var val51: Date?
+    var val52: Date?
+    var val53: Date?
+    var val54: Date?
+    var val55: Date?
+    var val56: Date?
+    var val57: Date?
+    var val58: Date?
+    var val59: Date?
+    var val60: Date?
 }

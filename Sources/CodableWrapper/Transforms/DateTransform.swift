@@ -15,7 +15,7 @@ public struct SecondDateTransform: TransformType {
     public var toJSON: ((Date) -> Encodable?)?
     public let hashValue: Int
 
-    public init(file: String = #file, line: Int = #line, column: Int = #column) {
+    public init() {
         fromNull = {
             Date(timeIntervalSince1970: 0)
         }
@@ -32,9 +32,7 @@ public struct SecondDateTransform: TransformType {
             Double(object.timeIntervalSince1970)
         }
         hashValue = HasherChain()
-            .combine(file)
-            .combine(line)
-            .combine(column)
+            .combine(String(describing: Self.self))
             .hashValue
     }
 }
@@ -47,7 +45,7 @@ public struct MillisecondDateTransform: TransformType {
     public var toJSON: ((Date) -> Encodable?)?
     public let hashValue: Int
 
-    public init(file: String = #file, line: Int = #line, column: Int = #column) {
+    public init() {
         fromNull = {
             Date(timeIntervalSince1970: 0)
         }
@@ -64,9 +62,7 @@ public struct MillisecondDateTransform: TransformType {
             Double(object.timeIntervalSince1970 * 1000)
         }
         hashValue = HasherChain()
-            .combine(file)
-            .combine(line)
-            .combine(column)
+            .combine(String(describing: Self.self))
             .hashValue
     }
 }
@@ -81,7 +77,7 @@ open class DateFormatterTransform: TransformType {
     public let dateFormatter: DateFormatter
     public var hashValue: Int
 
-    public init(dateFormatter: DateFormatter, file: String = #file, line: Int = #line, column: Int = #column) {
+    public init(dateFormatter: DateFormatter) {
         self.dateFormatter = dateFormatter
 
         fromNull = {
@@ -97,26 +93,17 @@ open class DateFormatterTransform: TransformType {
             dateFormatter.string(from: object)
         }
         hashValue = HasherChain()
-            .combine(file)
-            .combine(line)
-            .combine(column)
+            .combine(String(describing: Self.self))
+            .combine(dateFormatter)
             .hashValue
     }
 }
 
 public final class ISO8601DateTransform: DateFormatterTransform {
-    public init(file: String = #file, line: Int = #line, column: Int = #column) {
+    public init() {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-
         super.init(dateFormatter: formatter)
-
-        hashValue = HasherChain()
-            .combine(formatter)
-            .combine(file)
-            .combine(line)
-            .combine(column)
-            .hashValue
     }
 }

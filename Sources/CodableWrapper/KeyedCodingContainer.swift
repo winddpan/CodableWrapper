@@ -14,11 +14,11 @@ public extension KeyedEncodingContainer {
         let codingKey = value.construct?.codingKeys.first ?? key.stringValue
         if let construct = value.construct, let toJSON = construct.transformer?.toJSON {
             if let transformed = toJSON(value.wrappedValue) {
-                if let dictionary = _container() {
-                    dictionary.setValue(transformed, forKey: codingKey)
-                }
+                let dictionary = _container()
+                dictionary.setValue(transformed, forKey: codingKey)
             }
-        } else if let encoder = _encoder(), let key = AnyCodingKey(stringValue: codingKey), let wrappedValue = value.wrappedValue as? Encodable {
+        } else if let key = AnyCodingKey(stringValue: codingKey), let wrappedValue = value.wrappedValue as? Encodable {
+            let encoder = _encoder()
             var container = encoder.container(keyedBy: AnyCodingKey.self)
             try wrappedValue.encode(to: &container, forKey: key)
         }
@@ -45,11 +45,12 @@ public extension KeyedDecodingContainer {
     }
 
     private func _decode<Value>(_ type: Codec<Value>.Type, forKey key: Key, onDecoding: @escaping ((KeyedDecodingContainer<AnyCodingKey>, String) -> Value?)) throws -> Codec<Value> {
-        let injection: ((Codec<Value>, Value) -> Void) = { wrapper, storedValue in
-            guard let construct = wrapper.construct, let dictionary = self._containerDictionary() else { return }
+        let injection: InjectionKeeper<Value>.InjectionClosure = { wrapper, storedValue in
+            guard let construct = wrapper.construct else { return }
             let keys = wrapper.construct.codingKeys + [key.stringValue]
-            let container = try? self._decoder()?.container(keyedBy: AnyCodingKey.self)
+            let container = try? self._decoder().container(keyedBy: AnyCodingKey.self)
             let bridge = Value.self as? _BuiltInBridgeType.Type
+            let dictionary = self._containerDictionary()
 
             for codingKey in keys {
                 if let json = dictionary[codingKey] {
@@ -73,14 +74,7 @@ public extension KeyedDecodingContainer {
             }
             wrapper.storedValue = storedValue
         }
-
-        var wrapper: Codec<Value>
-        if let decodeIfPresent = try? decodeIfPresent(Codec<Value>.self, forKey: key) {
-            wrapper = decodeIfPresent
-        } else {
-            wrapper = Codec<Value>(unsafed: ())
-        }
-
+        let wrapper = Codec<Value>(unsafed: ())
         Thread.current.lastInjectionKeeper = InjectionKeeper(codec: wrapper, injection: injection)
         return wrapper
     }

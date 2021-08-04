@@ -8,7 +8,6 @@
 import Foundation
 
 extension Encodable {
-    
     func encode<K>(to container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         try container.encode(self, forKey: key)
     }

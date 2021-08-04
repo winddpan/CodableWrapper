@@ -14,6 +14,12 @@ struct NonCodable {
     var value: String?
 }
 
+enum Animal: String, Codable {
+    case dog
+    case cat
+    case fish
+}
+
 struct ExampleModel: Codable {
     @Codec("stringVal", "string_Val")
     var stringVal: String = "scyano"
@@ -28,6 +34,8 @@ struct ExampleModel: Codable {
     @Codec var bool2: Bool = true
 
     @Codec var unImpl: String?
+    
+    @Codec var animal: Animal = .dog
 
     @Codec(transformer: TransformOf<NonCodable?, String?>(fromNull: { NonCodable() },
                                                           fromJSON: { NonCodable(value: $0) },
@@ -39,18 +47,12 @@ struct SimpleModel: Codable {
     @Codec var val: Int = 2
 }
 
-struct RootModel: Codable {
-    var root: ExampleModel
-    @Codec var value: String = "a"
-    var valueWithoutCodec: String? = "a"
-}
-
 struct OptionalModel: Codable {
     @Codec var val: String? = "default"
 }
 
 struct OptionalNullModel: Codable {
-    @Codec("val2") var val: String?
+    @Codec var val: String?
 }
 
 /** ExampleTest */
@@ -58,7 +60,7 @@ struct OptionalNullModel: Codable {
 class ExampleTest: XCTestCase {
     func testCodingKeyDecode() throws {
         let json = """
-        {"int_Val": "233", "string_Val": "pan", "bool": "1", "nonCodable": "ok"}
+        {"int_Val": "233", "string_Val": "pan", "bool": "1", "nonCodable": "ok", "animal": "cat"}
         """
         let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
         XCTAssertEqual(model.intVal, 233)
@@ -66,6 +68,7 @@ class ExampleTest: XCTestCase {
         XCTAssertEqual(model.unImpl, nil)
         XCTAssertEqual(model.array, [1.998, 2.998, 3.998])
         XCTAssertEqual(model.bool, true)
+        XCTAssertEqual(model.animal, .cat)
         XCTAssertEqual(model.nonCodable?.value, "ok")
     }
 
@@ -75,6 +78,8 @@ class ExampleTest: XCTestCase {
         """
         let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
         XCTAssertEqual(model.intVal, 123456)
+        XCTAssertEqual(model.stringVal, "scyano")
+        XCTAssertEqual(model.animal, .dog)
     }
 
     func testCodingKeyEncode() throws {
@@ -90,13 +95,29 @@ class ExampleTest: XCTestCase {
     }
 
     func testNested() throws {
+        struct RootModel: Codable {
+            @Codec var root = SubRootModelCodec()
+            var root2: SubRootModel? = SubRootModel()
+        }
+
+        struct SubRootModelCodec: Codable {
+            @Codec var value: ExampleModel?
+            @Codec var value2 = ExampleModel()
+        }
+
+        struct SubRootModel: Codable {
+            var value: ExampleModel?
+            var value2: ExampleModel? = ExampleModel()
+        }
+
         let json = """
-        {"root": {"stringVal":"x"}}
+        {"root": {"value": {"stringVal":"x"}}, "root2": {"value": {"stringVal":"y"}}}
         """
         let model = try JSONDecoder().decode(RootModel.self, from: json.data(using: .utf8)!)
-        XCTAssertEqual(model.root.stringVal, "x")
-        XCTAssertEqual(model.value, "a")
-        XCTAssertEqual(model.valueWithoutCodec, nil)
+        XCTAssertEqual(model.root.value?.stringVal, "x")
+        XCTAssertEqual(model.root.value2.stringVal, "scyano")
+        XCTAssertEqual(model.root2?.value?.stringVal, "y")
+        XCTAssertEqual(model.root2?.value2?.stringVal, nil)
     }
 
     func testOptionalWithValue() throws {
@@ -109,10 +130,16 @@ class ExampleTest: XCTestCase {
 
     func testOptionalWithNull() throws {
         let json = """
-        {"val2": null}
+        {"val": null}
         """
         let model = try JSONDecoder().decode(OptionalNullModel.self, from: json.data(using: .utf8)!)
         XCTAssertEqual(model.val, nil)
+        
+        let json2 = """
+        {}
+        """
+        let model2 = try JSONDecoder().decode(OptionalNullModel.self, from: json2.data(using: .utf8)!)
+        XCTAssertEqual(model2.val, nil)
     }
 
     func testBasicTypeBridge() throws {

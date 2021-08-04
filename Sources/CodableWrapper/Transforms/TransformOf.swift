@@ -23,7 +23,7 @@ open class TransformOf<Object, JSON: Codable>: TransformType {
             return fromNull()
         }
         self.toJSON = toJSON
-        hashValue = HasherChain()
+        self.hashValue = HasherChain()
             .combine(String(describing: Object.self))
             .combine(file).combine(line)
             .combine(column)

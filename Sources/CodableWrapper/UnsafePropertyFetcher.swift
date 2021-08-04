@@ -8,93 +8,45 @@
 import Foundation
 
 /*
- KeyedDecodingContainer struct - -
- | _box: _KeyedDecodingContainerBox class - -
- | | concrete: KeyedDecodingContainer(KeyedDecodingContainerProtocol) protocol - -
- | | | decoder: Foundation.__JSONDecoder - -
- | | | container: Dictionary<String: Any> - -
+ KeyedDecodingContainer `struct` - -
+ | _box: _KeyedDecodingContainerBox `class` - -
+ | | concrete: _JSONKeyedDecodingContainer `struct` - -
+ | | | decoder: Foundation.__JSONDecoder `class` - -
+ | | | container: Dictionary<String: Any> `struct` - -
  | | |
  */
 extension KeyedDecodingContainer {
-    func _decoder() -> Decoder? {
-        let stackPointer = withUnsafePointer(to: self) { UnsafeRawPointer($0) }
-        let box = stackPointer.load(as: UnsafeRawPointer.self)
-        let concrete = box.load(fromByteOffset: 16, as: UnsafeMutableRawPointer.self)
-        let metatype = concrete.load(as: Int.self)
-        
-        var refCount = concrete.load(fromByteOffset: 12, as: Int32.self)
-        refCount += 2
-        concrete.storeBytes(of: refCount, toByteOffset: 12, as: Int32.self)
-        
-        var decoder: Any = 0
-        let decoderPointer = withUnsafePointer(to: &decoder) { UnsafeMutableRawPointer(mutating: $0) }
-        decoderPointer.storeBytes(of: concrete, as: UnsafeRawPointer.self)
-        decoderPointer.storeBytes(of: metatype, toByteOffset: 24, as: Int.self)
-        
-        return decoder as? Decoder
+    func _decoder() -> Decoder {
+        let boxPtr = withUnsafePointer(to: self) { UnsafeRawPointer($0) }.load(as: UnsafeRawPointer.self)
+        let decoder = boxPtr.advanced(by: MemoryLayout<Int>.stride * 2).load(as: AnyObject.self)
+        return decoder as! Decoder
     }
 
-    func _containerDictionary() -> [String: Any]? {
-        let stackPointer = withUnsafePointer(to: self) { UnsafeRawPointer($0) }
-        let box = stackPointer.load(as: UnsafeRawPointer.self)
-        let concrete = box.load(fromByteOffset: 24, as: UnsafeMutableRawPointer.self)
-        let metatype = concrete.load(as: Int.self)
-        
-        var refCount = concrete.load(fromByteOffset: 12, as: Int32.self)
-        refCount += 2
-        concrete.storeBytes(of: refCount, toByteOffset: 12, as: Int32.self)
-        
-        var container: Any = 0
-        let containerPointer = withUnsafePointer(to: &container) { UnsafeMutableRawPointer(mutating: $0) }
-        containerPointer.storeBytes(of: concrete, as: UnsafeRawPointer.self)
-        containerPointer.storeBytes(of: metatype, toByteOffset: 24, as: Int.self)
-        
-        return container as? [String: Any]
+    func _containerDictionary() -> [String: Any] {
+        let boxPtr = withUnsafePointer(to: self) { UnsafeRawPointer($0) }.load(as: UnsafeRawPointer.self)
+        let container = boxPtr.advanced(by: MemoryLayout<Int>.stride * 3).load(as: [String: Any].self)
+        return container
     }
 }
 
+/*
+ KeyedEncodingContainer `struct`
+ | _box: _KeyedEncodingContainerBase<Key> `class` - -
+ | | concrete:  _JSONKeyedEncodingContainer `struct` - -
+ | | | encoder: Foundation.__JSONEncoder `class` - -
+ | | | container: NSMutableDictionary `class` - -
+ | | |
+ */
 extension KeyedEncodingContainer {
-    func _encoder() -> Encoder? {
-        let stackPointer = withUnsafePointer(to: self) { UnsafeRawPointer($0) }
-        let box = stackPointer.load(as: UnsafeRawPointer.self)
-        let concrete = box.load(fromByteOffset: 16, as: UnsafeMutableRawPointer.self)
-        let metatype = concrete.load(as: Int.self)
-        
-        var refCount = concrete.load(fromByteOffset: 12, as: Int32.self)
-        refCount += 2
-        concrete.storeBytes(of: refCount, toByteOffset: 12, as: Int32.self)
-        
-        var encoder: Any = 0
-        let encoderPointer = withUnsafePointer(to: &encoder) { UnsafeMutableRawPointer(mutating: $0) }
-        encoderPointer.storeBytes(of: concrete, as: UnsafeRawPointer.self)
-        encoderPointer.storeBytes(of: metatype, toByteOffset: 24, as: Int.self)
-        
-        return encoder as? Encoder
+    func _encoder() -> Encoder {
+        let boxPtr = withUnsafePointer(to: self) { UnsafeRawPointer($0) }.load(as: UnsafeRawPointer.self)
+        let endcoder = boxPtr.advanced(by: MemoryLayout<Int>.stride * 2).load(as: AnyObject.self)
+        return endcoder as! Encoder
     }
 
-    func _container() -> NSMutableDictionary? {
-        let mirror0 = Mirror(reflecting: self)
-        let mirror1 = Mirror(reflecting: mirror0.children.first!.value)
-        let mirror2 = Mirror(reflecting: mirror1.children.first!.value)
-        if let container = mirror2.children.first(where: { $0.label == "container" })?.value as? NSMutableDictionary {
-            return container
-        }
-        return nil
-        
-//        let stackPointer = withUnsafePointer(to: self) { UnsafeRawPointer($0) }
-//        let box = stackPointer.load(as: UnsafeRawPointer.self)
-//        let concrete = box.load(fromByteOffset: 24, as: UnsafeMutableRawPointer.self)
-//        let metatype = concrete.load(as: Int.self)
-//
-//        var refCount = concrete.load(fromByteOffset: 12, as: Int32.self)
-//        refCount += 2
-//        concrete.storeBytes(of: refCount, toByteOffset: 12, as: Int32.self)
-//
-//        var container: Any!
-//        let containerPointer = withUnsafePointer(to: &container) { UnsafeMutableRawPointer(mutating: $0) }
-//        containerPointer.storeBytes(of: concrete, as: UnsafeRawPointer.self)
-//        containerPointer.storeBytes(of: metatype, toByteOffset: 24, as: Int.self)
-//
-//        return container as? NSMutableDictionary
+    func _container() -> NSMutableDictionary {
+        let boxPtr = withUnsafePointer(to: self) { UnsafeRawPointer($0) }.load(as: UnsafeRawPointer.self)
+        let container = boxPtr.advanced(by: MemoryLayout<Int>.stride * 3).load(as: NSMutableDictionary.self)
+        return container
     }
 }

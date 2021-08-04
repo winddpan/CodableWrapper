@@ -7,12 +7,12 @@
 
 import Foundation
 
-private let constructCacheMapTable = NSMapTable<NSNumber, AnyObject>(keyOptions: .strongMemory, valueOptions: .weakMemory)
+private let constructCacheMapTable = NSMapTable<NSNumber, CodecConstruct>(keyOptions: .strongMemory, valueOptions: .weakMemory)
 
 @propertyWrapper
 public final class Codec<Value>: Codable {
     var storedValue: Value?
-    var construct: CodecConstruct!
+    private(set) var construct: CodecConstruct!
 
     public var wrappedValue: Value {
         get { storedValue! }
@@ -38,7 +38,7 @@ public final class Codec<Value>: Codable {
     init(defaultValue: Value, construct: CodecConstruct) {
         let hashKey = NSNumber(value: construct.hashValue)
         let cacheConstruct = constructCacheMapTable.object(forKey: hashKey)
-        if let cacheConstruct = cacheConstruct as? CodecConstruct {
+        if let cacheConstruct = cacheConstruct {
             self.construct = cacheConstruct
         } else {
             constructCacheMapTable.setObject(construct, forKey: hashKey)
