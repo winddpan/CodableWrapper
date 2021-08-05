@@ -61,7 +61,7 @@ struct ExampleModel: Codable {
 }
 
 let json = """
-{"int_Val": "233", "string_Val": "pan", "bool": "1", "nonCodable": "ok"}
+{"int_Val": "233", "string_Val": "pan", "bool": "1"}
 """
 
 let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
