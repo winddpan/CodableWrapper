@@ -10,10 +10,6 @@ import XCTest
 
 /** Model */
 
-struct NonCodable {
-    var value: String?
-}
-
 enum Animal: String, Codable {
     case dog
     case cat
@@ -28,7 +24,7 @@ struct ExampleModel: Codable {
     var intVal: Int = 123456
 
     @Codec var array: [Double] = [1.998, 2.998, 3.998]
-
+    
     @Codec var bool: Bool = false
 
     @Codec var bool2: Bool = true
@@ -36,11 +32,6 @@ struct ExampleModel: Codable {
     @Codec var unImpl: String?
     
     @Codec var animal: Animal = .dog
-
-    @Codec(transformer: TransformOf<NonCodable?, String?>(fromNull: { NonCodable() },
-                                                          fromJSON: { NonCodable(value: $0) },
-                                                          toJSON: { $0?.value }))
-    var nonCodable: NonCodable?
 }
 
 struct SimpleModel: Codable {
@@ -60,7 +51,7 @@ struct OptionalNullModel: Codable {
 class ExampleTest: XCTestCase {
     func testCodingKeyDecode() throws {
         let json = """
-        {"int_Val": "233", "string_Val": "pan", "bool": "1", "nonCodable": "ok", "animal": "cat"}
+        {"int_Val": "233", "string_Val": "pan", "bool": "1", "animal": "cat"}
         """
         let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
         XCTAssertEqual(model.intVal, 233)
@@ -69,7 +60,6 @@ class ExampleTest: XCTestCase {
         XCTAssertEqual(model.array, [1.998, 2.998, 3.998])
         XCTAssertEqual(model.bool, true)
         XCTAssertEqual(model.animal, .cat)
-        XCTAssertEqual(model.nonCodable?.value, "ok")
     }
 
     func testDefaultVale() throws {

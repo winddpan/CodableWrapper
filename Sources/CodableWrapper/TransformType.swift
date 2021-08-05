@@ -9,9 +9,10 @@
 import Foundation
 
 public protocol TransformType {
-    associatedtype Value
-    var fromNull: (() -> Value)? { get }
-    var fromJSON: ((Any?) -> Value)? { get }
-    var toJSON: ((Value) -> Encodable?)? { get }
-    var hashValue: Int { get }
+    associatedtype Object
+    associatedtype JSON
+
+    func transformFromJSON(_ json: JSON?) -> Object
+    func transformToJSON(_ object: Object) -> JSON?
+    func hashValue() -> Int
 }

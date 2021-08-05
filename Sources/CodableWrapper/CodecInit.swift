@@ -10,7 +10,6 @@ import Foundation
 public extension Codec where Value: Codable {
     ///
     /// ```
-    /// @Coding var uid: String?
     /// @Coding("userId") var uid: String?
     ///
     convenience init<Wrapped>(_ key: String ...) where Value == Wrapped? {
@@ -19,8 +18,7 @@ public extension Codec where Value: Codable {
 
     ///
     /// ```
-    /// @Coding var uid: String = ""
-    /// @Coding("userId") var uid: String? = nil
+    /// @Coding("userId") var uid: String = "0"
     ///
     convenience init(wrappedValue: Value, _ key: String ...) {
         self.init(defaultValue: wrappedValue, construct: CodecConstruct(codingKeys: key))
@@ -30,28 +28,27 @@ public extension Codec where Value: Codable {
 public extension Codec {
     ///
     /// ```
-    /// @Codec("enum", "enumValue", transformer: TransformOf<EnumInt, Int>(fromNull: { .none }, fromJSON: { EnumInt(rawValue: $0) }, toJSON: { $0.rawValue }))
-    /// var enumValue: EnumInt?
+    /// struct ValueWrapper {
+    ///     var value: String?
+    /// }
+    /// ```
+    /// @Codec(transformer: TransformOf<ValueWrapper, String>(fromJSON: { ValueWrapper(value: $0) }, toJSON: { $0.value }))
+    /// var nonCodable = ValueWrapper(value: nil)
     ///
-    convenience init<Wrapped, T: TransformType>(_ key: String ..., transformer: T) where Value == Wrapped?, T.Value == Wrapped {
-        self.init(defaultValue: Wrapped?.none, construct: CodecConstruct(codingKeys: key, transformer: AnyTransfromTypeTunk(transformer)))
+    convenience init<Wrapped, T: TransformType>(_ keys: [String] = [], transformer: T) where Value == Wrapped? {
+        self.init(defaultValue: Wrapped?.none, construct: CodecConstruct(codingKeys: keys, transformer: AnyTransfromTypeTunk(transformer)))
     }
 
     ///
     /// ```
-    /// @Codec("enum", "enumValue", transformer: TransformOf<EnumInt?, Int>(fromNull: { .none }, fromJSON: { EnumInt(rawValue: $0) }, toJSON: { $0.rawValue }))
-    /// var enumValue: EnumInt?
-    ///
-    convenience init<Wrapped, T: TransformType>(_ key: String ..., transformer: T) where Value == Wrapped?, T.Value == Wrapped? {
-        self.init(defaultValue: Wrapped?.none, construct: CodecConstruct(codingKeys: key, transformer: AnyTransfromTypeTunk(transformer)))
-    }
-
-    ///
+    /// struct ValueWrapper {
+    ///     var value: String?
+    /// }
     /// ```
-    /// @Codec("enum", "enumValue", transformer: TransformOf<EnumInt, Int>(fromNull: { .none }, fromJSON: { EnumInt(rawValue: $0) }, toJSON: { $0.rawValue }))
-    /// var enumValue: EnumInt = .none
+    /// @Codec(transformer: TransformOf<ValueWrapper?, String>(fromJSON: { $0 != nil ? ValueWrapper(value: $0) : nil }, toJSON: { $0?.value }))
+    /// var nonCodableOptional: ValueWrapper?
     ///
-    convenience init<T: TransformType>(wrappedValue: Value, _ key: String ..., transformer: T) where T.Value == Value {
-        self.init(defaultValue: wrappedValue, construct: CodecConstruct(codingKeys: key, transformer: AnyTransfromTypeTunk(transformer)))
+    convenience init<T: TransformType>(wrappedValue: Value, _ keys: [String] = [], transformer: T) {
+        self.init(defaultValue: wrappedValue, construct: CodecConstruct(codingKeys: keys, transformer: AnyTransfromTypeTunk(transformer)))
     }
 }

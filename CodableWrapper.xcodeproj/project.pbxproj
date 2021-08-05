@@ -11,6 +11,7 @@
 		2B00E96126A7FF0D00FA2060 /* KeyedCodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00E96026A7FF0D00FA2060 /* KeyedCodingContainer.swift */; };
 		2B00E96526A8054B00FA2060 /* CodableWrapperDebug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00E96426A8054B00FA2060 /* CodableWrapperDebug.swift */; };
 		2B00E96726A8088000FA2060 /* CodecInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00E96626A8088000FA2060 /* CodecInit.swift */; };
+		4019F3B526BBC9E500DCB29A /* CodecValueExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4019F3B426BBC9E500DCB29A /* CodecValueExtensions.swift */; };
 		403CCBD026B39D0800BFED51 /* AnyTransfromTypeTunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403CCBCF26B39D0800BFED51 /* AnyTransfromTypeTunk.swift */; };
 		4061B56C26B801A700FA4E87 /* TransformTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4061B56B26B801A700FA4E87 /* TransformTest.swift */; };
 		4061B57026B8022D00FA4E87 /* DateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4061B56E26B8022D00FA4E87 /* DateTransform.swift */; };
@@ -21,7 +22,6 @@
 		4066813D24F375AB00562E47 /* BuiltInBridgeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066812F24F375AB00562E47 /* BuiltInBridgeType.swift */; };
 		4066813E24F375AB00562E47 /* InjectionKeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066813024F375AB00562E47 /* InjectionKeeper.swift */; };
 		4066815224F375C000562E47 /* ExampleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066814E24F375C000562E47 /* ExampleTest.swift */; };
-		4067C23626B8F6D100BB56CE /* HasherChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4067C23526B8F6D100BB56CE /* HasherChain.swift */; };
 		407295B926B2B8BF00B361C2 /* TransformType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407295B826B2B8BF00B361C2 /* TransformType.swift */; };
 		407295C026B2B8F900B361C2 /* TransformOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407295BD26B2B8F900B361C2 /* TransformOf.swift */; };
 		40BBB9B826B941BD00CD0700 /* CodecConstruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BBB9B726B941BD00CD0700 /* CodecConstruct.swift */; };
@@ -34,6 +34,7 @@
 		2B00E96026A7FF0D00FA2060 /* KeyedCodingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedCodingContainer.swift; sourceTree = "<group>"; };
 		2B00E96426A8054B00FA2060 /* CodableWrapperDebug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableWrapperDebug.swift; sourceTree = "<group>"; };
 		2B00E96626A8088000FA2060 /* CodecInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodecInit.swift; sourceTree = "<group>"; };
+		4019F3B426BBC9E500DCB29A /* CodecValueExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CodecValueExtensions.swift; path = ../../../../Documents/CodecValueExtensions.swift; sourceTree = "<group>"; };
 		403CCBCF26B39D0800BFED51 /* AnyTransfromTypeTunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyTransfromTypeTunk.swift; sourceTree = "<group>"; };
 		4061B56B26B801A700FA4E87 /* TransformTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformTest.swift; sourceTree = "<group>"; };
 		4061B56E26B8022D00FA4E87 /* DateTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTransform.swift; sourceTree = "<group>"; };
@@ -46,7 +47,6 @@
 		4066813624F375AB00562E47 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4066814E24F375C000562E47 /* ExampleTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleTest.swift; sourceTree = "<group>"; };
 		4067C23126B8EED600BB56CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Tests/Info.plist; sourceTree = SOURCE_ROOT; };
-		4067C23526B8F6D100BB56CE /* HasherChain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HasherChain.swift; sourceTree = "<group>"; };
 		407295B826B2B8BF00B361C2 /* TransformType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformType.swift; sourceTree = "<group>"; };
 		407295BD26B2B8F900B361C2 /* TransformOf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformOf.swift; sourceTree = "<group>"; };
 		40BBB9B726B941BD00CD0700 /* CodecConstruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodecConstruct.swift; sourceTree = "<group>"; };
@@ -82,6 +82,7 @@
 				40BBB9B726B941BD00CD0700 /* CodecConstruct.swift */,
 				2B00E96626A8088000FA2060 /* CodecInit.swift */,
 				2B00E96426A8054B00FA2060 /* CodableWrapperDebug.swift */,
+				4019F3B426BBC9E500DCB29A /* CodecValueExtensions.swift */,
 				2B00E96026A7FF0D00FA2060 /* KeyedCodingContainer.swift */,
 				2B00E95E26A7F87200FA2060 /* UnsafePropertyFetcher.swift */,
 				4066812B24F375AB00562E47 /* EncodableExtension.swift */,
@@ -112,7 +113,6 @@
 		407295BA26B2B8F900B361C2 /* Transforms */ = {
 			isa = PBXGroup;
 			children = (
-				4067C23526B8F6D100BB56CE /* HasherChain.swift */,
 				4061B56E26B8022D00FA4E87 /* DateTransform.swift */,
 				407295BD26B2B8F900B361C2 /* TransformOf.swift */,
 			);
@@ -263,13 +263,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4019F3B526BBC9E500DCB29A /* CodecValueExtensions.swift in Sources */,
 				407295B926B2B8BF00B361C2 /* TransformType.swift in Sources */,
 				2B00E96726A8088000FA2060 /* CodecInit.swift in Sources */,
 				407295C026B2B8F900B361C2 /* TransformOf.swift in Sources */,
 				4066813E24F375AB00562E47 /* InjectionKeeper.swift in Sources */,
 				2B00E96526A8054B00FA2060 /* CodableWrapperDebug.swift in Sources */,
 				2B00E95F26A7F87200FA2060 /* UnsafePropertyFetcher.swift in Sources */,
-				4067C23626B8F6D100BB56CE /* HasherChain.swift in Sources */,
 				4061B57026B8022D00FA4E87 /* DateTransform.swift in Sources */,
 				4066813724F375AB00562E47 /* Codec.swift in Sources */,
 				4066813D24F375AB00562E47 /* BuiltInBridgeType.swift in Sources */,

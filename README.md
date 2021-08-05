@@ -48,10 +48,10 @@
 ```Swift
 struct ExampleModel: Codable {
     @Codec("stringVal", "string_Val") 
-  	var stringVal: String = "scyano"
+    var stringVal: String = "scyano"
   
     @Codec("int_Val", "intVal") 
-  	var intVal: Int = 123456
+    var intVal: Int = 123456
   
     @Codec var array: [Double] = [1.998, 2.998, 3.998]
   
@@ -196,9 +196,37 @@ XCTAssertEqual(model.bool, true)
 ```
 
 #### Transform
-
 ```swift
-🚀 In development 🚀...
+struct ValueWrapper: Equatable {
+    var value: String?
+}
+
+struct ExampleModel: Codable {
+    @Codec(transformer: TransformOf<ValueWrapper, String>(fromJSON: { ValueWrapper(value: $0) }, toJSON: { $0.value }))
+    var valueA = ValueWrapper(value: "A")
+
+    @Codec(transformer: TransformOf<ValueWrapper?, String>(fromJSON: { ValueWrapper(value: $0) }, toJSON: { $0?.value }))
+    var valueB = ValueWrapper(value: "B")
+
+    @Codec(transformer: TransformOf<ValueWrapper?, String>(fromJSON: { $0 != nil ? ValueWrapper(value: $0) : nil }, toJSON: { $0?.value }))
+    var valueC = ValueWrapper(value: "C")
+
+    @Codec(transformer: TransformOf<ValueWrapper?, String>(fromJSON: { $0 != nil ? ValueWrapper(value: $0) : nil }, toJSON: { $0?.value }))
+    var valueD: ValueWrapper?
+}
+
+let fullModel = try JSONDecoder().decode(ExampleModel.self, from: #"{"valueA": "something_a", "valueB": "something_b", "valueC": "something_c", "valueD": "something_d"}"#.data(using: .utf8)!)
+let emptyModel = try JSONDecoder().decode(ExampleModel.self, from: #"{}"#.data(using: .utf8)!)
+
+XCTAssertEqual(fullModel.valueA, ValueWrapper(value: "something_a"))
+XCTAssertEqual(fullModel.valueB, ValueWrapper(value: "something_b"))
+XCTAssertEqual(fullModel.valueC, ValueWrapper(value: "something_c"))
+XCTAssertEqual(fullModel.valueD, ValueWrapper(value: "something_d"))
+
+XCTAssertEqual(emptyModel.valueA, ValueWrapper(value: nil))
+XCTAssertEqual(emptyModel.valueB, ValueWrapper(value: nil))
+XCTAssertEqual(emptyModel.valueC, ValueWrapper(value: "C"))
+XCTAssertEqual(emptyModel.valueD, nil)
 ```
 
 ## License

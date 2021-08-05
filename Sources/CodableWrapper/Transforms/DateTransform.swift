@@ -8,94 +8,72 @@
 import Foundation
 
 public struct SecondDateTransform: TransformType {
-    public typealias Value = Date
+    public typealias Object = Date
+    public typealias JSON = TimeInterval
 
-    public var fromNull: (() -> Date)?
-    public var fromJSON: ((Any?) -> Date)?
-    public var toJSON: ((Date) -> Encodable?)?
-    public let hashValue: Int
+    public init() {}
 
-    public init() {
-        fromNull = {
-            Date(timeIntervalSince1970: 0)
+    public func transformFromJSON(_ json: TimeInterval?) -> Date {
+        if let timeInt = json {
+            return Date(timeIntervalSince1970: TimeInterval(timeInt))
         }
-        fromJSON = { json -> Date in
-            if let timeInt = json as? Double {
-                return Date(timeIntervalSince1970: TimeInterval(timeInt))
-            }
-            if let timeStr = json as? String {
-                return Date(timeIntervalSince1970: TimeInterval(atof(timeStr)))
-            }
-            return Date(timeIntervalSince1970: 0)
-        }
-        toJSON = { object -> Encodable? in
-            Double(object.timeIntervalSince1970)
-        }
-        hashValue = HasherChain()
-            .combine(String(describing: Self.self))
-            .hashValue
+        return Date(timeIntervalSince1970: 0)
+    }
+
+    public func transformToJSON(_ object: Date) -> TimeInterval? {
+        TimeInterval(object.timeIntervalSince1970)
+    }
+
+    public func hashValue() -> Int {
+        String(describing: Self.self).hashValue
     }
 }
 
 public struct MillisecondDateTransform: TransformType {
-    public typealias Value = Date
+    public typealias Object = Date
+    public typealias JSON = TimeInterval
 
-    public var fromNull: (() -> Date)?
-    public var fromJSON: ((Any?) -> Date)?
-    public var toJSON: ((Date) -> Encodable?)?
-    public let hashValue: Int
+    public init() {}
 
-    public init() {
-        fromNull = {
-            Date(timeIntervalSince1970: 0)
+    public func transformFromJSON(_ json: TimeInterval?) -> Date {
+        if let timeInt = json {
+            return Date(timeIntervalSince1970: TimeInterval(timeInt / 1000))
         }
-        fromJSON = { json -> Date in
-            if let timeInt = json as? Double {
-                return Date(timeIntervalSince1970: TimeInterval(timeInt / 1000))
-            }
-            if let timeStr = json as? String {
-                return Date(timeIntervalSince1970: TimeInterval(atof(timeStr) / 1000))
-            }
-            return Date(timeIntervalSince1970: 0)
-        }
-        toJSON = { object -> Encodable? in
-            Double(object.timeIntervalSince1970 * 1000)
-        }
-        hashValue = HasherChain()
-            .combine(String(describing: Self.self))
-            .hashValue
+        return Date(timeIntervalSince1970: 0)
+    }
+
+    public func transformToJSON(_ object: Date) -> TimeInterval? {
+        Double(object.timeIntervalSince1970 * 1000)
+    }
+
+    public func hashValue() -> Int {
+        String(describing: Self.self).hashValue
     }
 }
 
 open class DateFormatterTransform: TransformType {
-    public typealias Value = Date
-
-    public var fromNull: (() -> Date)?
-    public var fromJSON: ((Any?) -> Date)?
-    public var toJSON: ((Date) -> Encodable?)?
+    public typealias Object = Date
+    public typealias JSON = String
 
     public let dateFormatter: DateFormatter
-    public var hashValue: Int
+
+    public func transformFromJSON(_ json: String?) -> Date {
+        if let dateString = json, let date = dateFormatter.date(from: dateString) {
+            return date
+        }
+        return Date(timeIntervalSince1970: 0)
+    }
+
+    public func transformToJSON(_ object: Date) -> String? {
+        dateFormatter.string(from: object)
+    }
+
+    public func hashValue() -> Int {
+        dateFormatter.hashValue
+    }
 
     public init(dateFormatter: DateFormatter) {
         self.dateFormatter = dateFormatter
-
-        fromNull = {
-            Date(timeIntervalSince1970: 0)
-        }
-        fromJSON = { json -> Date in
-            if let dateString = json as? String, let date = dateFormatter.date(from: dateString) {
-                return date
-            }
-            return Date(timeIntervalSince1970: 0)
-        }
-        toJSON = { object -> Encodable? in
-            dateFormatter.string(from: object)
-        }
-        hashValue = HasherChain()
-            .combine(String(describing: Self.self))
-            .combine(dateFormatter)
-            .hashValue
     }
 }
 

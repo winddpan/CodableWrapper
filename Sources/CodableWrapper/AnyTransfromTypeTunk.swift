@@ -9,19 +9,19 @@ import Foundation
 
 struct AnyTransfromTypeTunk {
     let hashValue: Int
-    let fromNull: (() -> Any)?
-    let fromJSON: ((Any?) -> Any)?
-    let toJSON: ((Any) -> Encodable?)?
+    let fromJSON: (Any?) -> Any
+    let toJSON: (Any) -> Any?
 
     init<T: TransformType>(_ raw: T) {
-        fromNull = raw.fromNull
-        fromJSON = raw.fromJSON
-        toJSON = { obj in
-            if let obj = obj as? T.Value {
-                return raw.toJSON?(obj)
+        fromJSON = { json in
+            raw.transformFromJSON(json as? T.JSON)
+        }
+        toJSON = { object in
+            if let object = object as? T.Object {
+                return raw.transformToJSON(object)
             }
             return nil
         }
-        hashValue = raw.hashValue
+        hashValue = raw.hashValue()
     }
 }

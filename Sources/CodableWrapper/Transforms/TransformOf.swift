@@ -8,25 +8,37 @@
 
 import Foundation
 
-open class TransformOf<Object, JSON: Codable>: TransformType {
-    open var fromNull: (() -> Object)?
-    open var fromJSON: ((Any?) -> Object)?
-    open var toJSON: ((Object) -> Encodable?)?
-    open var hashValue: Int
+open class TransformOf<Object, JSON>: TransformType {
+    open var fromJSON: (JSON?) -> Object
+    open var toJSON: (Object) -> JSON?
+    open var hash: Int
 
-    public init(fromNull: @escaping (() -> Object), fromJSON: ((JSON) -> Object?)?, toJSON: ((Object) -> JSON?)?, file: String = #file, line: Int = #line, column: Int = #column) {
-        self.fromNull = fromNull
-        self.fromJSON = { json in
-            if let json = json as? JSON, let transfromed = fromJSON?(json) {
-                return transfromed
-            }
-            return fromNull()
-        }
+    public init(fromJSON: @escaping ((JSON?) -> Object),
+                toJSON: @escaping ((Object) -> JSON?),
+                file: String = #file,
+                line: Int = #line,
+                column: Int = #column)
+    {
+        self.fromJSON = fromJSON
         self.toJSON = toJSON
-        self.hashValue = HasherChain()
-            .combine(String(describing: Object.self))
-            .combine(file).combine(line)
-            .combine(column)
-            .hashValue
+
+        var hasher = Hasher()
+        hasher.combine(String(describing: Object.self))
+        hasher.combine(file)
+        hasher.combine(line)
+        hasher.combine(column)
+        hash = hasher.finalize()
+    }
+
+    open func transformFromJSON(_ json: JSON?) -> Object {
+        fromJSON(json)
+    }
+
+    open func transformToJSON(_ object: Object) -> JSON? {
+        toJSON(object)
+    }
+
+    open func hashValue() -> Int {
+        return hash
     }
 }

@@ -31,9 +31,9 @@ public final class Codec<Value>: Codable {
         fatalError()
     }
 
-    public required init(from decoder: Decoder) throws {}
+    public required init(from _: Decoder) throws {}
 
-    init(unsafed: ()) {}
+    init(unsafed _: ()) {}
 
     init(defaultValue: Value, construct: CodecConstruct) {
         let hashKey = NSNumber(value: construct.hashValue)
@@ -44,11 +44,11 @@ public final class Codec<Value>: Codable {
             constructCacheMapTable.setObject(construct, forKey: hashKey)
             self.construct = construct
         }
-        self.wrappedValue = defaultValue
+        wrappedValue = defaultValue
     }
 
     // Do nothing, KeyedEncodingContainer extension has done dirty stuff
-    public func encode(to encoder: Encoder) throws {}
+    public func encode(to _: Encoder) throws {}
 
     private class func invokeAfterInjection(injection: InjectionKeeper<Value>.InjectionClosure, new: Codec<Value>, last: Codec<Value>) {
         new.construct = last.construct

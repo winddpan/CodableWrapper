@@ -31,7 +31,7 @@ extension KeyedDecodingContainer {
 
 /*
  KeyedEncodingContainer `struct`
- | _box: _KeyedEncodingContainerBase<Key> `class` - -
+ | _box: _KeyedEncodingContainerBase `class` - -
  | | concrete:  _JSONKeyedEncodingContainer `struct` - -
  | | | encoder: Foundation.__JSONEncoder `class` - -
  | | | container: NSMutableDictionary `class` - -
