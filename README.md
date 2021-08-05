@@ -60,7 +60,6 @@ struct ExampleModel: Codable {
     @Codec var unImpl: String?
 }
 
-
 let json = """
 {"int_Val": "233", "string_Val": "pan", "bool": "1", "nonCodable": "ok"}
 """
@@ -84,7 +83,7 @@ struct DataModel: Codable {
 
 /* pseudocode from Swift open source lib: Codable.Swift -> */
 struct DataModel: Codable {
-    var _stringVal = Codec<String>(defaultValue: "OK")
+    private var _stringVal = Codec<String>(defaultValue: "OK")
 
     var stringVal: String {
         get {
@@ -195,7 +194,7 @@ XCTAssertEqual(model.string, "2")
 XCTAssertEqual(model.bool, true)
 ```
 
-#### Transform
+#### Transformer
 ```swift
 struct ValueWrapper: Equatable {
     var value: String?
