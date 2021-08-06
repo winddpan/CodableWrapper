@@ -34,19 +34,24 @@ public extension KeyedDecodingContainer {
     }
 
     func decode<Value: Decodable>(_ type: Codec<Value>.Type, forKey key: Key) throws -> Codec<Value> {
-        return try _decode(type, forKey: key) { container, key -> Value? in
-            if let key = AnyCodingKey(stringValue: key), let value = try? container.decode(Value.self, forKey: key) {
+        return try _decode(type, forKey: key) { key, value -> Value? in
+            if let converted = value as? Value {
+                return converted
+            }
+            if let key = AnyCodingKey(stringValue: key),
+               let container = try? self._decoder().container(keyedBy: AnyCodingKey.self),
+               let value = try? container.decode(Value.self, forKey: key)
+            {
                 return value
             }
             return nil
         }
     }
 
-    private func _decode<Value>(_: Codec<Value>.Type, forKey key: Key, onDecoding: @escaping ((KeyedDecodingContainer<AnyCodingKey>, String) -> Value?)) throws -> Codec<Value> {
+    private func _decode<Value>(_: Codec<Value>.Type, forKey key: Key, onDecoding: @escaping ((String, Any) -> Value?)) throws -> Codec<Value> {
         let injection: InjectionKeeper<Value>.InjectionClosure = { wrapper, storedValue in
             guard let construct = wrapper.construct else { return }
             let dictionary = self._containerDictionary()
-            let container = try? self._decoder().container(keyedBy: AnyCodingKey.self)
             let keys = wrapper.construct.codingKeys + [key.stringValue]
             let bridge = Value.self as? _BuiltInBridgeType.Type
             let transformFromJSON = construct.transformer?.fromJSON
@@ -57,7 +62,7 @@ public extension KeyedDecodingContainer {
                         wrapper.storedValue = transformFromJSON(json) as? Value
                         return
                     }
-                    if let container = container, let decoded = onDecoding(container, codingKey) {
+                    if !(json is NSNull), let decoded = onDecoding(codingKey, json) {
                         wrapper.storedValue = decoded
                         return
                     }
