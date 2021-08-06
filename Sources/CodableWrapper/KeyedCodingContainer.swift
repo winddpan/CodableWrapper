@@ -35,9 +35,6 @@ public extension KeyedDecodingContainer {
 
     func decode<Value: Decodable>(_ type: Codec<Value>.Type, forKey key: Key) throws -> Codec<Value> {
         return try _decode(type, forKey: key) { key, value -> Value? in
-            if let converted = value as? Value {
-                return converted
-            }
             if let key = AnyCodingKey(stringValue: key),
                let container = try? self._decoder().container(keyedBy: AnyCodingKey.self),
                let value = try? container.decode(Value.self, forKey: key)
@@ -62,12 +59,16 @@ public extension KeyedDecodingContainer {
                         wrapper.storedValue = transformFromJSON(json) as? Value
                         return
                     }
-                    if !(json is NSNull), let decoded = onDecoding(codingKey, json) {
-                        wrapper.storedValue = decoded
+                    if let converted = json as? Value {
+                        wrapper.storedValue = converted
                         return
                     }
-                    if let bridged = bridge?._transform(from: json) as? Value {
+                    if let bridged = bridge?._transform(from: json), let bridged = bridged as? Value {
                         wrapper.storedValue = bridged
+                        return
+                    }
+                    if !(json is NSNull), let decoded = onDecoding(codingKey, json) {
+                        wrapper.storedValue = decoded
                         return
                     }
                 }
