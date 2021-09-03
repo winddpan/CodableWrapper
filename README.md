@@ -26,8 +26,9 @@
 
 ## About
 * This project is use `PropertyWrapper` to improve your `Codable` use experience.
+* Fight against `DecodingError`, autofix `DecodingError.typeMismatch` `DecodingError.valueNotFound` `DecodingError.keyNotFound` `DecodingError.dataCorrupted`.
 * Simply based on `JSONEncoder` `JSONDecoder`.
-* Powerful and simplifily API than  [BetterCodable](https://github.com/marksands/BetterCodable) or [CodableWrappers](https://github.com/GottaGetSwifty/CodableWrappers).
+* Powerful and simplified API than  [BetterCodable](https://github.com/marksands/BetterCodable) and [CodableWrappers](https://github.com/GottaGetSwifty/CodableWrappers).
 
 ## Feature
 
