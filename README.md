@@ -68,7 +68,7 @@ let json = """
 let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
 XCTAssertEqual(model.intVal, 233)
 XCTAssertEqual(model.stringVal, "pan")
-XCTAssertEqual(model.unImpl, "nil")
+XCTAssertEqual(model.unImpl, nil)
 XCTAssertEqual(model.array, [1.998, 2.998, 3.998])
 XCTAssertEqual(model.bool, true)
 ```
