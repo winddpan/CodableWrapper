@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "CodableWrapper",
+        "repositoryURL": "https://github.com/winddpan/CodableWrapper.git",
+        "state": {
+          "branch": null,
+          "revision": "d37f1d0e3be70d97f0bfe23aa7714bad62456eda",
+          "version": "0.2.5"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
