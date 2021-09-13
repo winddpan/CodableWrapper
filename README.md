@@ -26,9 +26,8 @@
 
 ## About
 * This project is use `PropertyWrapper` to improve your `Codable` use experience.
-* Fight against `DecodingError`, autofix `DecodingError.typeMismatch` `DecodingError.valueNotFound` `DecodingError.keyNotFound` `DecodingError.dataCorrupted`.
 * Simply based on `JSONEncoder` `JSONDecoder`.
-* Powerful and simplified API than  [BetterCodable](https://github.com/marksands/BetterCodable) and [CodableWrappers](https://github.com/GottaGetSwifty/CodableWrappers).
+* Powerful and simplifily API than  [BetterCodable](https://github.com/marksands/BetterCodable) or [CodableWrappers](https://github.com/GottaGetSwifty/CodableWrappers).
 
 ## Feature
 
@@ -68,7 +67,7 @@ let json = """
 let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
 XCTAssertEqual(model.intVal, 233)
 XCTAssertEqual(model.stringVal, "pan")
-XCTAssertEqual(model.unImpl, nil)
+XCTAssertEqual(model.unImpl, "nil")
 XCTAssertEqual(model.array, [1.998, 2.998, 3.998])
 XCTAssertEqual(model.bool, true)
 ```
@@ -197,37 +196,19 @@ XCTAssertEqual(model.bool, true)
 
 #### Transformer
 ```swift
-struct ValueWrapper: Equatable {
-    var value: String?
-}
+struct User: Codable {
+	@Codec(transformer: SecondDateTransform())
+	var registerDate: Date?
+}       
+let date = Date()
+let json = #" { "sencondsDate": \(date.timeIntervalSince1970) } "#
 
-struct ExampleModel: Codable {
-    @Codec(transformer: TransformOf<ValueWrapper, String>(fromJSON: { ValueWrapper(value: $0) }, toJSON: { $0.value }))
-    var valueA = ValueWrapper(value: "A")
-
-    @Codec(transformer: TransformOf<ValueWrapper?, String>(fromJSON: { ValueWrapper(value: $0) }, toJSON: { $0?.value }))
-    var valueB = ValueWrapper(value: "B")
-
-    @Codec(transformer: TransformOf<ValueWrapper?, String>(fromJSON: { $0 != nil ? ValueWrapper(value: $0) : nil }, toJSON: { $0?.value }))
-    var valueC = ValueWrapper(value: "C")
-
-    @Codec(transformer: TransformOf<ValueWrapper?, String>(fromJSON: { $0 != nil ? ValueWrapper(value: $0) : nil }, toJSON: { $0?.value }))
-    var valueD: ValueWrapper?
-}
-
-let fullModel = try JSONDecoder().decode(ExampleModel.self, from: #"{"valueA": "something_a", "valueB": "something_b", "valueC": "something_c", "valueD": "something_d"}"#.data(using: .utf8)!)
-let emptyModel = try JSONDecoder().decode(ExampleModel.self, from: #"{}"#.data(using: .utf8)!)
-
-XCTAssertEqual(fullModel.valueA, ValueWrapper(value: "something_a"))
-XCTAssertEqual(fullModel.valueB, ValueWrapper(value: "something_b"))
-XCTAssertEqual(fullModel.valueC, ValueWrapper(value: "something_c"))
-XCTAssertEqual(fullModel.valueD, ValueWrapper(value: "something_d"))
-
-XCTAssertEqual(emptyModel.valueA, ValueWrapper(value: nil))
-XCTAssertEqual(emptyModel.valueB, ValueWrapper(value: nil))
-XCTAssertEqual(emptyModel.valueC, ValueWrapper(value: "C"))
-XCTAssertEqual(emptyModel.valueD, nil)
+let user = try JSONDecoder().decode(User.self, from: json.data(using: .utf8)!)
+XCTAssertEqual(model.sencondsDate?.timeIntervalSince1970, date.timeIntervalSince1970)
 ```
 
+> It also support custom transformer, your `CustomTransformer` only need to comfirm to `TransfromType`
+
 ## License
+
 Distributed under the MIT License. See `LICENSE` for more information.
