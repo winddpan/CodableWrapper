@@ -197,8 +197,8 @@ XCTAssertEqual(model.bool, true)
 #### Transformer
 ```swift
 struct User: Codable {
-	@Codec(transformer: SecondDateTransform())
-	var registerDate: Date?
+    @Codec(transformer: SecondDateTransform())
+    var registerDate: Date?
 }       
 let date = Date()
 let json = #" { "sencondsDate": \(date.timeIntervalSince1970) } "#
