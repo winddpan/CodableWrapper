@@ -63,8 +63,8 @@ public extension KeyedDecodingContainer {
                         wrapper.storedValue = converted
                         return
                     }
-                    if let bridged = bridge?._transform(from: json), let bridged = bridged as? Value {
-                        wrapper.storedValue = bridged
+                    if let _bridged = bridge?._transform(from: json), let __bridged = _bridged as? Value {
+                        wrapper.storedValue = __bridged
                         return
                     }
                     if !(json is NSNull), let decoded = onDecoding(codingKey, json) {

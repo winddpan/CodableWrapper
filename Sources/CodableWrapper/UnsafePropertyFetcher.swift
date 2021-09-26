@@ -40,8 +40,8 @@ extension KeyedDecodingContainer {
 extension KeyedEncodingContainer {
     func _encoder() -> Encoder {
         let boxPtr = withUnsafePointer(to: self) { UnsafeRawPointer($0) }.load(as: UnsafeRawPointer.self)
-        let endcoder = boxPtr.advanced(by: MemoryLayout<Int>.stride * 2).load(as: AnyObject.self)
-        return endcoder as! Encoder
+        let encoder = boxPtr.advanced(by: MemoryLayout<Int>.stride * 2).load(as: AnyObject.self)
+        return encoder as! Encoder
     }
 
     func _container() -> NSMutableDictionary {
