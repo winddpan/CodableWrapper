@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -23,6 +23,7 @@
 		4066815224F375C000562E47 /* ExampleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066814E24F375C000562E47 /* ExampleTest.swift */; };
 		407295B926B2B8BF00B361C2 /* TransformType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407295B826B2B8BF00B361C2 /* TransformType.swift */; };
 		407295C026B2B8F900B361C2 /* TransformOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407295BD26B2B8F900B361C2 /* TransformOf.swift */; };
+		4088F202271571BA0006A7ED /* SnakeCamelConvert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4088F201271571BA0006A7ED /* SnakeCamelConvert.swift */; };
 		40BBB9B826B941BD00CD0700 /* CodecConstruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BBB9B726B941BD00CD0700 /* CodecConstruct.swift */; };
 		40C744AD26732F410099FC20 /* CodableWrapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40D7C4D824C05415004522F7 /* CodableWrapper.framework */; };
 		40CCE03B26B9245800D34E0F /* BenchmarkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CCE03A26B9245800D34E0F /* BenchmarkTest.swift */; };
@@ -47,6 +48,7 @@
 		4067C23126B8EED600BB56CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Tests/Info.plist; sourceTree = SOURCE_ROOT; };
 		407295B826B2B8BF00B361C2 /* TransformType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformType.swift; sourceTree = "<group>"; };
 		407295BD26B2B8F900B361C2 /* TransformOf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformOf.swift; sourceTree = "<group>"; };
+		4088F201271571BA0006A7ED /* SnakeCamelConvert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnakeCamelConvert.swift; sourceTree = "<group>"; };
 		40BBB9B726B941BD00CD0700 /* CodecConstruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodecConstruct.swift; sourceTree = "<group>"; };
 		40CCE03A26B9245800D34E0F /* BenchmarkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenchmarkTest.swift; sourceTree = "<group>"; };
 		40D7C4CA24C05401004522F7 /* CodableWrapperTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CodableWrapperTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +90,7 @@
 				4066813024F375AB00562E47 /* InjectionKeeper.swift */,
 				407295B826B2B8BF00B361C2 /* TransformType.swift */,
 				403CCBCF26B39D0800BFED51 /* AnyTransfromTypeTunk.swift */,
+				4088F201271571BA0006A7ED /* SnakeCamelConvert.swift */,
 				407295BA26B2B8F900B361C2 /* Transforms */,
 				4066813624F375AB00562E47 /* Info.plist */,
 			);
@@ -210,7 +213,7 @@
 				};
 			};
 			buildConfigurationList = 40D7C4C324C053F3004522F7 /* Build configuration list for PBXProject "CodableWrapper" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -263,6 +266,7 @@
 				407295B926B2B8BF00B361C2 /* TransformType.swift in Sources */,
 				2B00E96726A8088000FA2060 /* CodecInit.swift in Sources */,
 				407295C026B2B8F900B361C2 /* TransformOf.swift in Sources */,
+				4088F202271571BA0006A7ED /* SnakeCamelConvert.swift in Sources */,
 				4066813E24F375AB00562E47 /* InjectionKeeper.swift in Sources */,
 				2B00E96526A8054B00FA2060 /* CodableWrapperDebug.swift in Sources */,
 				2B00E95F26A7F87200FA2060 /* UnsafePropertyFetcher.swift in Sources */,

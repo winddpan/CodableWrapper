@@ -55,7 +55,7 @@ example("Codec.2: 使用驼峰转下划线✅") {
     let api3 = #" { "user_vip":true } "#
     
     [api1, api2, api3]
-        .compactMap { CodecUser.decode(from: $0, strategy: .convertFromSnakeCase) }
+        .compactMap { CodecAutoConvertUser.decode(from: $0, strategy: .convertFromSnakeCase) }
         .enumerated()
         .forEach { print("user\($0+1): \($1)") }
 }

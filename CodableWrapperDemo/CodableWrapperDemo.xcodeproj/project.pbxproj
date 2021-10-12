@@ -3,12 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2BA0F1DA26EF32060091F123 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA0F1D926EF32060091F123 /* main.swift */; };
-		2BA0F1E326EF33DB0091F123 /* CodableWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 2BA0F1E226EF33DB0091F123 /* CodableWrapper */; };
+		403D9051271561E400E825F2 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403D9050271561E400E825F2 /* main.swift */; };
+		4087EA21271568D000549ACC /* CodableWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 4087EA20271568D000549ACC /* CodableWrapper */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,8 +25,10 @@
 
 /* Begin PBXFileReference section */
 		2BA0F1D626EF32060091F123 /* CodableWrapperDemo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CodableWrapperDemo; sourceTree = BUILT_PRODUCTS_DIR; };
-		2BA0F1D926EF32060091F123 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		2BA0F1E026EF32540091F123 /* Example.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Example.playground; path = CodableWrapperDemo/Example.playground; sourceTree = "<group>"; };
+		403874372715646100C15DD3 /* CodableWrapper */ = {isa = PBXFileReference; lastKnownFileType = folder; name = CodableWrapper; path = ..; sourceTree = "<group>"; };
+		403D904F271561D500E825F2 /* Example.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Example.playground; sourceTree = "<group>"; };
+		403D9050271561E400E825F2 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		4087EA1C271568B100549ACC /* CodableWrapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CodableWrapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,7 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2BA0F1E326EF33DB0091F123 /* CodableWrapper in Frameworks */,
+				4087EA21271568D000549ACC /* CodableWrapper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,9 +46,11 @@
 		2BA0F1CD26EF32060091F123 = {
 			isa = PBXGroup;
 			children = (
-				2BA0F1E026EF32540091F123 /* Example.playground */,
-				2BA0F1D826EF32060091F123 /* CodableWrapperDemo */,
+				403874362715646100C15DD3 /* Packages */,
+				403D904F271561D500E825F2 /* Example.playground */,
+				403D9050271561E400E825F2 /* main.swift */,
 				2BA0F1D726EF32060091F123 /* Products */,
+				403D904A27155FFC00E825F2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,12 +62,20 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2BA0F1D826EF32060091F123 /* CodableWrapperDemo */ = {
+		403874362715646100C15DD3 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				2BA0F1D926EF32060091F123 /* main.swift */,
+				403874372715646100C15DD3 /* CodableWrapper */,
 			);
-			path = CodableWrapperDemo;
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		403D904A27155FFC00E825F2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4087EA1C271568B100549ACC /* CodableWrapper.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,7 +95,7 @@
 			);
 			name = CodableWrapperDemo;
 			packageProductDependencies = (
-				2BA0F1E226EF33DB0091F123 /* CodableWrapper */,
+				4087EA20271568D000549ACC /* CodableWrapper */,
 			);
 			productName = CodableWrapperDemo;
 			productReference = 2BA0F1D626EF32060091F123 /* CodableWrapperDemo */;
@@ -100,11 +112,12 @@
 				TargetAttributes = {
 					2BA0F1D526EF32060091F123 = {
 						CreatedOnToolsVersion = 12.5;
+						LastSwiftMigration = 1300;
 					};
 				};
 			};
 			buildConfigurationList = 2BA0F1D126EF32060091F123 /* Build configuration list for PBXProject "CodableWrapperDemo" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -113,7 +126,6 @@
 			);
 			mainGroup = 2BA0F1CD26EF32060091F123;
 			packageReferences = (
-				2BA0F1E126EF33DB0091F123 /* XCRemoteSwiftPackageReference "CodableWrapper" */,
 			);
 			productRefGroup = 2BA0F1D726EF32060091F123 /* Products */;
 			projectDirPath = "";
@@ -129,7 +141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2BA0F1DA26EF32060091F123 /* main.swift in Sources */,
+				403D9051271561E400E825F2 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,8 +266,15 @@
 		2BA0F1DE26EF32060091F123 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -263,7 +282,13 @@
 		2BA0F1DF26EF32060091F123 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -292,21 +317,9 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		2BA0F1E126EF33DB0091F123 /* XCRemoteSwiftPackageReference "CodableWrapper" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/winddpan/CodableWrapper.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.5;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		2BA0F1E226EF33DB0091F123 /* CodableWrapper */ = {
+		4087EA20271568D000549ACC /* CodableWrapper */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2BA0F1E126EF33DB0091F123 /* XCRemoteSwiftPackageReference "CodableWrapper" */;
 			productName = CodableWrapper;
 		};
 /* End XCSwiftPackageProductDependency section */

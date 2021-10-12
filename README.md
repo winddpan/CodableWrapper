@@ -46,33 +46,40 @@
 
 ## Example
 ```Swift
-struct ExampleModel: Codable {
-    @Codec("stringVal", "string_Val") 
-    var stringVal: String = "scyano"
-  
-    @Codec("int_Val", "intVal") 
-    var intVal: Int = 123456
-  
-    @Codec var array: [Double] = [1.998, 2.998, 3.998]
-  
-    @Codec var bool: Bool = false
-  
-    @Codec var unImpl: String?
+enum Animal: String, Codable {
+    case dog
+    case cat
+    case fish
 }
 
-let json = """
-{"int_Val": "233", "string_Val": "pan", "bool": "1"}
-"""
+struct ExampleModel: Codable {
+    @Codec("aString")
+    var stringVal: String = "scyano"
+
+    @Codec("aInt")
+    var intVal: Int = 123456
+
+    @Codec var defaultArray: [Double] = [1.998, 2.998, 3.998]
+
+    @Codec var bool: Bool = false
+
+    @Codec var unImpl: String?
+    
+    @Codec var animal: Animal = .dog
+}
+
+let json = #"{"aString": "pan", "aInt": "233", "bool": "1", "animal": "cat"}"#
 
 let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
-XCTAssertEqual(model.intVal, 233)
 XCTAssertEqual(model.stringVal, "pan")
-XCTAssertEqual(model.unImpl, "nil")
-XCTAssertEqual(model.array, [1.998, 2.998, 3.998])
+XCTAssertEqual(model.intVal, 233)
+XCTAssertEqual(model.defaultArray, [1.998, 2.998, 3.998])
 XCTAssertEqual(model.bool, true)
+XCTAssertEqual(model.unImpl, nil)
+XCTAssertEqual(model.animal, .cat)
 ```
 
-*For more examples, please check the unit tests*
+*For more examples, please check the unit tests & CodableWrapperDemo*
 
 ## How it works
 
@@ -140,16 +147,29 @@ struct ExampleModel: Codable {
     @Codec var bool: Bool = false
 }
 
-let json = """
-{"bool":"wrong value"}
-"""
+let json = #"{"bool":"wrong value"}"#
 
 let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
 XCTAssertEqual(model.bool, false)
 ```
 
+#### Auto snake camel convert
+```swift
+struct ExampleModel: Codable {
+    @Codec var snake_string: String = ""
+    @Codec var camelString: String = ""
+}
+
+let json = #"{"snakeString":"snake", "camel_string": "camel"}"#
+
+let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
+XCTAssertEqual(model.snake_string, "snake")
+XCTAssertEqual(model.camelString, "camel")
+```
+
 #### CodingKeys 
-> While Decoding: try each CodingKey until succeed; while Encoding: use first CodingKey as Dictionary key
+> Decoding:  try each CodingKey until succeed
+> Encoding:  use first CodingKey as Dictionary key
 ```swift
 struct ExampleModel: Codable {
     @Codec("int_Val", "intVal")
@@ -159,9 +179,7 @@ struct ExampleModel: Codable {
     var intOptional: Int?
 }
 
-let json = """
-{"int_Val": "233", "int_optional": 234}
-"""
+let json = #"{"int_Val": "233", "int_optional": 234}"#
 
 let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
 XCTAssertEqual(model.intVal, 233)
@@ -174,7 +192,7 @@ XCTAssertEqual(jsonObject["intOptional"] as? Int, 234)
 
 ```
 
-#### BasicTypeBridge
+#### Basic type bridging
 ```swift
 struct ExampleModel: Codable {
     @Codec var int: Int?
@@ -184,9 +202,7 @@ struct ExampleModel: Codable {
     @Codec var bool: Bool?
 }
 
-let json = """
-{"int": "1", "string": 2, "bool": "true"}
-"""
+let json = #"{"int": "1", "string": 2, "bool": "true"}"#
 
 let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
 XCTAssertEqual(model.int, 1)

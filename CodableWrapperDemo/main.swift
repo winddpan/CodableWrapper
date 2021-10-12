@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CodableWrapper
 
-print("Hello, World!")
+print(Codec<String>.self)
 

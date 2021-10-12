@@ -17,20 +17,20 @@ enum Animal: String, Codable {
 }
 
 struct ExampleModel: Codable {
-    @Codec("stringVal", "string_Val")
+    @Codec("aString")
     var stringVal: String = "scyano"
 
-    @Codec("int_Val", "intVal")
+    @Codec("aInt")
     var intVal: Int = 123456
 
     @Codec var array: [Double] = [1.998, 2.998, 3.998]
-    
+
     @Codec var bool: Bool = false
 
     @Codec var bool2: Bool = true
 
     @Codec var unImpl: String?
-    
+
     @Codec var animal: Animal = .dog
 }
 
@@ -49,10 +49,8 @@ struct OptionalNullModel: Codable {
 /** ExampleTest */
 
 class ExampleTest: XCTestCase {
-    func testCodingKeyDecode() throws {
-        let json = """
-        {"int_Val": "233", "string_Val": "pan", "bool": "1", "animal": "cat"}
-        """
+    func testBasicUsage() throws {
+        let json = #"{"stringVal": "pan", "intVal": "233", "bool": "1", "animal": "cat"}"#
         let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
         XCTAssertEqual(model.intVal, 233)
         XCTAssertEqual(model.stringVal, "pan")
@@ -60,6 +58,40 @@ class ExampleTest: XCTestCase {
         XCTAssertEqual(model.array, [1.998, 2.998, 3.998])
         XCTAssertEqual(model.bool, true)
         XCTAssertEqual(model.animal, .cat)
+    }
+
+    func testCodingKeyEncode() throws {
+        let json = """
+        {"intVal": 233, "stringVal": "pan"}
+        """
+        let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
+
+        let data = try JSONEncoder().encode(model)
+        let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+        XCTAssertEqual(jsonObject["aInt"] as? Int, 233)
+        XCTAssertEqual(jsonObject["aString"] as? String, "pan")
+    }
+
+    func testSnakeCamel() throws {
+        struct ExampleModel: Codable {
+            @Codec var snake_string: String = ""
+            @Codec var camelString: String = ""
+        }
+
+        let json = #"{"snakeString":"snake", "camel_string": "camel"}"#
+
+        let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
+        XCTAssertEqual(model.snake_string, "snake")
+        XCTAssertEqual(model.camelString, "camel")
+    }
+
+    func testCodingKeyDecode() throws {
+        let json = """
+        {"aString": "pan", "aInt": "233"}
+        """
+        let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
+        XCTAssertEqual(model.intVal, 233)
+        XCTAssertEqual(model.stringVal, "pan")
     }
 
     func testDefaultVale() throws {
@@ -70,18 +102,6 @@ class ExampleTest: XCTestCase {
         XCTAssertEqual(model.intVal, 123456)
         XCTAssertEqual(model.stringVal, "scyano")
         XCTAssertEqual(model.animal, .dog)
-    }
-
-    func testCodingKeyEncode() throws {
-        let json = """
-        {"int_Val": 233, "string_Val": "pan"}
-        """
-        let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
-
-        let data = try JSONEncoder().encode(model)
-        let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-        XCTAssertEqual(jsonObject["int_Val"] as? Int, 233)
-        XCTAssertEqual(jsonObject["stringVal"] as? String, "pan")
     }
 
     func testNested() throws {
@@ -124,7 +144,7 @@ class ExampleTest: XCTestCase {
         """
         let model = try JSONDecoder().decode(OptionalNullModel.self, from: json.data(using: .utf8)!)
         XCTAssertEqual(model.val, nil)
-        
+
         let json2 = """
         {}
         """
@@ -143,7 +163,7 @@ class ExampleTest: XCTestCase {
 
         let jsonData = try JSONEncoder().encode(model)
         let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: []) as! [String: Any]
-        XCTAssertEqual(jsonObject["stringVal"] as? String, "2")
+        XCTAssertEqual(jsonObject["aString"] as? String, "2")
     }
 
     func testMutiThread() throws {
@@ -157,7 +177,7 @@ class ExampleTest: XCTestCase {
             do {
                 for i in 5000 ..< 6000 {
                     let json = """
-                    {"int_Val": \(i)}
+                    {"intVal": \(i)}
                     """
                     let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
                     XCTAssertEqual(model.intVal, i)
@@ -178,7 +198,7 @@ class ExampleTest: XCTestCase {
             do {
                 for i in 1 ..< 1000 {
                     let json = """
-                    {"int_Val": \(i), "string_Val": "string_\(i)", "array": [123456789]}
+                    {"intVal": \(i), "stringVal": "string_\(i)", "array": [123456789]}
                     """
                     let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
                     XCTAssertEqual(model.intVal, i)

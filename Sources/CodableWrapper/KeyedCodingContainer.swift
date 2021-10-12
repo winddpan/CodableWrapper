@@ -49,10 +49,11 @@ public extension KeyedDecodingContainer {
         let injection: InjectionKeeper<Value>.InjectionClosure = { wrapper, storedValue in
             guard let construct = wrapper.construct else { return }
             let dictionary = self._containerDictionary()
-            let keys = wrapper.construct.codingKeys + [key.stringValue]
             let bridge = Value.self as? _BuiltInBridgeType.Type
             let transformFromJSON = construct.transformer?.fromJSON
-
+            var keys = wrapper.construct.codingKeys + [key.stringValue]
+            keys += keys.compactMap { $0.snakeCamelConvert() }
+            
             for codingKey in keys {
                 if let json = dictionary[codingKey] {
                     if let transformFromJSON = transformFromJSON {
