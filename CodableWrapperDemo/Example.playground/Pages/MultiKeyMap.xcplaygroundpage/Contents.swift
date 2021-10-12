@@ -45,7 +45,7 @@ example("Codec.1: 多个 key 可同时映射到一个属性, 解析成功✅") {
 }
 //: `Support DecodingKeyStrategy`
 struct CodecAutoConvertUser: Codable {
-    @Codec("vip_user", "user_vip")
+    @Codec("vipUser", "userVip")
     var isVip: Bool = false
 }
 
