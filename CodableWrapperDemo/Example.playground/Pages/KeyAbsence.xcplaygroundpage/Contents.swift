@@ -31,9 +31,11 @@ struct OptionalUser: Codable {
 
 example("Native.2: 将所有属性声明为 Optional, 防止解析失败😅") {
     if let user = OptionalUser.decode(from: json) {
+        /* usage
+         let vip = user.vip ?? false
+         let name = user.name ?? ""
+        */
         print(user)
-//        let vip = user.vip ?? false
-//        let name = user.name ?? ""
     }
 }
 /*:

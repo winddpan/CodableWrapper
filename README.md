@@ -72,7 +72,7 @@ XCTAssertEqual(model.array, [1.998, 2.998, 3.998])
 XCTAssertEqual(model.bool, true)
 ```
 
-*For more examples, please check the unit tests*
+*For more examples, please check the unit tests or playground*
 
 ## How it works
 
