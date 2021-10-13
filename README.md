@@ -79,7 +79,7 @@ XCTAssertEqual(model.unImpl, nil)
 XCTAssertEqual(model.animal, .cat)
 ```
 
-*For more examples, please check the unit tests or CodableWrapperDemo.xcworkspace*
+*For more examples, please check the unit tests or CodableWrapperPlayground/CodableWrapperPlayground.xcodeproj*
 
 ## How it works
 
