@@ -5,39 +5,38 @@
   </p>
 </p>
 <ol>
-  <li><a href="#about-the-project">About</a></li>
-  <li><a href="#feature">Feature</a></li>
-  <li><a href="#installation">Installation</a></li>
-  <li><a href="#example">Example</a></li>
-  <li><a href="#how-it-works">How it works</a></li>
+  <li><a href="#关于">关于</a></li>
+  <li><a href="#功能">功能</a></li>
+  <li><a href="#安装">安装</a></li>
+  <li><a href="#一个例子">一个例子</a></li>
+  <li><a href="#工作原理">工作原理</a></li>
   <li>
-    <a href="#usage">Usage</a>
+    <a href="#用法">用法</a>
     <ul>
-      <li><a href="#defaultvalue">DefaultValue</a></li>
-      <li><a href="#codingkeys">CodingKeys</a></li>
-      <li><a href="#basictypebridge">BasicTypeBridge</a></li>
-      <li><a href="#transformer">Transformer</a></li>
+      <li><a href="#缺省值">缺省值</a></li>
+      <li><a href="#自定义解析key">自定义解析key</a></li>
+      <li><a href="#基本类型互转">基本类型互转</a></li>
+      <li><a href="#自定义解析规则">自定义解析规则</a></li>
     </ul>
   </li>
 </ol>
 
-## [中文说明](./README-zhCN.md)
 
-## About
-* This project is use `PropertyWrapper` to improve your `Codable` use experience.
-* Simply based on `JSONEncoder` `JSONDecoder`.
-* Powerful and simplifily API than  [BetterCodable](https://github.com/marksands/BetterCodable) or [CodableWrappers](https://github.com/GottaGetSwifty/CodableWrappers).
+## 关于
+* 使用 `PropertyWrapper` 提升 `Codable` 的使用体验
+* 基于系统 `JSONEncoder` `JSONDecoder`，无第三方依赖
+* 比其他 Codable PropertyWrapper 的库相比 API更自由，比如 [BetterCodable](https://github.com/marksands/BetterCodable)  [CodableWrappers](https://github.com/GottaGetSwifty/CodableWrappers) 。它们都是使用泛型关联配置的，本库可以传参配置。
 
-## Feature
+## 功能
 
-* Default value supported
-* Basic type convertible, between `String`  `Bool` `Number` 
-* Custom key support
-* Fix parsing failure due to missing fields from server
-* Fix parsing failure due to mismatch Enum raw value
-* Custom transform
+* 基于 Codable，Codable 的基本能力都支持
+* 支持缺省值
+* 支持 `String`  `Bool` `Number` 等基本类型互转
+* 自定义解析key
+* JSON缺少字段容错
+* 自定义解析规则
 
-## Installation
+## 安装
 
 #### Cocoapods
 ``` pod 'CodableWrapper' ```
@@ -45,7 +44,7 @@
 #### Swift Package Manager
 ``` https://github.com/winddpan/CodableWrapper ```
 
-## Example
+## 一个例子
 ```Swift
 enum Animal: String, Codable {
     case dog
@@ -80,9 +79,10 @@ XCTAssertEqual(model.unImpl, nil)
 XCTAssertEqual(model.animal, .cat)
 ```
 
-*For more examples, please check the unit tests or CodableWrapperPlayground/CodableWrapperPlayground.xcodeproj*
+* 查看 unit tests 或者 CodableWrapperPlayground/CodableWrapperPlayground.xcodeproj 获取更多使用姿势 *
 
-## How it works
+## 工作原理
+>怎么传递配置信息
 
 ```Swift
 struct DataModel: Codable {
@@ -139,10 +139,10 @@ struct DataModel: Codable {
 ```
 
 
-## Usage
+## 用法
 
-#### DefaultValue
-> DefaultValue should implement `Codable` protocol
+#### 缺省值
+> 缺省值需要遵从 `Codable` 协议
 ```swift
 struct ExampleModel: Codable {
     @Codec var bool: Bool = false
@@ -154,7 +154,7 @@ let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .
 XCTAssertEqual(model.bool, false)
 ```
 
-#### Auto snake camel convert
+#### 驼峰下划线自动互转
 ```swift
 struct ExampleModel: Codable {
     @Codec var snake_string: String = ""
@@ -168,9 +168,9 @@ XCTAssertEqual(model.snake_string, "snake")
 XCTAssertEqual(model.camelString, "camel")
 ```
 
-#### CodingKeys 
-> Decoding:  try each CodingKey until succeed
-> Encoding:  use first CodingKey as Dictionary key
+#### 自定义解析key 
+> Decoding:  左右往右尝试直到解析成功  
+> Encoding:  使用第一 key作为JSON字典的key
 ```swift
 struct ExampleModel: Codable {
     @Codec("int_Val", "intVal")
@@ -193,7 +193,7 @@ XCTAssertEqual(jsonObject["intOptional"] as? Int, 234)
 
 ```
 
-#### Basic type bridging
+#### 基本类型互转
 ```swift
 struct ExampleModel: Codable {
     @Codec var int: Int?
@@ -211,7 +211,7 @@ XCTAssertEqual(model.string, "2")
 XCTAssertEqual(model.bool, true)
 ```
 
-#### Transformer
+#### 自定义解析规则
 ```swift
 struct User: Codable {
     @Codec(transformer: SecondDateTransform())
@@ -224,7 +224,7 @@ let user = try JSONDecoder().decode(User.self, from: json.data(using: .utf8)!)
 XCTAssertEqual(model.sencondsDate?.timeIntervalSince1970, date.timeIntervalSince1970)
 ```
 
-> It also support custom transformer, your `CustomTransformer` only need to comfirm to `TransfromType`
+> `TransfromType`协议支持自定义Transform
 
 ## License
 

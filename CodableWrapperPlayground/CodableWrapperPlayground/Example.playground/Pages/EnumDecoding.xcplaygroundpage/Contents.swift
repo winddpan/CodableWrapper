@@ -26,10 +26,10 @@ struct User: Codable {
 }
 
 example("Native.1: enum 返回不支持的 rawValue, 解析失败❌") {
-    if let user = User.decode(from: json) {
-        print(user)
-    }
+    let user = try User.decode(from: json)
+    print(user)
 }
+
 //: `Compatible Solution`
 struct OptionalUser: Codable {
     private var vip: Int?
@@ -40,10 +40,10 @@ struct OptionalUser: Codable {
 }
 
 example("Native.2: 使用 RawValue.Type 来承接值, 并手动对外返回 case, 防止解析失败😅") {
-    if let user = OptionalUser.decode(from: json) {
-        print("name: \(user.name), vip: \(user.userVipLevel)")
-    }
+    let user = try OptionalUser.decode(from: json)
+    print("name: \(user.name), vip: \(user.userVipLevel)")
 }
+
 /*:
  ## Codec
  */
@@ -53,8 +53,8 @@ struct CodecUser: Codable {
 }
 
 example("Codec.1: rawValue 不匹配, 枚举解析失败, 使用默认 case✅") {
-    if let user = CodecUser.decode(from: json) {
-        print(user)
-    }
+    let user = try CodecUser.decode(from: json)
+    print(user)
 }
+
 //: [Next](@next)

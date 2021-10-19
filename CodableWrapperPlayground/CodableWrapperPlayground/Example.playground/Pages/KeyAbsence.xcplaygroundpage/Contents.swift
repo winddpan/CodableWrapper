@@ -19,10 +19,10 @@ struct User: Codable {
 }
 
 example("Native.1: vip 字段缺失, 解析失敗❌") {
-    if let user = User.decode(from: json) {
-        print(user)
-    }
+    let user = try User.decode(from: json)
+    print(user)
 }
+
 //: `Compatible Solution`
 struct OptionalUser: Codable {
     let vip: Bool?
@@ -30,14 +30,14 @@ struct OptionalUser: Codable {
 }
 
 example("Native.2: 将所有属性声明为 Optional, 防止解析失败😅") {
-    if let user = OptionalUser.decode(from: json) {
-        /* usage
-         let vip = user.vip ?? false
-         let name = user.name ?? ""
-        */
-        print(user)
-    }
+    let user = try OptionalUser.decode(from: json)
+    /* usage
+      let vip = user.vip ?? false
+      let name = user.name ?? ""
+     */
+    print(user)
 }
+
 /*:
  ## Codec
  */
@@ -47,8 +47,8 @@ struct CodecUser: Codable {
 }
 
 example("Codec.1: 缺失的 Key 对应的属性, 会保持默认值") {
-    if let user = CodecUser.decode(from: json) {
-        print(user)
-    }
+    let user = try CodecUser.decode(from: json)
+    print(user)
 }
+
 //: [Next](@next)

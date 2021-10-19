@@ -13,15 +13,15 @@ let json = #" { "registerTime": 1599238402 } "#
 struct User: Codable {
     private let registerTime: Double
     var registerDate: Date {
-        Date.init(timeIntervalSince1970: registerTime)
+        Date(timeIntervalSince1970: registerTime)
     }
 }
 
 example("Native: 保存时间戳, 并将手动转换后的 Date 暴露给外部使用") {
-    if let user = User.decode(from: json) {
-        print("register Date:", user.registerDate)
-    }
+    let user = try User.decode(from: json)
+    print("register Date:", user.registerDate)
 }
+
 /*:
  ## Codec
  */
@@ -32,9 +32,8 @@ struct CodecUser: Codable {
 }
 
 example("Codec: 自动将返回的时间戳转换为 Date") {
-    if let user = User.decode(from: json) {
-        print("register Date:", user.registerDate)
-    }
+    let user = try User.decode(from: json)
+    print("register Date:", user.registerDate)
 }
-//: [Next](@next)
 
+//: [Next](@next)

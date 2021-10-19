@@ -20,18 +20,18 @@ struct User: Codable {
 }
 
 example("native.1: 返回的类型和属性类型不匹配, 解析失败❌") {
-    if let user = User.decode(from: json) {
-        print(user)
-    }
+    let user = try User.decode(from: json)
+    print(user)
 }
+
 //: `Compatible Solution`
 struct BoolConvertible: Codable, Equatable, ExpressibleByBooleanLiteral, CustomStringConvertible {
     private var value: Bool = false
-    
+
     var description: String {
         "\(value)"
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if let boolValue = try? container.decode(Bool.self) {
@@ -42,11 +42,11 @@ struct BoolConvertible: Codable, Equatable, ExpressibleByBooleanLiteral, CustomS
         }
 //        if let stringValue = try? container.decode(String.self) {...}
     }
-    
+
     init(booleanLiteral value: Bool) {
         self.value = value
     }
-    
+
     public static func == (lhs: BoolConvertible, rhs: Bool) -> Bool {
         return lhs.value == rhs
     }
@@ -58,11 +58,11 @@ struct ConvertibleUser: Codable {
 }
 
 example("native.2: 封装一个新类型用于防止解析失败, 需要额外实现一些原本类型的行为") {
-    if let user = ConvertibleUser.decode(from: json) {
-        print(user)
-        // if user.vip == true {...}
-    }
+    let user = try ConvertibleUser.decode(from: json)
+    print(user)
+    // if user.vip == true {...}
 }
+
 /*:
  ## Codec
  */
@@ -72,8 +72,8 @@ struct CodecUser: Codable {
 }
 
 example("Codec.1: 非/0 将兼容 Bool, 解析成功✅") {
-    if let user = CodecUser.decode(from: json) {
-        print(user)
-    }
+    let user = try CodecUser.decode(from: json)
+    print(user)
 }
+
 //: [Next](@next)

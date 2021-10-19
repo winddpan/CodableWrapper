@@ -26,10 +26,10 @@ struct User: Codable {
 }
 
 example("Native: vip & nicknames 的默认值被解析成功的值覆盖; name 解析失败, 默认值被 nil覆盖") {
-    if let user = User.decode(from: json) {
-        print(user)
-    }
+    let user = try User.decode(from: json)
+    print(user)
 }
+
 /*:
  ## Codec
  */
@@ -40,8 +40,8 @@ struct CodecUser: Codable {
 }
 
 example("Codec: vip & nicknames 的默认值被解析成功的值覆盖; name 解析失败, 使用默认值") {
-    if let user = CodecUser.decode(from: json) {
-        print(user)
-    }
+    let user = try CodecUser.decode(from: json)
+    print(user)
 }
+
 //: [Next](@next)
