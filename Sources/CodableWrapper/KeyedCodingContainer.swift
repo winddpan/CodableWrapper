@@ -14,11 +14,14 @@ public extension KeyedEncodingContainer {
         let codingKey = value.construct?.codingKeys.first ?? key.stringValue
         if let construct = value.construct, let toJSON = construct.transformer?.toJSON {
             if let transformed = toJSON(value.wrappedValue) {
-                _container().setValue(transformed, forKey: codingKey)
+                let dictionary = _container()
+                dictionary.setValue(transformed, forKey: codingKey)
+                NestedKey(codingKey)?.replaceEncodeKey(in: dictionary)
             }
         } else if let key = AnyCodingKey(stringValue: codingKey), let wrappedValue = value.wrappedValue as? Encodable {
             var container = _encoder().container(keyedBy: AnyCodingKey.self)
             try wrappedValue.encode(to: &container, forKey: key)
+            NestedKey(codingKey)?.replaceEncodeKey(in: _container())
         }
     }
 }
@@ -53,9 +56,10 @@ public extension KeyedDecodingContainer {
             let transformFromJSON = construct.transformer?.fromJSON
             var keys = wrapper.construct.codingKeys + [key.stringValue]
             keys += keys.compactMap { $0.snakeCamelConvert() }
-            
+
             for codingKey in keys {
-                if let json = dictionary[codingKey] {
+                let _json = dictionary[codingKey] ?? NestedKey(codingKey)?.toDecodeResult(in: dictionary)
+                if let json = _json {
                     if let transformFromJSON = transformFromJSON {
                         wrapper.storedValue = transformFromJSON(json) as? Value
                         return

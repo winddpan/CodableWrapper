@@ -23,6 +23,8 @@
 		407295B926B2B8BF00B361C2 /* TransformType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407295B826B2B8BF00B361C2 /* TransformType.swift */; };
 		407295C026B2B8F900B361C2 /* TransformOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407295BD26B2B8F900B361C2 /* TransformOf.swift */; };
 		4088F202271571BA0006A7ED /* SnakeCamelConvert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4088F201271571BA0006A7ED /* SnakeCamelConvert.swift */; };
+		4094B2F4271EB63800124BD8 /* NestedKeyTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4094B2F3271EB63800124BD8 /* NestedKeyTest.swift */; };
+		4094B2F6271EBE8700124BD8 /* NestedKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4094B2F5271EBE8700124BD8 /* NestedKey.swift */; };
 		40BBB9B826B941BD00CD0700 /* CodecConstruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BBB9B726B941BD00CD0700 /* CodecConstruct.swift */; };
 		40C744AD26732F410099FC20 /* CodableWrapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40D7C4D824C05415004522F7 /* CodableWrapper.framework */; };
 		40CCE03B26B9245800D34E0F /* BenchmarkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CCE03A26B9245800D34E0F /* BenchmarkTest.swift */; };
@@ -47,6 +49,8 @@
 		407295B826B2B8BF00B361C2 /* TransformType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformType.swift; sourceTree = "<group>"; };
 		407295BD26B2B8F900B361C2 /* TransformOf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformOf.swift; sourceTree = "<group>"; };
 		4088F201271571BA0006A7ED /* SnakeCamelConvert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnakeCamelConvert.swift; sourceTree = "<group>"; };
+		4094B2F3271EB63800124BD8 /* NestedKeyTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedKeyTest.swift; sourceTree = "<group>"; };
+		4094B2F5271EBE8700124BD8 /* NestedKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedKey.swift; sourceTree = "<group>"; };
 		40BBB9B726B941BD00CD0700 /* CodecConstruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodecConstruct.swift; sourceTree = "<group>"; };
 		40CCE03A26B9245800D34E0F /* BenchmarkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenchmarkTest.swift; sourceTree = "<group>"; };
 		40D7C4CA24C05401004522F7 /* CodableWrapperTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CodableWrapperTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +92,7 @@
 				407295B826B2B8BF00B361C2 /* TransformType.swift */,
 				403CCBCF26B39D0800BFED51 /* AnyTransfromTypeTunk.swift */,
 				4088F201271571BA0006A7ED /* SnakeCamelConvert.swift */,
+				4094B2F5271EBE8700124BD8 /* NestedKey.swift */,
 				407295BA26B2B8F900B361C2 /* Transforms */,
 				4066813624F375AB00562E47 /* Info.plist */,
 			);
@@ -102,6 +107,7 @@
 				4066814E24F375C000562E47 /* ExampleTest.swift */,
 				4061B56B26B801A700FA4E87 /* TransformTest.swift */,
 				40CCE03A26B9245800D34E0F /* BenchmarkTest.swift */,
+				4094B2F3271EB63800124BD8 /* NestedKeyTest.swift */,
 			);
 			name = CodableWrapperTests;
 			path = Tests/CodableWrapperTests;
@@ -251,6 +257,7 @@
 			files = (
 				4066815224F375C000562E47 /* ExampleTest.swift in Sources */,
 				40CCE03B26B9245800D34E0F /* BenchmarkTest.swift in Sources */,
+				4094B2F4271EB63800124BD8 /* NestedKeyTest.swift in Sources */,
 				4061B56C26B801A700FA4E87 /* TransformTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -269,6 +276,7 @@
 				4061B57026B8022D00FA4E87 /* DateTransform.swift in Sources */,
 				4066813724F375AB00562E47 /* Codec.swift in Sources */,
 				4066813D24F375AB00562E47 /* BuiltInBridgeType.swift in Sources */,
+				4094B2F6271EBE8700124BD8 /* NestedKey.swift in Sources */,
 				40BBB9B826B941BD00CD0700 /* CodecConstruct.swift in Sources */,
 				4066813B24F375AB00562E47 /* AnyCodingKey.swift in Sources */,
 				2B00E96126A7FF0D00FA2060 /* KeyedCodingContainer.swift in Sources */,
