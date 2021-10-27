@@ -10,7 +10,7 @@ import Foundation
 // MARK: - KeyedEncodingContainer
 
 public extension KeyedEncodingContainer {
-    mutating func encode<T, Value>(_ value: T, forKey key: Key) throws where T: Codec<Value> {
+    func encode<T, Value>(_ value: T, forKey key: Key) throws where T: Codec<Value> {
         let codingKey = value.construct?.codingKeys.first ?? key.stringValue
         if let construct = value.construct, let toJSON = construct.transformer?.toJSON {
             if let transformed = toJSON(value.wrappedValue) {
@@ -31,24 +31,16 @@ public extension KeyedEncodingContainer {
 public extension KeyedDecodingContainer {
     /// for non-Codable type
     func decode<Value>(_ type: Codec<Value>.Type, forKey key: Key) throws -> Codec<Value> {
-        return try _decode(type, forKey: key, rawDecoding: nil)
+        return try _decode(type, forKey: key)
     }
 
     func decode<Value: Decodable>(_ type: Codec<Value>.Type, forKey key: Key) throws -> Codec<Value> {
-        return try _decode(type, forKey: key) { key, value -> Value? in
-            if let key = AnyCodingKey(stringValue: key),
-               let container = try? self._decoder().container(keyedBy: AnyCodingKey.self),
-               let value = try? container.decode(Value.self, forKey: key)
-            {
-                return value
-            }
-            return nil
-        }
+        return try _decode(type, forKey: key)
     }
 
-    private func _decode<Value>(_: Codec<Value>.Type, forKey key: Key, rawDecoding: ((String, Any) -> Value?)?) throws -> Codec<Value> {
+    private func _decode<Value>(_: Codec<Value>.Type, forKey key: Key) throws -> Codec<Value> {
         let injection: InjectionKeeper<Value>.InjectionClosure = { wrapper, storedValue in
-            wrapper.finalize(dictionary: self._containerDictionary(), key: key.stringValue, rawStoredValue: storedValue, rawDecoding: rawDecoding)
+            wrapper.finalize(from: self, forKey: key, rawStoredValue: storedValue)
         }
         let wrapper = Codec<Value>(unsafed: ())
         Thread.current.lastInjectionKeeper = InjectionKeeper(codec: wrapper, injection: injection)

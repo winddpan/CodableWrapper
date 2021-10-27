@@ -8,11 +8,12 @@
 import Foundation
 
 extension Codec {
-    func finalize(dictionary: [String: Any], key: String, rawStoredValue: Value, rawDecoding: ((String, Any) -> Value?)?) {
+    func finalize<K: CodingKey>(from container: KeyedDecodingContainer<K>, forKey key: KeyedDecodingContainer<K>.Key, rawStoredValue: Value) {
         guard let construct = construct else { return }
+        let dictionary = container._containerDictionary()
         let bridge = Value.self as? _BuiltInBridgeType.Type
         let transformFromJSON = construct.transformer?.fromJSON
-        var keys = construct.codingKeys + [key]
+        var keys = construct.codingKeys + [key.stringValue]
         keys += keys.compactMap { $0.snakeCamelConvert() }
 
         for codingKey in keys {
@@ -30,9 +31,13 @@ extension Codec {
                     storedValue = __bridged
                     return
                 }
-                if !(json is NSNull), let decoded = rawDecoding?(codingKey, json) {
-                    storedValue = decoded
-                    return
+                if !(json is NSNull), let valueType = Value.self as? Decodable.Type {
+                    if let key = KeyedDecodingContainer<K>.Key(stringValue: codingKey),
+                       let value = try? valueType.decode(from: container, forKey: key) as? Value
+                    {
+                        storedValue = value
+                        return
+                    }
                 }
             }
         }
