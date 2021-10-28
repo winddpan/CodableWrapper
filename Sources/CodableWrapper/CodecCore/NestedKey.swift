@@ -21,12 +21,21 @@ class NestedKey {
         }
     }
 
-    func toDecodeResult(in dictionary: [String: Any]) -> Any? {
-        var json: Any? = dictionary
-        for path in paths {
-            json = (json as? [String: Any])?[path]
+    func fetchToDecodeJSON(from dictionary: [String: Any]) -> Any? {
+        var json: [String: Any]? = dictionary
+        var keyPaths = paths
+        let property = keyPaths.removeLast()
+        for path in keyPaths {
+            json = json?[path] as? [String: Any]
         }
-        return json
+        if let json = json {
+            if let result = json[property] {
+                return result
+            } else if let snakeCamel = property.snakeCamelConvert(), let result = json[snakeCamel] {
+                return result
+            }
+        }
+        return nil
     }
 
     func replaceEncodeKey(in dictionary: NSMutableDictionary) {

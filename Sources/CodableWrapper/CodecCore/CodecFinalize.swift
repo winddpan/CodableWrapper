@@ -17,7 +17,7 @@ extension Codec {
         keys += keys.compactMap { $0.snakeCamelConvert() }
 
         for codingKey in keys {
-            let _json = dictionary[codingKey] ?? NestedKey(codingKey)?.toDecodeResult(in: dictionary)
+            let _json = dictionary[codingKey] ?? NestedKey(codingKey)?.fetchToDecodeJSON(from: dictionary)
             if let json = _json {
                 if let transformFromJSON = transformFromJSON {
                     storedValue = transformFromJSON(json) as? Value

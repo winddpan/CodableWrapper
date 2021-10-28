@@ -14,8 +14,11 @@ class NestedKeyTest: XCTestCase {
             @Codec("title")
             var show: String?
 
-            @Codec("role.name")
+            @Codec("role.fullName")
             var name: String?
+            
+            @Codec("role.full_name")
+            var name2: String?
 
             @Codec("role.iq")
             var iq: Int = 0
@@ -25,15 +28,17 @@ class NestedKeyTest: XCTestCase {
         {
             "title": "The Big Bang Theory",
             "role": {
-                "name": "Sheldon",
+                "full_name": "Sheldon Cooper",
                 "iq": 140
             }
         }
         """
 
         let model = try JSONDecoder().decode(Role.self, from: rawJSON.data(using: .utf8)!)
+        
         XCTAssertEqual(model.show, "The Big Bang Theory")
-        XCTAssertEqual(model.name, "Sheldon")
+        XCTAssertEqual(model.name, "Sheldon Cooper")
+        XCTAssertEqual(model.name2, "Sheldon Cooper")
         XCTAssertEqual(model.iq, 140)
 
         let jsonData = try JSONEncoder().encode(model)
@@ -41,7 +46,8 @@ class NestedKeyTest: XCTestCase {
         let role = (jsonObject["role"] as? [String: Any])
 
         XCTAssertEqual(jsonObject["title"] as? String, "The Big Bang Theory")
-        XCTAssertEqual(role?["name"] as? String, "Sheldon")
+        XCTAssertEqual(role?["fullName"] as? String, "Sheldon Cooper")
+        XCTAssertEqual(role?["full_name"] as? String, "Sheldon Cooper")
         XCTAssertEqual(role?["iq"] as? Int, 140)
     }
 
