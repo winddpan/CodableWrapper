@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NestedKey {
+struct NestedKey {
     let key: String
     let paths: [String]
 
