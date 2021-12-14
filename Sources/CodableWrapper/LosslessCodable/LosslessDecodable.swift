@@ -14,7 +14,7 @@ public extension LosslessDecodable {
     }
 
     private func _decode(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: AnyCodingKey.self)
+        var container = try decoder.container(keyedBy: AnyCodingKey.self)
 
         var _mirror: Mirror? = Mirror(reflecting: self)
         while let mirror = _mirror {
@@ -23,7 +23,7 @@ public extension LosslessDecodable {
                    let label = child.label, label.hasPrefix("_"),
                    let codingKey = AnyCodingKey(stringValue: String(label.dropFirst()))
                 {
-                    anyCodec._finalize(from: container, forKey: codingKey)
+                    anyCodec._finalize(from: decoder, container: &container, forKey: codingKey)
                 }
             }
             _mirror = mirror.superclassMirror

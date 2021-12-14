@@ -7,25 +7,6 @@
 
 import Foundation
 
-// MARK: - KeyedEncodingContainer
-
-public extension KeyedEncodingContainer {
-    func encode<T, Value>(_ value: T, forKey key: Key) throws where T: Codec<Value> {
-        let codingKey = value.construct?.codingKeys.first ?? key.stringValue
-        if let construct = value.construct, let toJSON = construct.transformer?.toJSON {
-            if let transformed = toJSON(value.wrappedValue) {
-                let dictionary = _container()
-                dictionary.setValue(transformed, forKey: codingKey)
-                NestedKey(codingKey)?.replaceEncodeKey(in: dictionary)
-            }
-        } else if let key = AnyCodingKey(stringValue: codingKey), let wrappedValue = value.wrappedValue as? Encodable {
-            var container = _encoder().container(keyedBy: AnyCodingKey.self)
-            try wrappedValue.encode(to: &container, forKey: key)
-            NestedKey(codingKey)?.replaceEncodeKey(in: _container())
-        }
-    }
-}
-
 // MARK: - KeyedDecodingContainer
 
 public extension KeyedDecodingContainer {
@@ -38,12 +19,37 @@ public extension KeyedDecodingContainer {
         return try _decode(type, forKey: key)
     }
 
-    private func _decode<Value>(_: Codec<Value>.Type, forKey key: Key) throws -> Codec<Value> {
-        let injection: InjectionKeeper<Value>.InjectionClosure = { wrapper, storedValue in
-            wrapper.finalize(from: self, forKey: key, rawStoredValue: storedValue)
-        }
+    private func _decode<Value>(_ type: Codec<Value>.Type, forKey key: Key) throws -> Codec<Value> {
         let wrapper = Codec<Value>(unsafed: ())
+        let injection: InjectionKeeper<Value>.InjectionClosure = { _, wrapper, storedValue in
+            var mutatingSelf = self
+            wrapper.finalize(container: &mutatingSelf, forKey: key, rawStoredValue: storedValue)
+        }
         Thread.current.lastInjectionKeeper = InjectionKeeper(codec: wrapper, injection: injection)
         return wrapper
+    }
+}
+
+// MARK: - KeyedEncodingContainer
+
+public extension KeyedEncodingContainer {
+    func encode<T, Value>(_ value: T, forKey key: Key) throws where T: Codec<Value> {
+        let keyString = value.construct?.codingKeys.first ?? key.stringValue
+        guard let codingKey = AnyCodingKey(stringValue: keyString) else { return }
+        var encodeValue: Encodable?
+        if let construct = value.construct, let toJSON = construct.transformer?.toJSON {
+            if let transformed = toJSON(value.wrappedValue) {
+                encodeValue = transformed as? Encodable
+            }
+        } else if let wrappedValue = value.wrappedValue as? Encodable {
+            encodeValue = wrappedValue
+        }
+        if let encodeValue = encodeValue {
+            var mutatingSelf = self
+            let transformer = ContainerTransformer(encode: &mutatingSelf)
+            var container = transformer.convertEncodingContainer()
+            try encodeValue.encode(to: &container, forKey: codingKey)
+            transformer.convertBackEncodingContainer()
+        }
     }
 }

@@ -21,7 +21,7 @@ public final class Codec<Value>: Codable {
 
     deinit {
         if let lastKeeper = Thread.current.lastInjectionKeeper as? InjectionKeeper<Value> {
-            Self.invokeAfterInjection(injection: lastKeeper.injection, new: lastKeeper.codec, last: self)
+            Self.invokeAfterInjection(keeper: lastKeeper, new: lastKeeper.codec, last: self)
             Thread.current.lastInjectionKeeper = nil
         }
     }
@@ -50,8 +50,8 @@ public final class Codec<Value>: Codable {
     // Do nothing, KeyedEncodingContainer extension has done dirty stuff
     public func encode(to _: Encoder) throws {}
 
-    private class func invokeAfterInjection(injection: InjectionKeeper<Value>.InjectionClosure, new: Codec<Value>, last: Codec<Value>) {
+    private class func invokeAfterInjection(keeper: InjectionKeeper<Value>, new: Codec<Value>, last: Codec<Value>) {
         new.construct = last.construct
-        injection(new, last.wrappedValue)
+        keeper.injection(keeper, new, last.wrappedValue)
     }
 }

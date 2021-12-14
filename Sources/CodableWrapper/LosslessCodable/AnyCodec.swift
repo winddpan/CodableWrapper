@@ -8,13 +8,13 @@
 import Foundation
 
 protocol AnyCodec {
-    func _finalize<K>(from container: KeyedDecodingContainer<K>, forKey key: KeyedDecodingContainer<K>.Key)
+    func _finalize<K>(from decoder: Decoder, container: inout KeyedDecodingContainer<K>, forKey key: KeyedDecodingContainer<K>.Key)
     func _encode<K>(to container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws
 }
 
 extension Codec: AnyCodec {
-    func _finalize<K>(from container: KeyedDecodingContainer<K>, forKey key: KeyedDecodingContainer<K>.Key) {
-        self.finalize(from: container, forKey: key, rawStoredValue: self.wrappedValue)
+    func _finalize<K>(from decoder: Decoder, container: inout KeyedDecodingContainer<K>, forKey key: KeyedDecodingContainer<K>.Key) {
+        self.finalize(container: &container, forKey: key, rawStoredValue: self.wrappedValue)
     }
     
     func _encode<K>(to container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {

@@ -106,7 +106,7 @@ class ExampleTest: XCTestCase {
 
     func testNested() throws {
         struct RootModel: Codable {
-            @Codec var root = SubRootModelCodec()
+            @Codec("rt") var root = SubRootModelCodec()
             var root2: SubRootModel? = SubRootModel()
         }
 
@@ -121,7 +121,7 @@ class ExampleTest: XCTestCase {
         }
 
         let json = """
-        {"root": {"value": {"stringVal":"x"}}, "root2": {"value": {"stringVal":"y"}}}
+        {"rt": {"value": {"stringVal":"x"}}, "root2": {"value": {"stringVal":"y"}}}
         """
         let model = try JSONDecoder().decode(RootModel.self, from: json.data(using: .utf8)!)
         XCTAssertEqual(model.root.value?.stringVal, "x")
