@@ -25,8 +25,8 @@ extension Codec {
             transformer.convertBackDecodingContainer()
         }
 
-        for _key in keys {
-            guard let _key = AnyCodingKey(stringValue: _key) else {
+        for __key in keys {
+            guard let _key = AnyCodingKey(stringValue: __key) else {
                 continue
             }
             let value = try? _container.decodeIfPresent(AnyDecodable.self, forKey: _key)?.value
