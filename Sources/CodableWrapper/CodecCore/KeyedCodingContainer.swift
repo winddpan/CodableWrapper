@@ -46,10 +46,9 @@ public extension KeyedEncodingContainer {
         }
         if let encodeValue = encodeValue {
             var mutatingSelf = self
-            let transformer = ContainerTransformer(encode: &mutatingSelf)
-            var container = transformer.convertEncodingContainer()
-            try encodeValue.encode(to: &container, forKey: codingKey)
-            transformer.convertBackEncodingContainer()
+            try mutatingSelf.convertAsAnyCodingKey { _container in
+                try encodeValue.encode(to: &_container, forKey: codingKey)
+            }
         }
     }
 }

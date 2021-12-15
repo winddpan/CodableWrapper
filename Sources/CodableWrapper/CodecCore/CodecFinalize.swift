@@ -19,42 +19,38 @@ extension Codec {
         var keys = construct.codingKeys + [key.stringValue]
         keys += keys.compactMap { $0.snakeCamelConvert() }
 
-        let transformer = ContainerTransformer(decode: &container)
-        let _container = transformer.convertDecodingContainer()
-        defer {
-            transformer.convertBackDecodingContainer()
-        }
-
-        for __key in keys {
-            guard let _key = AnyCodingKey(stringValue: __key) else {
-                continue
-            }
-            let value = try? _container.decodeIfPresent(AnyDecodable.self, forKey: _key)?.value
-            if let value = value {
-                if let transformFromJSON = transformFromJSON {
-                    storedValue = transformFromJSON(value) as? Value
-                    return
+        try? container.convertAsAnyCodingKey { _container in
+            for __key in keys {
+                guard let _key = AnyCodingKey(stringValue: __key) else {
+                    continue
                 }
-                if let converted = value as? Value {
-                    storedValue = converted
-                    return
-                }
-                if let _bridged = bridge?._transform(from: value), let __bridged = _bridged as? Value {
-                    storedValue = __bridged
-                    return
-                }
-                if let valueType = Value.self as? Decodable.Type {
-                    if let value = try? valueType.decode(from: _container, forKey: _key) as? Value {
-                        storedValue = value
+                let value = try? _container.decodeIfPresent(AnyDecodable.self, forKey: _key)?.value
+                if let value = value {
+                    if let transformFromJSON = transformFromJSON {
+                        storedValue = transformFromJSON(value) as? Value
                         return
+                    }
+                    if let converted = value as? Value {
+                        storedValue = converted
+                        return
+                    }
+                    if let _bridged = bridge?._transform(from: value), let __bridged = _bridged as? Value {
+                        storedValue = __bridged
+                        return
+                    }
+                    if let valueType = Value.self as? Decodable.Type {
+                        if let value = try? valueType.decode(from: _container, forKey: _key) as? Value {
+                            storedValue = value
+                            return
+                        }
                     }
                 }
             }
+            if let transformFromJSON = transformFromJSON, let transformedNil = transformFromJSON(nil) as? Value {
+                storedValue = transformedNil
+                return
+            }
+            storedValue = rawStoredValue
         }
-        if let transformFromJSON = transformFromJSON, let transformedNil = transformFromJSON(nil) as? Value {
-            storedValue = transformedNil
-            return
-        }
-        storedValue = rawStoredValue
     }
 }
