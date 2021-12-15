@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2B00E96126A7FF0D00FA2060 /* KeyedCodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00E96026A7FF0D00FA2060 /* KeyedCodingContainer.swift */; };
-		2B00E96526A8054B00FA2060 /* CodableWrapperDebug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00E96426A8054B00FA2060 /* CodableWrapperDebug.swift */; };
 		2B00E96726A8088000FA2060 /* CodecInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00E96626A8088000FA2060 /* CodecInit.swift */; };
 		40334F4F274CEFE0007B6EB5 /* AnyDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40334F4C274CEFE0007B6EB5 /* AnyDecodable.swift */; };
 		403CCBD026B39D0800BFED51 /* AnyTransfromTypeTunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403CCBCF26B39D0800BFED51 /* AnyTransfromTypeTunk.swift */; };
@@ -38,7 +37,6 @@
 
 /* Begin PBXFileReference section */
 		2B00E96026A7FF0D00FA2060 /* KeyedCodingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedCodingContainer.swift; sourceTree = "<group>"; };
-		2B00E96426A8054B00FA2060 /* CodableWrapperDebug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableWrapperDebug.swift; sourceTree = "<group>"; };
 		2B00E96626A8088000FA2060 /* CodecInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodecInit.swift; sourceTree = "<group>"; };
 		40334F4C274CEFE0007B6EB5 /* AnyDecodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDecodable.swift; sourceTree = "<group>"; };
 		403CCBCF26B39D0800BFED51 /* AnyTransfromTypeTunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyTransfromTypeTunk.swift; sourceTree = "<group>"; };
@@ -129,6 +127,7 @@
 		40B4E6522768473500D7DC79 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				4066812B24F375AB00562E47 /* CodableExtension.swift */,
 				4066812F24F375AB00562E47 /* BuiltInBridgeType.swift */,
 				40B4E653276847B900D7DC79 /* ContainerTransformer.swift */,
 				4066813024F375AB00562E47 /* InjectionKeeper.swift */,
@@ -181,9 +180,7 @@
 				40334F4C274CEFE0007B6EB5 /* AnyDecodable.swift */,
 				4066812D24F375AB00562E47 /* AnyCodingKey.swift */,
 				403CCBCF26B39D0800BFED51 /* AnyTransfromTypeTunk.swift */,
-				4066812B24F375AB00562E47 /* CodableExtension.swift */,
 				40BBB9B726B941BD00CD0700 /* CodecConstruct.swift */,
-				2B00E96426A8054B00FA2060 /* CodableWrapperDebug.swift */,
 				40C0B4482727F37500A70D5E /* CodecFinalize.swift */,
 				2B00E96026A7FF0D00FA2060 /* KeyedCodingContainer.swift */,
 			);
@@ -315,7 +312,6 @@
 				407295C026B2B8F900B361C2 /* TransformOf.swift in Sources */,
 				4088F202271571BA0006A7ED /* SnakeCamelConvert.swift in Sources */,
 				4066813E24F375AB00562E47 /* InjectionKeeper.swift in Sources */,
-				2B00E96526A8054B00FA2060 /* CodableWrapperDebug.swift in Sources */,
 				40E84FC92729233E00BAC1F0 /* LosslessDecodable.swift in Sources */,
 				4061B57026B8022D00FA4E87 /* DateTransform.swift in Sources */,
 				4066813724F375AB00562E47 /* Codec.swift in Sources */,

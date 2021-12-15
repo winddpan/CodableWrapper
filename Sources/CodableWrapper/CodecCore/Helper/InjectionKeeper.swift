@@ -32,14 +32,3 @@ extension Thread {
         }
     }
 }
-
-extension Decoder {
-    var lazyAnycodingKeyContainer: KeyedDecodingContainer<AnyCodingKey>? {
-        if let cache = objc_getAssociatedObject(self, &keyedDecodingContainerKey) as? KeyedDecodingContainer<AnyCodingKey> {
-            return cache
-        }
-        let result = try? self.container(keyedBy: AnyCodingKey.self)
-        objc_setAssociatedObject(self, &keyedDecodingContainerKey, result, .OBJC_ASSOCIATION_RETAIN)
-        return result
-    }
-}

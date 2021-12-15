@@ -55,3 +55,13 @@ public final class Codec<Value>: Codable {
         keeper.injection(keeper, new, last.wrappedValue)
     }
 }
+
+extension Codec: CustomStringConvertible, CustomDebugStringConvertible {
+    public var description: String {
+        "\(wrappedValue)"
+    }
+
+    public var debugDescription: String {
+        "\(wrappedValue)"
+    }
+}
