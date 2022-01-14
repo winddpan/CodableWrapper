@@ -8,9 +8,9 @@
 import Foundation
 
 public extension LosslessDecodable {
-    init(from decoder: Decoder) throws {
+    dynamic init(from decoder: Decoder) throws {
         self.init()
-        try self._decode(from: decoder)
+        try _decode(from: decoder)
     }
 
     private func _decode(from decoder: Decoder) throws {

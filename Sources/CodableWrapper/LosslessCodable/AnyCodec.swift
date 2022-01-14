@@ -13,10 +13,10 @@ protocol AnyCodec {
 }
 
 extension Codec: AnyCodec {
-    func _finalize<K>(from decoder: Decoder, container: inout KeyedDecodingContainer<K>, forKey key: KeyedDecodingContainer<K>.Key) {
-        self.finalize(container: &container, forKey: key, rawStoredValue: self.wrappedValue)
+    func _finalize<K>(from _: Decoder, container: inout KeyedDecodingContainer<K>, forKey key: KeyedDecodingContainer<K>.Key) {
+        finalize(container: &container, forKey: key, rawStoredValue: wrappedValue)
     }
-    
+
     func _encode<K>(to container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         try container.encode(self, forKey: key)
     }

@@ -1,14 +1,18 @@
+////
+////  ExampleTest.swift
+////  CodableWrapperTest
+////
+////  Created by PAN on 2020/7/16.
+////
 //
-//  ExampleTest.swift
-//  CodableWrapperTest
-//
-//  Created by PAN on 2020/7/16.
-//
-
 import CodableWrapper
 import XCTest
-
-/** Model */
+//
+///** Model */
+//
+//typealias JSONDecoder = CodableWrapper.JSONDecoder
+//typealias JSONEncoder = CodableWrapper.JSONEncoder
+//typealias JSONSerialization = CodableWrapper.JSONSerialization
 
 enum Animal: String, Codable {
     case dog
@@ -49,6 +53,16 @@ struct OptionalNullModel: Codable {
 /** ExampleTest */
 
 class ExampleTest: XCTestCase {
+    
+    override class func setUp() {
+        CodableWrapperRegisterAdditionalCoder {
+            try JSONDecoder().decode(CodablePrepartion.self, from: $0)
+        } encode: {
+            try JSONEncoder().encode($0)
+        }
+
+    }
+    
     func testBasicUsage() throws {
         let json = #"{"stringVal": "pan", "intVal": "233", "bool": "1", "animal": "cat"}"#
         let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
@@ -71,7 +85,7 @@ class ExampleTest: XCTestCase {
         XCTAssertEqual(jsonObject["aInt"] as? Int, 233)
         XCTAssertEqual(jsonObject["aString"] as? String, "pan")
     }
-
+//
     func testSnakeCamel() throws {
         struct ExampleModel: Codable {
             @Codec var snake_string: String = ""

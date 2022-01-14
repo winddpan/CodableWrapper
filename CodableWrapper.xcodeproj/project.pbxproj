@@ -21,9 +21,19 @@
 		4066815224F375C000562E47 /* ExampleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4066814E24F375C000562E47 /* ExampleTest.swift */; };
 		407295B926B2B8BF00B361C2 /* TransformType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407295B826B2B8BF00B361C2 /* TransformType.swift */; };
 		407295C026B2B8F900B361C2 /* TransformOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407295BD26B2B8F900B361C2 /* TransformOf.swift */; };
+		407B8F98279154D200655FAF /* CodablePrepartion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407B8F97279154D200655FAF /* CodablePrepartion.swift */; };
+		407B8F9C2791567F00655FAF /* KeyedContainerMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407B8F9B2791567F00655FAF /* KeyedContainerMap.swift */; };
+		407B8F9E279157AC00655FAF /* KeyedContainerNameFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407B8F9D279157AC00655FAF /* KeyedContainerNameFetch.swift */; };
+		407B8FA02791599200655FAF /* KeyedContainerModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407B8F9F2791599200655FAF /* KeyedContainerModifier.swift */; };
+		407B8FA8279184FF00655FAF /* JSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407B8FA2279184FF00655FAF /* JSONEncoder.swift */; };
+		407B8FA9279184FF00655FAF /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407B8FA3279184FF00655FAF /* JSONDecoder.swift */; };
+		407B8FAA279184FF00655FAF /* JSONSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407B8FA4279184FF00655FAF /* JSONSerialization.swift */; };
+		407B8FAB279184FF00655FAF /* JSONSerialization+Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407B8FA5279184FF00655FAF /* JSONSerialization+Parser.swift */; };
+		407B8FAC279184FF00655FAF /* Bridging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407B8FA6279184FF00655FAF /* Bridging.swift */; };
+		407B8FAD279184FF00655FAF /* X.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407B8FA7279184FF00655FAF /* X.swift */; };
 		4088F202271571BA0006A7ED /* SnakeCamelConvert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4088F201271571BA0006A7ED /* SnakeCamelConvert.swift */; };
 		4094B2F4271EB63800124BD8 /* NestedKeyTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4094B2F3271EB63800124BD8 /* NestedKeyTest.swift */; };
-		40B4E654276847B900D7DC79 /* ContainerTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B4E653276847B900D7DC79 /* ContainerTransformer.swift */; };
+		40B4E654276847B900D7DC79 /* KeyedContainerConvert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B4E653276847B900D7DC79 /* KeyedContainerConvert.swift */; };
 		40BBB9B826B941BD00CD0700 /* CodecConstruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BBB9B726B941BD00CD0700 /* CodecConstruct.swift */; };
 		40C0B4452727A43600A70D5E /* InheritedClassTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C0B4442727A43600A70D5E /* InheritedClassTest.swift */; };
 		40C0B4492727F37500A70D5E /* CodecFinalize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C0B4482727F37500A70D5E /* CodecFinalize.swift */; };
@@ -34,6 +44,19 @@
 		40E84FCD2729236800BAC1F0 /* LosslessCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E84FCC2729236800BAC1F0 /* LosslessCodable.swift */; };
 		40E84FCF27292B0C00BAC1F0 /* AnyCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E84FCE27292B0C00BAC1F0 /* AnyCodec.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		40438B52278D93F400F9C077 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2B00E96026A7FF0D00FA2060 /* KeyedCodingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedCodingContainer.swift; sourceTree = "<group>"; };
@@ -52,9 +75,19 @@
 		4067C23126B8EED600BB56CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Tests/Info.plist; sourceTree = SOURCE_ROOT; };
 		407295B826B2B8BF00B361C2 /* TransformType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformType.swift; sourceTree = "<group>"; };
 		407295BD26B2B8F900B361C2 /* TransformOf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformOf.swift; sourceTree = "<group>"; };
+		407B8F97279154D200655FAF /* CodablePrepartion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodablePrepartion.swift; sourceTree = "<group>"; };
+		407B8F9B2791567F00655FAF /* KeyedContainerMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedContainerMap.swift; sourceTree = "<group>"; };
+		407B8F9D279157AC00655FAF /* KeyedContainerNameFetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedContainerNameFetch.swift; sourceTree = "<group>"; };
+		407B8F9F2791599200655FAF /* KeyedContainerModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedContainerModifier.swift; sourceTree = "<group>"; };
+		407B8FA2279184FF00655FAF /* JSONEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONEncoder.swift; sourceTree = "<group>"; };
+		407B8FA3279184FF00655FAF /* JSONDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
+		407B8FA4279184FF00655FAF /* JSONSerialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONSerialization.swift; sourceTree = "<group>"; };
+		407B8FA5279184FF00655FAF /* JSONSerialization+Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JSONSerialization+Parser.swift"; sourceTree = "<group>"; };
+		407B8FA6279184FF00655FAF /* Bridging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bridging.swift; sourceTree = "<group>"; };
+		407B8FA7279184FF00655FAF /* X.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = X.swift; sourceTree = "<group>"; };
 		4088F201271571BA0006A7ED /* SnakeCamelConvert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnakeCamelConvert.swift; sourceTree = "<group>"; };
 		4094B2F3271EB63800124BD8 /* NestedKeyTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedKeyTest.swift; sourceTree = "<group>"; };
-		40B4E653276847B900D7DC79 /* ContainerTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerTransformer.swift; sourceTree = "<group>"; };
+		40B4E653276847B900D7DC79 /* KeyedContainerConvert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedContainerConvert.swift; sourceTree = "<group>"; };
 		40BBB9B726B941BD00CD0700 /* CodecConstruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodecConstruct.swift; sourceTree = "<group>"; };
 		40C0B4442727A43600A70D5E /* InheritedClassTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InheritedClassTest.swift; sourceTree = "<group>"; };
 		40C0B4482727F37500A70D5E /* CodecFinalize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodecFinalize.swift; sourceTree = "<group>"; };
@@ -105,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				4067C23126B8EED600BB56CE /* Info.plist */,
+				407B8FA1279184FF00655FAF /* SwiftFoundation */,
 				4066814E24F375C000562E47 /* ExampleTest.swift */,
 				4061B56B26B801A700FA4E87 /* TransformTest.swift */,
 				40CCE03A26B9245800D34E0F /* BenchmarkTest.swift */,
@@ -124,12 +158,36 @@
 			path = Transforms;
 			sourceTree = "<group>";
 		};
+		407B8F962791538000655FAF /* KeyedContainerConvert */ = {
+			isa = PBXGroup;
+			children = (
+				407B8F97279154D200655FAF /* CodablePrepartion.swift */,
+				40B4E653276847B900D7DC79 /* KeyedContainerConvert.swift */,
+				407B8F9B2791567F00655FAF /* KeyedContainerMap.swift */,
+				407B8F9D279157AC00655FAF /* KeyedContainerNameFetch.swift */,
+				407B8F9F2791599200655FAF /* KeyedContainerModifier.swift */,
+			);
+			path = KeyedContainerConvert;
+			sourceTree = "<group>";
+		};
+		407B8FA1279184FF00655FAF /* SwiftFoundation */ = {
+			isa = PBXGroup;
+			children = (
+				407B8FA2279184FF00655FAF /* JSONEncoder.swift */,
+				407B8FA3279184FF00655FAF /* JSONDecoder.swift */,
+				407B8FA4279184FF00655FAF /* JSONSerialization.swift */,
+				407B8FA5279184FF00655FAF /* JSONSerialization+Parser.swift */,
+				407B8FA6279184FF00655FAF /* Bridging.swift */,
+				407B8FA7279184FF00655FAF /* X.swift */,
+			);
+			path = SwiftFoundation;
+			sourceTree = SOURCE_ROOT;
+		};
 		40B4E6522768473500D7DC79 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
 				4066812B24F375AB00562E47 /* CodableExtension.swift */,
 				4066812F24F375AB00562E47 /* BuiltInBridgeType.swift */,
-				40B4E653276847B900D7DC79 /* ContainerTransformer.swift */,
 				4066813024F375AB00562E47 /* InjectionKeeper.swift */,
 				4088F201271571BA0006A7ED /* SnakeCamelConvert.swift */,
 			);
@@ -176,6 +234,7 @@
 		40E84FD0272934EC00BAC1F0 /* CodecCore */ = {
 			isa = PBXGroup;
 			children = (
+				407B8F962791538000655FAF /* KeyedContainerConvert */,
 				40B4E6522768473500D7DC79 /* Helper */,
 				40334F4C274CEFE0007B6EB5 /* AnyDecodable.swift */,
 				4066812D24F375AB00562E47 /* AnyCodingKey.swift */,
@@ -225,6 +284,7 @@
 				40D7C4D424C05415004522F7 /* Sources */,
 				40D7C4D524C05415004522F7 /* Frameworks */,
 				40D7C4D624C05415004522F7 /* Resources */,
+				40438B52278D93F400F9C077 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -296,9 +356,15 @@
 			files = (
 				4066815224F375C000562E47 /* ExampleTest.swift in Sources */,
 				40CCE03B26B9245800D34E0F /* BenchmarkTest.swift in Sources */,
+				407B8FAA279184FF00655FAF /* JSONSerialization.swift in Sources */,
 				4094B2F4271EB63800124BD8 /* NestedKeyTest.swift in Sources */,
+				407B8FAD279184FF00655FAF /* X.swift in Sources */,
 				40C0B4452727A43600A70D5E /* InheritedClassTest.swift in Sources */,
+				407B8FAC279184FF00655FAF /* Bridging.swift in Sources */,
+				407B8FA8279184FF00655FAF /* JSONEncoder.swift in Sources */,
 				4061B56C26B801A700FA4E87 /* TransformTest.swift in Sources */,
+				407B8FA9279184FF00655FAF /* JSONDecoder.swift in Sources */,
+				407B8FAB279184FF00655FAF /* JSONSerialization+Parser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,10 +372,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				407B8F9E279157AC00655FAF /* KeyedContainerNameFetch.swift in Sources */,
 				407295B926B2B8BF00B361C2 /* TransformType.swift in Sources */,
-				40B4E654276847B900D7DC79 /* ContainerTransformer.swift in Sources */,
+				40B4E654276847B900D7DC79 /* KeyedContainerConvert.swift in Sources */,
 				2B00E96726A8088000FA2060 /* CodecInit.swift in Sources */,
 				407295C026B2B8F900B361C2 /* TransformOf.swift in Sources */,
+				407B8F9C2791567F00655FAF /* KeyedContainerMap.swift in Sources */,
 				4088F202271571BA0006A7ED /* SnakeCamelConvert.swift in Sources */,
 				4066813E24F375AB00562E47 /* InjectionKeeper.swift in Sources */,
 				40E84FC92729233E00BAC1F0 /* LosslessDecodable.swift in Sources */,
@@ -322,10 +390,12 @@
 				4066813B24F375AB00562E47 /* AnyCodingKey.swift in Sources */,
 				40E84FCF27292B0C00BAC1F0 /* AnyCodec.swift in Sources */,
 				40C0B4492727F37500A70D5E /* CodecFinalize.swift in Sources */,
+				407B8F98279154D200655FAF /* CodablePrepartion.swift in Sources */,
 				2B00E96126A7FF0D00FA2060 /* KeyedCodingContainer.swift in Sources */,
 				403CCBD026B39D0800BFED51 /* AnyTransfromTypeTunk.swift in Sources */,
 				4066813924F375AB00562E47 /* CodableExtension.swift in Sources */,
 				40E84FCD2729236800BAC1F0 /* LosslessCodable.swift in Sources */,
+				407B8FA02791599200655FAF /* KeyedContainerModifier.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,10 +447,12 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -409,6 +481,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yr.test.CodableWrapperTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos appletvsimulator appletvos";
 				SUPPORTS_MACCATALYST = YES;
@@ -452,10 +526,12 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -477,6 +553,8 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yr.test.CodableWrapperTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos appletvsimulator appletvos";
 				SUPPORTS_MACCATALYST = YES;

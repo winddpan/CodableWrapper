@@ -9,11 +9,11 @@ import Foundation
 
 extension String {
     private var isSnake: Bool {
-        return self.contains("_")
+        return contains("_")
     }
 
     private var firstCharUpperCased: String {
-        if !self.isEmpty {
+        if !isEmpty {
             var chars = Array(self)
             chars[0] = String.Element(chars[0].uppercased())
             return String(chars)
@@ -39,8 +39,8 @@ extension String {
         }
 
         let keyRange = firstNonUnderscore ... lastNonUnderscore
-        let leadingUnderscoreRange = stringKey.startIndex..<firstNonUnderscore
-        let trailingUnderscoreRange = stringKey.index(after: lastNonUnderscore)..<stringKey.endIndex
+        let leadingUnderscoreRange = stringKey.startIndex ..< firstNonUnderscore
+        let trailingUnderscoreRange = stringKey.index(after: lastNonUnderscore) ..< stringKey.endIndex
 
         let components = stringKey[keyRange].split(separator: "_")
         let joinedString: String
@@ -83,10 +83,10 @@ extension String {
 
     func snakeCamelConvert() -> String? {
         let result: String
-        if self.isSnake {
-            result = self.snakeToCamel()
+        if isSnake {
+            result = snakeToCamel()
         } else {
-            result = self.camelToSnake()
+            result = camelToSnake()
         }
         if self == result {
             return nil

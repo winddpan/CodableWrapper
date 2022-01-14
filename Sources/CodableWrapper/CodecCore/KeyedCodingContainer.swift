@@ -19,7 +19,7 @@ public extension KeyedDecodingContainer {
         return try _decode(type, forKey: key)
     }
 
-    private func _decode<Value>(_ type: Codec<Value>.Type, forKey key: Key) throws -> Codec<Value> {
+    private func _decode<Value>(_: Codec<Value>.Type, forKey key: Key) throws -> Codec<Value> {
         let wrapper = Codec<Value>(unsafed: ())
         let injection: InjectionKeeper<Value>.InjectionClosure = { _, wrapper, storedValue in
             var mutatingSelf = self
