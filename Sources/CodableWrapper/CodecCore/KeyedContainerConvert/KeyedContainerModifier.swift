@@ -76,23 +76,21 @@ class _KeyedContainerSyncer {
     }
 
     func syncToRefer() {
-        // write box metadata
-        target.boxPtr.storeBytes(of: refer.boxMetadata, as: Int.self)
-
         if concreteIsClass {
             // write convrete metadata
-            target.boxPtr.advanced(by: MemoryLayout<Int>.size * 2).storeBytes(of: refer.concreteMedata, as: Int.self)
+            target.boxPtr.advanced(by: MemoryLayout<Int>.size * 2).load(as: UnsafeMutableRawPointer.self).storeBytes(of: refer.concreteMedata, as: Int.self)
         }
+        // write box metadata
+        target.boxPtr.storeBytes(of: refer.boxMetadata, as: Int.self)
     }
 
     func revert() {
-        // revert box metadata
-        target.boxPtr.storeBytes(of: target.boxMetadata, as: Int.self)
-
         if concreteIsClass {
             // revert convrete metadata
-            target.boxPtr.advanced(by: MemoryLayout<Int>.size * 2).storeBytes(of: target.concreteMedata, as: Int.self)
+            target.boxPtr.advanced(by: MemoryLayout<Int>.size * 2).load(as: UnsafeMutableRawPointer.self).storeBytes(of: target.concreteMedata, as: Int.self)
         }
+        // revert box metadata
+        target.boxPtr.storeBytes(of: target.boxMetadata, as: Int.self)
     }
 }
 
@@ -107,7 +105,7 @@ struct ContainerPtrStruct {
         boxMetadata = boxPtr.load(as: Int.self)
 
         if concreteIsClass {
-            concretePtr = containerPtr.advanced(by: MemoryLayout<Int>.size * 2).load(as: UnsafeMutableRawPointer.self)
+            concretePtr = boxPtr.advanced(by: MemoryLayout<Int>.size * 2).load(as: UnsafeMutableRawPointer.self)
             concreteMedata = concretePtr?.load(as: Int.self)
         }
     }

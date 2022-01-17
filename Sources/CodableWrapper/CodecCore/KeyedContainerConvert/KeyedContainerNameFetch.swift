@@ -8,23 +8,39 @@
 import Foundation
 
 extension KeyedDecodingContainer {
-    // _TtGCs26_KeyedDecodingContainerBoxGVV14CodableWrapperP10$1026273fc15JSONDecoderImpl14KeyedContainer_VS0_12AnyCodingKey__$
-    // _TtGCs26_KeyedDecodingContainerBoxGVV14CodableWrapperP10$1026273fc15JSONDecoderImpl14KeyedContainer_OV18CodableWrapperTest12ExampleModelP10$10240b1d810CodingKeys__$
     var boxIdentifier: String {
         let boxPtr = withUnsafePointer(to: self) { UnsafeRawPointer($0) }.load(as: UnsafeRawPointer.self)
-        let containerBase = boxPtr.load(as: AnyObject.self)
-        let clssName = "\(type(of: containerBase))".components(separatedBy: "_").prefix(3).joined(separator: "_")
-        return clssName
+        let boxMetadataPtr = boxPtr.load(as: UnsafeMutableRawPointer.self).assumingMemoryBound(to: ClassMetadataLayout.self)
+        let boxMetadata = ClassMetadata(pointer: boxMetadataPtr)
+        
+        if let genericArg = boxMetadata.genericArguments().first, let genericMetadata = try? metadata(of: genericArg) {
+            if var metadata = genericMetadata as? StructMetadata {
+                return metadata.mangledName()
+            } else if var metadata = genericMetadata as? ClassMetadata {
+                return metadata.mangledName()
+            } else if var metadata = genericMetadata as? EnumMetadata {
+                return metadata.mangledName()
+            }
+        }
+        fatalError("unknow KeyedDecodingContainer type: \(self)")
     }
 }
 
 extension KeyedEncodingContainer {
-    // _TtGCs26_KeyedEncodingContainerBoxGV14CodableWrapperP10$1074c620826JSONKeyedEncodingContainerVS0_12AnyCodingKey__$
-    // _TtGCs26_KeyedEncodingContainerBoxGV14CodableWrapperP10$106cc620826JSONKeyedEncodingContainerOV18CodableWrapperTest12ExampleModelP10$101cc861810CodingKeys__$
     var boxIdentifier: String {
         let boxPtr = withUnsafePointer(to: self) { UnsafeRawPointer($0) }.load(as: UnsafeRawPointer.self)
-        let containerBase = boxPtr.load(as: AnyObject.self)
-        let clssName = "\(type(of: containerBase))".components(separatedBy: "_").prefix(3).joined(separator: "_")
-        return clssName
+        let boxMetadataPtr = boxPtr.load(as: UnsafeMutableRawPointer.self).assumingMemoryBound(to: ClassMetadataLayout.self)
+        let boxMetadata = ClassMetadata(pointer: boxMetadataPtr)
+        
+        if let genericArg = boxMetadata.genericArguments().first, let genericMetadata = try? metadata(of: genericArg) {
+            if var metadata = genericMetadata as? StructMetadata {
+                return metadata.mangledName()
+            } else if var metadata = genericMetadata as? ClassMetadata {
+                return metadata.mangledName()
+            } else if var metadata = genericMetadata as? EnumMetadata {
+                return metadata.mangledName()
+            }
+        }
+        fatalError("unknow KeyedEncodingContainer type: \(self)")
     }
 }

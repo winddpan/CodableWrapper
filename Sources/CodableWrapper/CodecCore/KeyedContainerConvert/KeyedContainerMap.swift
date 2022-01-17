@@ -16,6 +16,7 @@ public func CodableWrapperRegisterAdditionalCoder(decode: (Data) throws -> Codab
 class KeyedContainerMap {
     static let shared = KeyedContainerMap()
 
+    private let locker = NSLock()
     private var decoderMap: [String: KeyedDecodingContainerModifier] = [:]
     private var encoderMap: [String: KeyedEncodingContainerModifier] = [:]
 
@@ -42,6 +43,7 @@ class KeyedContainerMap {
     }
 
     private func registerDecodingContainer(_ container: inout KeyedDecodingContainer<AnyCodingKey>) {
+        locker.lock(); defer { locker.unlock() }
         let name = container.boxIdentifier
         if decoderMap[name] == nil {
             decoderMap[name] = KeyedDecodingContainerModifier(refer: &container)
@@ -49,17 +51,20 @@ class KeyedContainerMap {
     }
 
     private func registerEncodingContainer(_ container: inout KeyedEncodingContainer<AnyCodingKey>) {
+        locker.lock(); defer { locker.unlock() }
         let name = container.boxIdentifier
         if encoderMap[name] == nil {
             encoderMap[name] = KeyedEncodingContainerModifier(refer: &container)
         }
     }
 
-    func encodingContainerModifier(forName name: String) -> KeyedEncodingContainerModifier? {
-        return encoderMap[name]
+    func encodingContainerModifier<K>(for container: KeyedEncodingContainer<K>) -> KeyedEncodingContainerModifier? {
+        locker.lock(); defer { locker.unlock() }
+        return encoderMap[container.boxIdentifier]
     }
 
-    func decodingContainerModifier(forName name: String) -> KeyedDecodingContainerModifier? {
-        return decoderMap[name]
+    func decodingContainerModifier<K>(for container: KeyedDecodingContainer<K>) -> KeyedDecodingContainerModifier? {
+        locker.lock(); defer { locker.unlock() }
+        return decoderMap[container.boxIdentifier]
     }
 }
