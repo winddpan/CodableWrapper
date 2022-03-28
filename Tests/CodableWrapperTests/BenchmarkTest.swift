@@ -8,6 +8,7 @@
 import CodableWrapper
 import XCTest
 
+@available(iOS 13.0, *)
 class BenchmarkTest: XCTestCase {
     var testData: Data!
     var metrics: [XCTMetric]!
@@ -21,10 +22,11 @@ class BenchmarkTest: XCTestCase {
             try JSONEncoder().encode($0)
         }
     }
-    
+
     override func setUp() {
         testData = testJSON.data(using: .utf8)!
         metrics = [XCTMemoryMetric(), XCTClockMetric()]
+
         measureOptions = XCTMeasureOptions.default
         measureOptions.iterationCount = 5
     }

@@ -79,7 +79,7 @@ XCTAssertEqual(model.unImpl, nil)
 XCTAssertEqual(model.animal, .cat)
 ```
 
-* 查看 unit tests 或者 CodableWrapperPlayground/CodableWrapperPlayground.xcodeproj 获取更多使用姿势 *
+*查看 unit tests 或者 Playground 获取更多使用姿势*
 
 ## 工作原理
 >怎么传递配置信息
@@ -197,9 +197,7 @@ XCTAssertEqual(jsonObject["intOptional"] as? Int, 234)
 ```swift
 struct ExampleModel: Codable {
     @Codec var int: Int?
-    
     @Codec var string: String?
-
     @Codec var bool: Bool?
 }
 
@@ -218,7 +216,7 @@ struct User: Codable {
     var registerDate: Date?
 }       
 let date = Date()
-let json = #" { "sencondsDate": \(date.timeIntervalSince1970) } "#
+let json = #"{"sencondsDate": \(date.timeIntervalSince1970)}"#
 
 let user = try JSONDecoder().decode(User.self, from: json.data(using: .utf8)!)
 XCTAssertEqual(model.sencondsDate?.timeIntervalSince1970, date.timeIntervalSince1970)
