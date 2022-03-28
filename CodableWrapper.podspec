@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |spec|
   spec.name         = "CodableWrapper"
-  spec.version      = "0.2.5"
+  spec.version      = "0.3.0"
   spec.requires_arc = true
   spec.summary      = "Codable + PropertyWrapper"
   spec.description  = "Codable + PropertyWrapper = ☕"
@@ -25,6 +25,5 @@ Pod::Spec.new do |spec|
   spec.watchos.deployment_target = '2.0'
   spec.tvos.deployment_target = '9.0'
 
-  spec.swift_versions = ['5.0', '5.3', '5.5']
-  #spec.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.0' }
+  spec.swift_versions = '5.0'
 end
