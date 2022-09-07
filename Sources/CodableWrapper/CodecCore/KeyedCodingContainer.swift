@@ -21,11 +21,10 @@ public extension KeyedDecodingContainer {
 
     private func _decode<Value>(_: Codec<Value>.Type, forKey key: Key) throws -> Codec<Value> {
         let wrapper = Codec<Value>(unsafed: ())
-        let injection: InjectionKeeper<Value>.InjectionClosure = { _, wrapper, storedValue in
+        Thread.current.lastInjectionKeeper = InjectionKeeper(codec: wrapper) {
             var mutatingSelf = self
-            wrapper.finalize(container: &mutatingSelf, forKey: key, rawStoredValue: storedValue)
+            wrapper.finalize(container: &mutatingSelf, forKey: key)
         }
-        Thread.current.lastInjectionKeeper = InjectionKeeper(codec: wrapper, injection: injection)
         return wrapper
     }
 }
@@ -33,11 +32,12 @@ public extension KeyedDecodingContainer {
 // MARK: - KeyedEncodingContainer
 
 public extension KeyedEncodingContainer {
-    func encode<T, Value>(_ value: T, forKey key: Key) throws where T: Codec<Value> {
-        let keyString = value.construct?.codingKeys.first ?? key.stringValue
+    func encode<Value>(_ value: Codec<Value>, forKey key: Key) throws {
+        let keyString = value.construct.codingKeys.first ?? key.stringValue
         guard let codingKey = AnyCodingKey(stringValue: keyString) else { return }
         var encodeValue: Encodable?
-        if let construct = value.construct, let toJSON = construct.transformer?.toJSON {
+        let construct = value.construct
+        if let toJSON = construct.transformer?.toJSON {
             if let transformed = toJSON(value.wrappedValue) {
                 encodeValue = transformed as? Encodable
             }

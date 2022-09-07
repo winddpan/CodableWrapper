@@ -7,18 +7,11 @@
 
 import Foundation
 
-public func CodableWrapperRegisterAdditionalCoder(decode: (Data) throws -> CodablePrepartion,
-                                                  encode: (CodablePrepartion) throws -> Data)
-{
-    KeyedContainerMap.shared.registerCoder(decode: decode, encode: encode)
-}
-
 class KeyedContainerMap {
     static let shared = KeyedContainerMap()
 
-    private let locker = NSLock()
-    private var decoderMap: [String: KeyedDecodingContainerModifier] = [:]
-    private var encoderMap: [String: KeyedEncodingContainerModifier] = [:]
+    private var decoderModifier: KeyedDecodingContainerModifier?
+    private var encoderModifier: KeyedEncodingContainerModifier?
 
     init() {
         registerCoder(
@@ -30,8 +23,8 @@ class KeyedContainerMap {
         )
     }
 
-    func registerCoder(decode: (Data) throws -> CodablePrepartion,
-                       encode: (CodablePrepartion) throws -> Data)
+    private func registerCoder(decode: (Data) throws -> CodablePrepartion,
+                               encode: (CodablePrepartion) throws -> Data)
     {
         let data = #"{}"#.data(using: .utf8)!
         do {
@@ -43,34 +36,18 @@ class KeyedContainerMap {
     }
 
     private func registerDecodingContainer(_ container: inout KeyedDecodingContainer<AnyCodingKey>) {
-        locker.lock(); defer { locker.unlock() }
-        let name = container.boxIdentifier
-        if decoderMap[name] == nil {
-            decoderMap[name] = KeyedDecodingContainerModifier(refer: &container)
-        }
+        decoderModifier = KeyedDecodingContainerModifier(refer: &container)
     }
 
     private func registerEncodingContainer(_ container: inout KeyedEncodingContainer<AnyCodingKey>) {
-        locker.lock(); defer { locker.unlock() }
-        let name = container.boxIdentifier
-        if encoderMap[name] == nil {
-            encoderMap[name] = KeyedEncodingContainerModifier(refer: &container)
-        }
+        encoderModifier = KeyedEncodingContainerModifier(refer: &container)
     }
 
     func encodingContainerModifier<K>(for container: KeyedEncodingContainer<K>) -> KeyedEncodingContainerModifier? {
-        locker.lock(); defer { locker.unlock() }
-        if encoderMap.count == 1, let first = encoderMap.first {
-            return first.value
-        }
-        return encoderMap[container.boxIdentifier]
+        encoderModifier
     }
 
     func decodingContainerModifier<K>(for container: KeyedDecodingContainer<K>) -> KeyedDecodingContainerModifier? {
-        locker.lock(); defer { locker.unlock() }
-        if decoderMap.count == 1, let first = decoderMap.first {
-            return first.value
-        }
-        return decoderMap[container.boxIdentifier]
+        decoderModifier
     }
 }

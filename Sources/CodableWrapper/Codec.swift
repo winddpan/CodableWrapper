@@ -7,22 +7,16 @@
 
 import Foundation
 
-private let constructCacheMapTable = NSMapTable<NSNumber, CodecConstruct>(keyOptions: .strongMemory, valueOptions: .weakMemory)
-
 @propertyWrapper
-public final class Codec<Value>: Codable {
-    var storedValue: Value?
-    private(set) var construct: CodecConstruct!
+public struct Codec<Value>: Codable {
+    let construct: CodecConstruct<Value>
 
     public var wrappedValue: Value {
-        get { storedValue! }
-        set { storedValue = newValue }
-    }
-
-    deinit {
-        if let lastKeeper = Thread.current.lastInjectionKeeper as? InjectionKeeper<Value> {
-            Self.invokeAfterInjection(keeper: lastKeeper, new: lastKeeper.codec, last: self)
-            Thread.current.lastInjectionKeeper = nil
+        get {
+            construct.storedValue!
+        }
+        set {
+            construct.storedValue = newValue
         }
     }
 
@@ -31,29 +25,21 @@ public final class Codec<Value>: Codable {
         fatalError()
     }
 
-    public required init(from _: Decoder) throws {}
+    public init(from _: Decoder) throws {
+        construct = .init(unsafed: ())
+    }
 
-    init(unsafed _: ()) {}
+    init(unsafed _: ()) {
+        construct = .init(unsafed: ())
+    }
 
-    init(defaultValue: Value, construct: CodecConstruct) {
-        let hashKey = NSNumber(value: construct.hashValue)
-        let cacheConstruct = constructCacheMapTable.object(forKey: hashKey)
-        if let cacheConstruct = cacheConstruct {
-            self.construct = cacheConstruct
-        } else {
-            constructCacheMapTable.setObject(construct, forKey: hashKey)
-            self.construct = construct
-        }
-        wrappedValue = defaultValue
+    init(defaultValue: Value?, construct: CodecConstruct<Value>) {
+        self.construct = .init(codingKeys: construct.codingKeys, transformer: construct.transformer)
+        self.construct.storedValue = defaultValue
     }
 
     // Do nothing, KeyedEncodingContainer extension has done dirty stuff
     public func encode(to _: Encoder) throws {}
-
-    private class func invokeAfterInjection(keeper: InjectionKeeper<Value>, new: Codec<Value>, last: Codec<Value>) {
-        new.construct = last.construct
-        keeper.injection(keeper, new, last.wrappedValue)
-    }
 }
 
 extension Codec: CustomStringConvertible, CustomDebugStringConvertible {

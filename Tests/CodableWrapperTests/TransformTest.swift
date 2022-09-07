@@ -13,15 +13,8 @@ class TransformTest: XCTestCase {
         var value: String?
     }
 
-    override class func setUp() {
-        CodableWrapperRegisterAdditionalCoder {
-            try JSONDecoder().decode(CodablePrepartion.self, from: $0)
-        } encode: {
-            try JSONEncoder().encode($0)
-        }
+    override class func setUp() {}
 
-    }
-    
     struct ExampleModel: Codable {
         @Codec(transformer: TransformOf<ValueWrapper, String>(fromJSON: { ValueWrapper(value: $0) }, toJSON: { $0.value }))
         var valueA = ValueWrapper(value: "A")

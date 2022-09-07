@@ -15,13 +15,7 @@ class BenchmarkTest: XCTestCase {
     var measureOptions: XCTMeasureOptions!
     var array: [Any] = []
 
-    override class func setUp() {
-        CodableWrapperRegisterAdditionalCoder {
-            try JSONDecoder().decode(CodablePrepartion.self, from: $0)
-        } encode: {
-            try JSONEncoder().encode($0)
-        }
-    }
+    override class func setUp() {}
 
     override func setUp() {
         testData = testJSON.data(using: .utf8)!

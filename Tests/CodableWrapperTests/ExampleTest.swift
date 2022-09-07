@@ -7,12 +7,6 @@
 //
 import CodableWrapper
 import XCTest
-//
-///** Model */
-//
-//typealias JSONDecoder = CodableWrapper.JSONDecoder
-//typealias JSONEncoder = CodableWrapper.JSONEncoder
-//typealias JSONSerialization = CodableWrapper.JSONSerialization
 
 enum Animal: String, Codable {
     case dog
@@ -25,7 +19,7 @@ struct ExampleModel: Codable {
     var stringVal: String = "scyano"
 
     @Codec("aInt")
-    var intVal: Int = 123456
+    var intVal: Int? = 123456
 
     @Codec var array: [Double] = [1.998, 2.998, 3.998]
 
@@ -36,6 +30,14 @@ struct ExampleModel: Codable {
     @Codec var unImpl: String?
 
     @Codec var animal: Animal = .dog
+
+    @Codec var testInt: Int?
+
+    @Codec var testFloat: Float?
+    
+    @Codec("1") var testBool: Bool? = nil
+
+    @Codec var testFloats: [Float]?
 }
 
 struct SimpleModel: Codable {
@@ -53,16 +55,16 @@ struct OptionalNullModel: Codable {
 /** ExampleTest */
 
 class ExampleTest: XCTestCase {
-    
-    override class func setUp() {
-        CodableWrapperRegisterAdditionalCoder {
-            try JSONDecoder().decode(CodablePrepartion.self, from: $0)
-        } encode: {
-            try JSONEncoder().encode($0)
+    private var didSetCount = 0
+    var setTestModel: ExampleModel? {
+        didSet {
+            didSetCount += 1
         }
-
     }
     
+    override class func setUp() {
+    }
+
     func testBasicUsage() throws {
         let json = #"{"stringVal": "pan", "intVal": "233", "bool": "1", "animal": "cat"}"#
         let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
@@ -85,7 +87,7 @@ class ExampleTest: XCTestCase {
         XCTAssertEqual(jsonObject["aInt"] as? Int, 233)
         XCTAssertEqual(jsonObject["aString"] as? String, "pan")
     }
-//
+
     func testSnakeCamel() throws {
         struct ExampleModel: Codable {
             @Codec var snake_string: String = ""
@@ -142,6 +144,26 @@ class ExampleTest: XCTestCase {
         XCTAssertEqual(model.root.value2.stringVal, "scyano")
         XCTAssertEqual(model.root2?.value?.stringVal, "y")
         XCTAssertEqual(model.root2?.value2?.stringVal, nil)
+    }
+
+    func testDidSet() throws {
+        didSetCount = 0
+
+        let json = """
+        {"intVal": 233, "stringVal": "pan"}
+        """
+        let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
+        setTestModel = model
+        setTestModel!.intVal = 222
+        setTestModel!.stringVal = "ok"
+
+        XCTAssertEqual(didSetCount, 3)
+    }
+
+    func testLiteral() throws {
+        let model = ExampleModel(stringVal: "1", intVal: 1, array: [], bool: true, bool2: true, unImpl: "123", animal: .cat, testInt: 111, testFloat: 1.2, testBool: true, testFloats: [1, 2])
+        XCTAssertEqual(model.unImpl, "123")
+        XCTAssertEqual(model.testFloats, [1, 2])
     }
 
     func testOptionalWithValue() throws {

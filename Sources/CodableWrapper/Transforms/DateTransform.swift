@@ -9,18 +9,18 @@ import Foundation
 
 public struct SecondDateTransform: TransformType {
     public typealias Object = Date
-    public typealias JSON = TimeInterval
+    public typealias JSON = Any
 
     public init() {}
 
-    public func transformFromJSON(_ json: TimeInterval?) -> Date {
-        if let timeInt = json {
-            return Date(timeIntervalSince1970: TimeInterval(timeInt))
+    public func transformFromJSON(_ json: Any?) -> Date {
+        if let time = getTimeInterval(json) {
+            return Date(timeIntervalSince1970: TimeInterval(time))
         }
         return Date(timeIntervalSince1970: 0)
     }
 
-    public func transformToJSON(_ object: Date) -> TimeInterval? {
+    public func transformToJSON(_ object: Date) -> Any? {
         TimeInterval(object.timeIntervalSince1970)
     }
 
@@ -31,18 +31,18 @@ public struct SecondDateTransform: TransformType {
 
 public struct MillisecondDateTransform: TransformType {
     public typealias Object = Date
-    public typealias JSON = TimeInterval
+    public typealias JSON = Any
 
     public init() {}
 
-    public func transformFromJSON(_ json: TimeInterval?) -> Date {
-        if let timeInt = json {
-            return Date(timeIntervalSince1970: TimeInterval(timeInt / 1000))
+    public func transformFromJSON(_ json: Any?) -> Date {
+        if let time = getTimeInterval(json) {
+            return Date(timeIntervalSince1970: TimeInterval(time / 1000))
         }
         return Date(timeIntervalSince1970: 0)
     }
 
-    public func transformToJSON(_ object: Date) -> TimeInterval? {
+    public func transformToJSON(_ object: Date) -> Any? {
         Double(object.timeIntervalSince1970 * 1000)
     }
 
@@ -84,4 +84,17 @@ public final class ISO8601DateTransform: DateFormatterTransform {
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         super.init(dateFormatter: formatter)
     }
+}
+
+private func getTimeInterval(_ value: Any?) -> TimeInterval? {
+    if let value = value as? TimeInterval {
+        return value
+    }
+    if let value = value as? Int {
+        return TimeInterval(value)
+    }
+    if let value = value as? String, let value2 = TimeInterval(value) {
+        return value2
+    }
+    return nil
 }

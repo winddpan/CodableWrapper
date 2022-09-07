@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class CodablePrepartion: Codable {
+final class CodablePrepartion: Codable {
     var keyedDecodingContainer: KeyedDecodingContainer<AnyCodingKey>
     var keyedEncodingContainer: KeyedEncodingContainer<AnyCodingKey>?
 
