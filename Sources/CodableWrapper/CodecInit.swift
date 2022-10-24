@@ -21,8 +21,8 @@ public extension Codec where Value: Codable {
     /// @Codec("userId") var uid: String = "0"
     /// @Codec("userId") var uid: String? = nil
     ///
-    init(wrappedValue: Value, _ key: String ...) {
-        self.init(defaultValue: wrappedValue, construct: CodecConstruct<Value>(codingKeys: key))
+    init(wrappedValue: Value, _ key: String ..., noNested: Bool = false) {
+        self.init(defaultValue: wrappedValue, construct: CodecConstruct<Value>(codingKeys: key.map { .init(key: $0, noNested: noNested) }))
     }
 }
 
@@ -36,8 +36,10 @@ public extension Codec {
     /// @Codec(transformer: TransformOf<ValueWrapper, String>(fromJSON: { ValueWrapper(value: $0) }, toJSON: { $0.value }))
     /// var nonCodable = ValueWrapper(value: nil)
     ///
-    init<Wrapped, T: TransformType>(_ keys: [String] = [], transformer: T) where Value == Wrapped? {
-        self.init(defaultValue: Wrapped?.none, construct: CodecConstruct<Value>(codingKeys: keys, transformer: AnyTransfromTypeTunk(transformer)))
+    init<Wrapped, T: TransformType>(_ keys: [String] = [], noNested: Bool = false, transformer: T) where Value == Wrapped? {
+        self.init(defaultValue: Wrapped?.none,
+                  construct: CodecConstruct<Value>(codingKeys: keys.map { .init(key: $0, noNested: noNested) },
+                                                   transformer: AnyTransfromTypeTunk(transformer)))
     }
 
     ///
@@ -49,7 +51,9 @@ public extension Codec {
     /// @Codec(transformer: TransformOf<ValueWrapper?, String>(fromJSON: { $0 != nil ? ValueWrapper(value: $0) : nil }, toJSON: { $0?.value }))
     /// var nonCodableOptional: ValueWrapper?
     ///
-    init<T: TransformType>(wrappedValue: Value, _ keys: [String] = [], transformer: T) {
-        self.init(defaultValue: wrappedValue, construct: CodecConstruct<Value>(codingKeys: keys, transformer: AnyTransfromTypeTunk(transformer)))
+    init<T: TransformType>(wrappedValue: Value, _ keys: [String] = [], noNested: Bool = false, transformer: T) {
+        self.init(defaultValue: wrappedValue,
+                  construct: CodecConstruct<Value>(codingKeys: keys.map { .init(key: $0, noNested: noNested) },
+                                                   transformer: AnyTransfromTypeTunk(transformer)))
     }
 }

@@ -7,8 +7,26 @@
 
 import Foundation
 
+enum CodecConstructKey: Hashable {
+    case noNested(String)
+    case nested([String])
+
+    init(key: String, noNested: Bool) {
+        if noNested {
+            self = .noNested(key)
+        } else {
+            let comps = key.components(separatedBy: ".")
+            if comps.count > 1 {
+                self = .nested(comps)
+            } else {
+                self = .noNested(key)
+            }
+        }
+    }
+}
+
 final class CodecConstruct<Value>: Hashable {
-    var codingKeys: [String] = []
+    var codingKeys: [CodecConstructKey] = []
     var transformer: AnyTransfromTypeTunk?
     var storedValue: Value?
     let safedInit: Bool
@@ -30,7 +48,7 @@ final class CodecConstruct<Value>: Hashable {
         self.safedInit = false
     }
 
-    init(codingKeys: [String], transformer: AnyTransfromTypeTunk? = nil) {
+    init(codingKeys: [CodecConstructKey], transformer: AnyTransfromTypeTunk? = nil) {
         self.safedInit = true
         self.codingKeys = codingKeys
         self.transformer = transformer

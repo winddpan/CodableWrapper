@@ -33,8 +33,6 @@ public extension KeyedDecodingContainer {
 
 public extension KeyedEncodingContainer {
     func encode<Value>(_ value: Codec<Value>, forKey key: Key) throws {
-        let keyString = value.construct.codingKeys.first ?? key.stringValue
-        guard let codingKey = AnyCodingKey(stringValue: keyString) else { return }
         var encodeValue: Encodable?
         let construct = value.construct
         if let toJSON = construct.transformer?.toJSON {
@@ -47,8 +45,36 @@ public extension KeyedEncodingContainer {
         if let encodeValue = encodeValue {
             var mutatingSelf = self
             try mutatingSelf.convertAsAnyCodingKey { _container in
-                try encodeValue.encode(to: &_container, forKey: codingKey)
+                let firstKey = value.construct.codingKeys.first
+                if case .nested(let array) = firstKey {
+                    try encodeNestedKey(value: encodeValue, array: array, container: &_container)
+                } else {
+                    let keyName: String
+                    if case .noNested(let key) = firstKey {
+                        keyName = key
+                    } else {
+                        keyName = key.stringValue
+                    }
+                    try encodeNormakKey(value: encodeValue, key: keyName, container: &_container)
+                }
             }
         }
+    }
+
+    private func encodeNestedKey(value: Encodable, array: [String], container: inout KeyedEncodingContainer<AnyCodingKey>) throws {
+        var keyComps = array
+        let lastKey = keyComps.removeLast()
+        var nestedContainer: KeyedEncodingContainer<AnyCodingKey>? = container
+        for keyComp in keyComps {
+            nestedContainer = nestedContainer?.nestedContainer(keyedBy: AnyCodingKey.self, forKey: .init(stringValue: keyComp)!)
+        }
+        if var nestedContainer = nestedContainer {
+            try encodeNormakKey(value: value, key: lastKey, container: &nestedContainer)
+        }
+    }
+
+    private func encodeNormakKey(value: Encodable, key: String, container: inout KeyedEncodingContainer<AnyCodingKey>) throws {
+        let codingKey = AnyCodingKey(stringValue: key)!
+        try value.encode(to: &container, forKey: codingKey)
     }
 }
