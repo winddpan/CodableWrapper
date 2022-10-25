@@ -8,7 +8,7 @@
 import Foundation
 
 extension Codec {
-    func finalize<K: CodingKey>(container: inout KeyedDecodingContainer<K>, forKey key: KeyedDecodingContainer<K>.Key) {
+    func decodeFinalize<K: CodingKey>(container: inout KeyedDecodingContainer<K>, forKey key: KeyedDecodingContainer<K>.Key) throws {
         let transformFromJSON = construct.transformer?.fromJSON
         var keys = construct.codingKeys
         keys.append(.noNested(key.stringValue))
@@ -19,7 +19,7 @@ extension Codec {
             return nil
         })
 
-        try? container.convertAsAnyCodingKey { _container in
+        try container.convertAsAnyCodingKey { _container in
             for key in keys {
                 switch key {
                 case .noNested(let string):
