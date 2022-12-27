@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension Codec where Value: Codable {
+public extension Codec {
     ///
     /// ```
     /// @Codec var uid: String?
