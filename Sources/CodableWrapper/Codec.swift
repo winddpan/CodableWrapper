@@ -51,3 +51,7 @@ extension Codec: CustomStringConvertible, CustomDebugStringConvertible {
         "\(wrappedValue)"
     }
 }
+
+extension Codec: Equatable where Value: Equatable { }
+
+extension Codec: Hashable where Value: Hashable { }
