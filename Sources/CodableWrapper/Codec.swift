@@ -52,6 +52,14 @@ extension Codec: CustomStringConvertible, CustomDebugStringConvertible {
     }
 }
 
-extension Codec: Equatable where Value: Equatable { }
+extension Codec: Equatable where Value: Equatable {
+    public static func == (lhs: Codec<Value>, rhs: Codec<Value>) -> Bool {
+        lhs.wrappedValue == rhs.wrappedValue
+    }
+}
 
-extension Codec: Hashable where Value: Hashable { }
+extension Codec: Hashable where Value: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(wrappedValue)
+    }
+}

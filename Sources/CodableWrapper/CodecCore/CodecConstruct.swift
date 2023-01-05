@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CodecConstructKey: Hashable {
+enum CodecConstructKey {
     case noNested(String)
     case nested([String])
 
@@ -25,7 +25,7 @@ enum CodecConstructKey: Hashable {
     }
 }
 
-final class CodecConstruct<Value>: Hashable {
+final class CodecConstruct<Value> {
     var codingKeys: [CodecConstructKey] = []
     var transformer: AnyTransfromTypeTunk?
     var storedValue: Value?
@@ -52,14 +52,5 @@ final class CodecConstruct<Value>: Hashable {
         self.safedInit = true
         self.codingKeys = codingKeys
         self.transformer = transformer
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(self.codingKeys)
-        hasher.combine(self.transformer?.hashValue)
-    }
-
-    static func == (lhs: CodecConstruct, rhs: CodecConstruct) -> Bool {
-        return lhs.hashValue == rhs.hashValue
     }
 }
