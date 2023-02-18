@@ -9,13 +9,18 @@ import Foundation
 
 @propertyWrapper
 public struct Codec<Value>: Codable {
-    let construct: CodecConstruct<Value>
+    var construct: CodecConstruct<Value>
 
     public var wrappedValue: Value {
         get {
-            construct.storedValue!
+            return construct.storedValue!
         }
         set {
+            if !isKnownUniquelyReferenced(&construct) {
+                let newConstruct = CodecConstruct<Value>(unsafed: ())
+                newConstruct.transferFrom(construct)
+                construct = newConstruct
+            }
             construct.storedValue = newValue
         }
     }

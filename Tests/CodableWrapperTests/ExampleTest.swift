@@ -64,6 +64,14 @@ class ExampleTest: XCTestCase {
     
     override class func setUp() {
     }
+    
+    func testStructCopyOnWrite() {
+        let a = ExampleModel()
+        let valueInA = a.stringVal
+        var b = a
+        b.stringVal = "changed!"
+        XCTAssertEqual(a.stringVal, valueInA)
+    }
 
     func testBasicUsage() throws {
         let json = #"{"stringVal": "pan", "intVal": "233", "bool": "1", "animal": "cat"}"#

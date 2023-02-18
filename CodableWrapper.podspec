@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |spec|
   spec.name         = "CodableWrapper"
-  spec.version      = "0.3.2"
+  spec.version      = "0.3.3"
   spec.requires_arc = true
   spec.summary      = "Codable + PropertyWrapper"
   spec.description  = "Codable + PropertyWrapper = ☕"
