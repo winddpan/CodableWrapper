@@ -8,6 +8,7 @@
 import CodableWrapper
 import XCTest
 
+@available(tvOS 13.0, *)
 @available(iOS 13.0, *)
 class BenchmarkTest: XCTestCase {
     var testData: Data!

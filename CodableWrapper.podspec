@@ -20,10 +20,10 @@ Pod::Spec.new do |spec|
   spec.source       = { :git => "https://github.com/winddpan/CodableWrapper.git", :tag => "#{spec.version}" }
   spec.source_files  = "Sources/CodableWrapper/**/*.swift"
 
-  spec.ios.deployment_target = '8.0'
-  spec.osx.deployment_target = '10.9'
-  spec.watchos.deployment_target = '2.0'
-  spec.tvos.deployment_target = '9.0'
+  spec.ios.deployment_target = '11.0'
+  spec.osx.deployment_target = '10.13'
+  spec.watchos.deployment_target = '4.0'
+  spec.tvos.deployment_target = '11.0'
 
   spec.swift_versions = '5.0'
 end
