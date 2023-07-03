@@ -23,7 +23,12 @@
 
 ## [中文说明](./README-zhCN.md)
 
+# Swift 5.9 Macro Support
+
+Is **<mark>In development</mark>**, chek [swift5.9-macro branch](https://github.com/winddpan/CodableWrapper/tree/swift5.9-macro)
+
 ## About
+
 * This project is use `PropertyWrapper` to improve your `Codable` use experience.
 * Simply based on `JSONEncoder` `JSONDecoder`.
 * Powerful and simplifily API than  [BetterCodable](https://github.com/marksands/BetterCodable) or [CodableWrappers](https://github.com/GottaGetSwifty/CodableWrappers).
@@ -40,12 +45,15 @@
 ## Installation
 
 #### Cocoapods
+
 ``` pod 'CodableWrapper' ```
 
 #### Swift Package Manager
+
 ``` https://github.com/winddpan/CodableWrapper ```
 
 ## Example
+
 ```Swift
 enum Animal: String, Codable {
     case dog
@@ -65,7 +73,7 @@ struct ExampleModel: Codable {
     @Codec var bool: Bool = false
 
     @Codec var unImpl: String?
-    
+
     @Codec var animal: Animal = .dog
 }
 
@@ -138,11 +146,12 @@ struct DataModel: Codable {
 }
 ```
 
-
 ## Usage
 
 #### DefaultValue
+
 > DefaultValue should implement `Codable` protocol
+
 ```swift
 struct ExampleModel: Codable {
     @Codec var bool: Bool = false
@@ -155,6 +164,7 @@ XCTAssertEqual(model.bool, false)
 ```
 
 #### Auto snake camel convert
+
 ```swift
 struct ExampleModel: Codable {
     @Codec var snake_string: String = ""
@@ -168,9 +178,11 @@ XCTAssertEqual(model.snake_string, "snake")
 XCTAssertEqual(model.camelString, "camel")
 ```
 
-#### CodingKeys 
+#### CodingKeys
+
 > Decoding:  try each CodingKey until succeed
 > Encoding:  use first CodingKey as Dictionary key
+
 ```swift
 struct ExampleModel: Codable {
     @Codec("int_Val", "intVal")
@@ -190,10 +202,10 @@ let data = try JSONEncoder().encode(model)
 let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
 XCTAssertEqual(jsonObject["int_Val"] as? Int, 233)
 XCTAssertEqual(jsonObject["intOptional"] as? Int, 234)
-
 ```
 
 #### Basic type bridging
+
 ```swift
 struct ExampleModel: Codable {
     @Codec var int: Int?
@@ -210,6 +222,7 @@ XCTAssertEqual(model.bool, true)
 ```
 
 #### Transformer
+
 ```swift
 struct User: Codable {
     @Codec(transformer: SecondDateTransform())
