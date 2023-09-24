@@ -1,242 +1,239 @@
-<p align="center">
-  <h3 align="center">CodableWrapper</h3>
-  <p align="center">
-    Codable + PropertyWrapper = @Codec("encoder", "decoder") var cool: Bool = true
-  </p>
-</p>
-<ol>
-  <li><a href="#about-the-project">About</a></li>
-  <li><a href="#feature">Feature</a></li>
-  <li><a href="#installation">Installation</a></li>
-  <li><a href="#example">Example</a></li>
-  <li><a href="#how-it-works">How it works</a></li>
-  <li>
-    <a href="#usage">Usage</a>
-    <ul>
-      <li><a href="#defaultvalue">DefaultValue</a></li>
-      <li><a href="#codingkeys">CodingKeys</a></li>
-      <li><a href="#basictypebridge">BasicTypeBridge</a></li>
-      <li><a href="#transformer">Transformer</a></li>
-    </ul>
-  </li>
-</ol>
+# Requirements
 
-## [中文说明](./README-zhCN.md)
+Xcode      |Swift         | Version
+-----------|--------------|--------------
+Xcode15    | Swift 5.9    | 1.0
+<=Xcode14  | <=Swift 5.8  | [0.3.3](https://github.com/winddpan/CodableWrapper/tree/0.3.3)
 
-# Swift 5.9 Macro Support
+# About
 
-Is **<mark>In development</mark>**, chek [swift5.9-macro branch](https://github.com/winddpan/CodableWrapper/tree/swift5.9-macro)
+The project objective is to enhance the usage experience of the Codable protocol using the macro provided by Swift 5.9 and to address the shortcomings of various official versions.
 
-## About
+# Feature
 
-* This project is use `PropertyWrapper` to improve your `Codable` use experience.
-* Simply based on `JSONEncoder` `JSONDecoder`.
-* Powerful and simplifily API than  [BetterCodable](https://github.com/marksands/BetterCodable) or [CodableWrappers](https://github.com/GottaGetSwifty/CodableWrappers).
+* Default value
+* Basic type automatic convertible, between `String` `Bool` `Number` etc.
+* Custom multiple `CodingKey`
+* Nested Dictionary `CodingKey`
+* Automatic compatibility between camel case and snake case
+* Convenience `Codable` subclass
+* Transformer
 
-## Feature
+# Example
 
-* Default value supported
-* Basic type convertible, between `String`  `Bool` `Number` 
-* Custom key support
-* Fix parsing failure due to missing fields from server
-* Fix parsing failure due to mismatch Enum raw value
-* Custom transform
+```swift
+@Codable
+struct BasicModel {
+    var defaultVal: String = "hello world"
+    var defaultVal2: String = Bool.random() ? "hello world" : ""
+    let strict: String
+    let noStrict: String?
+    let autoConvert: Int?
 
-## Installation
+    @CodingKey("hello")
+    var hi: String = "there"
 
-#### Cocoapods
+    @CodingNestedKey("nested.hi")
+    @CodingTransformer(StringPrefixTransform("HELLO -> "))
+    var codingKeySupport: String
 
-``` pod 'CodableWrapper' ```
+    @CodingNestedKey("nested.b")
+    var nestedB: String
 
-#### Swift Package Manager
-
-``` https://github.com/winddpan/CodableWrapper ```
-
-## Example
-
-```Swift
-enum Animal: String, Codable {
-    case dog
-    case cat
-    case fish
-}
-
-struct ExampleModel: Codable {
-    @Codec("aString")
-    var stringVal: String = "scyano"
-
-    @Codec("aInt")
-    var intVal: Int = 123456
-
-    @Codec var defaultArray: [Double] = [1.998, 2.998, 3.998]
-
-    @Codec var bool: Bool = false
-
-    @Codec var unImpl: String?
-
-    @Codec var animal: Animal = .dog
-}
-
-let json = #"{"aString": "pan", "aInt": "233", "bool": "1", "animal": "cat"}"#
-
-let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
-XCTAssertEqual(model.stringVal, "pan")
-XCTAssertEqual(model.intVal, 233)
-XCTAssertEqual(model.defaultArray, [1.998, 2.998, 3.998])
-XCTAssertEqual(model.bool, true)
-XCTAssertEqual(model.unImpl, nil)
-XCTAssertEqual(model.animal, .cat)
-```
-
-*For more examples, please check the unit tests or Playground*
-
-## How it works
-
-```Swift
-struct DataModel: Codable {
-    @Codec var stringVal: String = "OK"
-}
-
-/* pseudocode from Swift open source lib: Codable.Swift -> */
-struct DataModel: Codable {
-    private var _stringVal = Codec<String>(defaultValue: "OK")
-
-    var stringVal: String {
-        get {
-            return _stringVal.wrappedValue
-        }
-        set {
-            _stringVal.wrappedValue = newValue
-        }
+    var testGetter: String {
+        nestedB
     }
+}
 
-    enum CodingKeys: CodingKey {
-        case stringVal
-    }
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        /* decode `newStringVal` */
-        /* remember `newStringVal`: Thread.current.lastCodableWrapper = wrapper */
-        /*
-         extension KeyedDecodingContainer {
-            func decode<Value>(_ type: Codec<Value>.Type, forKey key: Key) throws -> Codec<Value> {
-                ...
-                let wrapper = Codec<Value>(unsafed: ())
-                Thread.current.lastCodableWrapper = wrapper
-                ...
+final class CodableWrapperTests: XCTestCase {
+    func testBasicUsage() throws {
+        let jsonStr = """
+        {
+            "strict": "value of strict",
+            "autoConvert": "998",
+            "nested": {
+                "hi": "nested there",
+                "b": "b value"
             }
-         }
-         */
-        let newStringVal = try container.decode(Codec<String>.self, forKey: CodingKeys.stringVal)
+        }
+        """
 
-        /* old `_stringVal` deinit */
-        /* old `_stringVal` invokeAfterInjection called: transform old `_stringVal` Configs to `newStringVal` */
-        /* 
-         deinit {
-             if !unsafeCreated, let construct = construct, let lastWrapper = Thread.current.lastCodableWrapper as? Codec<Value> {
-                 lastWrapper.invokeAfterInjection(with: construct)
-                 Thread.current.lastCodableWrapper = nil
-             }
-         }
-        */
-        self._stringVal = newStringVal
+        let model = try JSONDecoder().decode(BasicModel.self, from: jsonStr.data(using: .utf8)!)
+        XCTAssertEqual(model.defaultVal, "hello world")
+        XCTAssertEqual(model.strict, "value of strict")
+        XCTAssertEqual(model.noStrict, nil)
+        XCTAssertEqual(model.autoConvert, 998)
+        XCTAssertEqual(model.hi, "there")
+        XCTAssertEqual(model.codingKeySupport, "HELLO -> nested there")
+        XCTAssertEqual(model.nestedB, "b value")
+
+        let encoded = try JSONEncoder().encode(model)
+        let dict = try JSONSerialization.jsonObject(with: encoded) as! [String: Any]
+        XCTAssertEqual(model.defaultVal, dict["defaultVal"] as! String)
+        XCTAssertEqual(model.strict, dict["strict"] as! String)
+        XCTAssertNil(dict["noStrict"])
+        XCTAssertEqual(model.autoConvert, dict["autoConvert"] as? Int)
+        XCTAssertEqual(model.hi, dict["hello"] as! String)
+        XCTAssertEqual("nested there", (dict["nested"] as! [String: Any])["hi"] as! String)
+        XCTAssertEqual(model.nestedB, (dict["nested"] as! [String: Any])["b"] as! String)
     }
 }
 ```
 
-## Usage
+# Macro usage
 
-#### DefaultValue
+## @Codable
 
-> DefaultValue should implement `Codable` protocol
+* Auto conformance `Codable` protocol if not explicitly declared
+  
+  ```swift
+  // both below works well
+  
+  @Codable
+  struct BasicModel {}
+  
+  @Codable
+  struct BasicModel: Codable {}
+  ```
 
-```swift
-struct ExampleModel: Codable {
-    @Codec var bool: Bool = false
-}
+* Default value
+  
+  ```swift
+  @Codable
+  struct TestModel {
+      let name: String
+      let balance: Double = 0
+  }
+  
+  // { "name": "jhon" }
+  ```
 
-let json = #"{"bool":"wrong value"}"#
+* Basic type automatic convertible, between `String` `Bool` `Number` etc.
+  
+  ```swift
+  @Codable
+  struct TestModel {
+      let autoConvert: Int?
+  }
+  
+  // { "autoConvert": "998" }
+  ```
 
-let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
-XCTAssertEqual(model.bool, false)
-```
+* Automatic compatibility between camel case and snake case
+  
+  ```swift
+  @Codable
+  struct TestModel {
+      let userName: String = ""
+  }
+  
+  // { "user_name": "jhon" }
+  ```
 
-#### Auto snake camel convert
+* Member Wise Init
+  
+  ```swift
+  @Codable
+  public struct TestModel {
+      public let userName: String = ""
+  
+      // Automatic generated
+      public init(userName: String = "") {
+          self.userName = userName
+      }
+  }
+  ```
 
-```swift
-struct ExampleModel: Codable {
-    @Codec var snake_string: String = ""
-    @Codec var camelString: String = ""
-}
+## @CodingKey
 
-let json = #"{"snakeString":"snake", "camel_string": "camel"}"#
+* Custom `CodingKey`s
+  
+  ```swift
+  @Codable
+  struct TestModel {
+      @CodingKey("u1", "u2", "u9")
+      let userName: String = ""
+  }
+  
+  // { "u9": "jhon" }
+  ```
 
-let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
-XCTAssertEqual(model.snake_string, "snake")
-XCTAssertEqual(model.camelString, "camel")
-```
+## @CodingNestedKey
 
-#### CodingKeys
+* Custom `CodingKey`s in `nested dictionary`
+  
+  ```swift
+  @Codable
+  struct TestModel {
+      @CodingNestedKey("data.u1", "data.u2", "data.u9")
+      let userName: String = ""
+  }
+  
+  // { "data": {"u9": "jhon"} }
+  ```
 
-> Decoding:  try each CodingKey until succeed
-> Encoding:  use first CodingKey as Dictionary key
+## @CodableSubclass
 
-```swift
-struct ExampleModel: Codable {
-    @Codec("int_Val", "intVal")
-    var intVal: Int = 123456
+* Automatic generate `Codable` class's subclass `init(from:)` and `encode(to:)` super calls
+  
+  ```swift
+  @Codable
+  class BaseModel {
+      let userName: String
+  }
+  
+  @CodableSubclass
+  class BaseModel: BaseModel {
+      let age: Int
+  }
+  
+  // {"user_name": "jhon", "age": 22}
+  ```
 
-    @Codec("intOptional", "int_optional")
-    var intOptional: Int?
-}
+## @CodingTransformer
 
-let json = #"{"int_Val": "233", "int_optional": 234}"#
-
-let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
-XCTAssertEqual(model.intVal, 233)
-XCTAssertEqual(model.intOptional, 234)
-
-let data = try JSONEncoder().encode(model)
-let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-XCTAssertEqual(jsonObject["int_Val"] as? Int, 233)
-XCTAssertEqual(jsonObject["intOptional"] as? Int, 234)
-```
-
-#### Basic type bridging
-
-```swift
-struct ExampleModel: Codable {
-    @Codec var int: Int?
-    @Codec var string: String?
-    @Codec var bool: Bool?
-}
-
-let json = #"{"int": "1", "string": 2, "bool": "true"}"#
-
-let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
-XCTAssertEqual(model.int, 1)
-XCTAssertEqual(model.string, "2")
-XCTAssertEqual(model.bool, true)
-```
-
-#### Transformer
-
-```swift
-struct User: Codable {
-    @Codec(transformer: SecondDateTransform())
-    var registerDate: Date?
-}       
-let date = Date()
-let json = #"{"sencondsDate": \(date.timeIntervalSince1970)}"#
-
-let user = try JSONDecoder().decode(User.self, from: json.data(using: .utf8)!)
-XCTAssertEqual(model.sencondsDate?.timeIntervalSince1970, date.timeIntervalSince1970)
-```
-
-> It also support custom transformer, your `CustomTransformer` only need to comfirm to `TransfromType`
-
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
+* Transformer between in `Codable` / `NonCodable` model
+  
+  ```swift
+  struct DateWrapper {
+      let timestamp: TimeInterval
+  
+      var date: Date {
+          Date(timeIntervalSince1970: timestamp)
+      }
+  
+      init(timestamp: TimeInterval) {
+          self.timestamp = timestamp
+      }
+  
+      static var transformer = TransformOf<DateWrapper, TimeInterval>(fromJSON: { DateWrapper(timestamp: $0 ?? 0) }, toJSON: { $0.timestamp })
+  }
+  
+  @Codable
+  struct DateModel {
+      @CodingTransformer(DateWrapper.transformer)
+      var time: DateWrapper? = DateWrapper(timestamp: 0)
+      
+      @CodingTransformer(DateWrapper.transformer)
+      var time1: DateWrapper = DateWrapper(timestamp: 0)
+      
+      @CodingTransformer(DateWrapper.transformer)
+      var time2: DateWrapper?
+  }
+  
+  class TransformTest: XCTestCase {
+      func testDateModel() throws {
+          let json = """
+          {"time": 12345}
+          """
+  
+          let model = try JSONDecoder().decode(DateModel.self, from: json.data(using: .utf8)!)
+          XCTAssertEqual(model.time?.timestamp, 12345)
+          XCTAssertEqual(model.time?.date.description, "1970-01-01 03:25:45 +0000")
+  
+          let encode = try JSONEncoder().encode(model)
+          let jsonObject = try JSONSerialization.jsonObject(with: encode, options: []) as! [String: Any]
+          XCTAssertEqual(jsonObject["time"] as! TimeInterval, 12345)
+      }
+  }
+  ```

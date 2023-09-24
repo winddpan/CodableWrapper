@@ -14,45 +14,73 @@ enum Animal: String, Codable {
     case fish
 }
 
+@Codable
 struct ExampleModel: Codable {
-    @Codec("aString")
+    @CodingKey("aString")
     var stringVal: String = "scyano"
 
-    @Codec("aInt")
-    var intVal: Int? = 123456
+    @CodingKey("aInt")
+    var intVal: Int? = 123_456
 
-    @Codec var array: [Double] = [1.998, 2.998, 3.998]
+    var array: [Double] = [1.998, 2.998, 3.998]
 
-    @Codec var bool: Bool = false
+    var bool: Bool = false
 
-    @Codec var bool2: Bool = true
+    var bool2: Bool = true
 
-    @Codec var unImpl: String?
+    var unImpl: String?
 
-    @Codec var animal: Animal = .dog
+    var animal: Animal = .dog
 
-    @Codec var testInt: Int?
+    var testInt: Int?
 
-    @Codec var testFloat: Float?
-    
-    @Codec("1") var testBool: Bool? = nil
+    var testFloat: Float?
 
-    @Codec var testFloats: [Float]?
+    @CodingKey("1") var testBool: Bool? = nil
+
+    var testFloats: [Float]?
 }
 
-struct SimpleModel: Codable {
-    @Codec var val: Int = 2
+@Codable
+struct SimpleModel {
+    var a, b: Int
+    var val: Int = 2
 }
 
-struct OptionalModel: Codable {
-    @Codec var val: String? = "default"
+@Codable
+struct OptionalModel {
+    var val: String? = "default"
 }
 
-struct OptionalNullModel: Codable {
-    @Codec var val: String?
+@Codable
+struct OptionalNullModel {
+    var val: String?
 }
 
-/** ExampleTest */
+@Codable
+struct RootModel: Codable {
+    @CodingKey("rt") var root: SubRootModelCodec = .init(value: nil, value2: ExampleModel())
+    var root2: SubRootModel? = SubRootModel(value: nil, value2: nil, value3: nil)
+}
+
+@Codable
+struct SubRootModelCodec {
+    var value: ExampleModel?
+    var value2: ExampleModel = .init()
+}
+
+@Codable
+struct SubRootModel {
+    var value: ExampleModel?
+    var value2: ExampleModel?
+    var value3: ExampleModel? = .init()
+}
+
+@Codable
+struct SnakeCamelModel {
+    var snake_string: String = ""
+    var camelString: String = ""
+}
 
 class ExampleTest: XCTestCase {
     private var didSetCount = 0
@@ -61,10 +89,9 @@ class ExampleTest: XCTestCase {
             didSetCount += 1
         }
     }
-    
-    override class func setUp() {
-    }
-    
+
+    override class func setUp() {}
+
     func testStructCopyOnWrite() {
         let a = ExampleModel()
         let valueInA = a.stringVal
@@ -97,14 +124,9 @@ class ExampleTest: XCTestCase {
     }
 
     func testSnakeCamel() throws {
-        struct ExampleModel: Codable {
-            @Codec var snake_string: String = ""
-            @Codec var camelString: String = ""
-        }
-
         let json = #"{"snakeString":"snake", "camel_string": "camel"}"#
 
-        let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
+        let model = try JSONDecoder().decode(SnakeCamelModel.self, from: json.data(using: .utf8)!)
         XCTAssertEqual(model.snake_string, "snake")
         XCTAssertEqual(model.camelString, "camel")
     }
@@ -123,27 +145,12 @@ class ExampleTest: XCTestCase {
         {"intVal": "wrong value"}
         """
         let model = try JSONDecoder().decode(ExampleModel.self, from: json.data(using: .utf8)!)
-        XCTAssertEqual(model.intVal, 123456)
+        XCTAssertEqual(model.intVal, 123_456)
         XCTAssertEqual(model.stringVal, "scyano")
         XCTAssertEqual(model.animal, .dog)
     }
 
     func testNested() throws {
-        struct RootModel: Codable {
-            @Codec("rt") var root = SubRootModelCodec()
-            var root2: SubRootModel? = SubRootModel()
-        }
-
-        struct SubRootModelCodec: Codable {
-            @Codec var value: ExampleModel?
-            @Codec var value2 = ExampleModel()
-        }
-
-        struct SubRootModel: Codable {
-            var value: ExampleModel?
-            var value2: ExampleModel? = ExampleModel()
-        }
-
         let json = """
         {"rt": {"value": {"stringVal":"x"}}, "root2": {"value": {"stringVal":"y"}}}
         """
@@ -152,6 +159,7 @@ class ExampleTest: XCTestCase {
         XCTAssertEqual(model.root.value2.stringVal, "scyano")
         XCTAssertEqual(model.root2?.value?.stringVal, "y")
         XCTAssertEqual(model.root2?.value2?.stringVal, nil)
+        XCTAssertEqual(model.root2?.value3?.stringVal, "scyano")
     }
 
     func testDidSet() throws {
@@ -248,7 +256,7 @@ class ExampleTest: XCTestCase {
                     XCTAssertEqual(model.intVal, i)
                     XCTAssertEqual(model.stringVal, "string_\(i)")
                     XCTAssertEqual(model.unImpl, nil)
-                    XCTAssertEqual(model.array, [123456789])
+                    XCTAssertEqual(model.array, [123_456_789])
 
                     array2.append(model)
                 }

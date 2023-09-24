@@ -8,6 +8,24 @@
 import CodableWrapper
 import XCTest
 
+@Codable
+struct Episode {
+    @CodingKey("title")
+    var show: String?
+
+    @CodingNestedKey("actor.actorName")
+    var actorName1: String? = nil
+
+    @CodingNestedKey("actor.actor_name")
+    var actorName2: String? = nil
+
+    @CodingKey("actor.actor_name")
+    var noNestedActorName: String? = nil
+
+    @CodingNestedKey("actor.iq")
+    var iq: Int = 0
+}
+
 class NestedKeyTest: XCTestCase {
     let JSON = """
     {
@@ -21,23 +39,6 @@ class NestedKeyTest: XCTestCase {
     """
 
     func testNestedKey() throws {
-        struct Episode: Codable {
-            @Codec("title")
-            var show: String? = nil
-
-            @Codec("actor.actorName")
-            var actorName1: String? = nil
-
-            @Codec("actor.actor_name")
-            var actorName2: String? = nil
-
-            @Codec("actor.actor_name", noNested: true)
-            var noNestedActorName: String? = nil
-
-            @Codec("actor.iq")
-            var iq: Int = 0
-        }
-
         let model = try JSONDecoder().decode(Episode.self, from: JSON.data(using: .utf8)!)
 
         XCTAssertEqual(model.show, "The Big Bang Theory")
