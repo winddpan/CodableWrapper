@@ -1,9 +1,9 @@
 # Requirements
 
-Xcode      |Swift         | Version
------------|--------------|--------------
-Xcode15    | Swift 5.9    | 1.0
-<=Xcode14  | <=Swift 5.8  | [0.3.3](https://github.com/winddpan/CodableWrapper/tree/0.3.3)
+| Xcode     | Minimun Deployments | Version                                                        |
+| --------- | ------------------- | -------------------------------------------------------------- |
+| Xcode15   | >= iOS13 / macOS11  | 1.0                                                            |
+| < Xcode15 | < iOS13 / macOS11   | [0.3.3](https://github.com/winddpan/CodableWrapper/tree/0.3.3) |
 
 # About
 
@@ -18,6 +18,16 @@ The project objective is to enhance the usage experience of the Codable protocol
 * Automatic compatibility between camel case and snake case
 * Convenience `Codable` subclass
 * Transformer
+
+## Installation
+
+#### Cocoapods
+> *No longer supported since 1.0.0, use version 0.3.3 if your project uses <Xcode 15 or <iOS 13.*
+```pod 'CodableWrapper', '0.3.3'```
+
+#### Swift Package Manager
+
+``` https://github.com/winddpan/CodableWrapper ```
 
 # Example
 
