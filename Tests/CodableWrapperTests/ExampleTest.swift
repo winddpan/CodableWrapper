@@ -39,6 +39,8 @@ struct ExampleModel: Codable {
     @CodingKey("1") var testBool: Bool? = nil
 
     var testFloats: [Float]?
+
+    static var empty: ExampleModel = .init()
 }
 
 @Codable

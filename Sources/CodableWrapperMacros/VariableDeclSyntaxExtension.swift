@@ -6,6 +6,9 @@ extension VariableDeclSyntax {
     /// This syntactic check cannot account for semantic adjustments due to,
     /// e.g., accessor macros or property wrappers.
     var isStoredProperty: Bool {
+        if modifiers.compactMap({ $0.as(DeclModifierSyntax.self) }).contains(where: { $0.name.text == "static" }) {
+            return false
+        }
         if bindings.count < 1 {
             return false
         }
