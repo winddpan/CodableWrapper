@@ -58,6 +58,13 @@ struct StructWraningX {
     @CodingKey("abc") var subVal: String = "1_1"
 }
 
+public extension ClassModel11 {
+    @Codable
+    class A {
+        public var val: String = "1"
+    }
+}
+
 // @CodableSubclass
 // struct StructWraning0 {}
 //

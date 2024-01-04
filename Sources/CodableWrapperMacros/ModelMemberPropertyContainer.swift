@@ -4,6 +4,7 @@ import SwiftSyntaxMacros
 private struct ModelMemberProperty {
     var name: String
     var type: String
+    var modifiers: DeclModifierListSyntax = []
     var isOptional: Bool = false
     var normalKeys: [String] = []
     var nestedKeys: [String] = []
@@ -43,11 +44,17 @@ struct ModelMemberPropertyContainer {
     }
 
     private func attributesPrefix(option: AttributeOption) -> String {
+        let hasPublicProperites = memberProperties.contains(where: {
+            $0.modifiers.contains(where: {
+                $0.name.text == "public" || $0.name.text == "open"
+            })
+        })
+
         let modifiers = decl.modifiers.compactMap { $0.name.text }
         var attributes: [String] = []
         if option.contains(.open), modifiers.contains("open") {
             attributes.append("open")
-        } else if option.contains(.public), modifiers.contains("open") || modifiers.contains("public") {
+        } else if option.contains(.public), hasPublicProperites || modifiers.contains("open") || modifiers.contains("public") {
             attributes.append("public")
         }
         if option.contains(.required), decl.is(ClassDeclSyntax.self) {
@@ -56,6 +63,7 @@ struct ModelMemberPropertyContainer {
         if !attributes.isEmpty {
             attributes.append("")
         }
+
         return attributes.joined(separator: " ")
     }
 
@@ -178,6 +186,7 @@ private extension ModelMemberPropertyContainer {
                 }
 
                 var mp = ModelMemberProperty(name: name, type: type)
+                mp.modifiers = variable.modifiers
                 let attributes = variable.attributes
 
                 // isOptional
