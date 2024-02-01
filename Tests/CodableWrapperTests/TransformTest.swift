@@ -72,7 +72,7 @@ struct DateModel_produce: Codable {
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: AnyCodingKey.self)
-        let time = try container.decode(type: type(of: DateWrapper.transformer).JSON.self, keys: ["time"], nestedKeys: [])
+        let time = try container.decode(type: Swift.type(of: DateWrapper.transformer).JSON.self, keys: ["time"], nestedKeys: [])
         self.time = DateWrapper.transformer.transformFromJSON(time)
     }
 

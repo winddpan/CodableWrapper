@@ -75,7 +75,7 @@ struct ModelMemberPropertyContainer {
 
                 var text = """
                 let \(transformerVar) = \(transformerExpr)
-                let \(tempJsonVar) = try? container.decode(type: type(of: \(transformerVar)).JSON.self, keys: [\(member.codingKeys.joined(separator: ", "))], nestedKeys: [\(member.nestedKeys.joined(separator: ", "))])
+                let \(tempJsonVar) = try? container.decode(type: Swift.type(of: \(transformerVar)).JSON.self, keys: [\(member.codingKeys.joined(separator: ", "))], nestedKeys: [\(member.nestedKeys.joined(separator: ", "))])
                 """
 
                 if let initializerExpr = member.initializerExpr {
@@ -90,7 +90,7 @@ struct ModelMemberPropertyContainer {
 
                 return text
             } else {
-                let body = "container.decode(type: type(of: self.\(member.name)), keys: [\(member.codingKeys.joined(separator: ", "))], nestedKeys: [\(member.nestedKeys.joined(separator: ", "))])"
+                let body = "container.decode(type: Swift.type(of: self.\(member.name)), keys: [\(member.codingKeys.joined(separator: ", "))], nestedKeys: [\(member.nestedKeys.joined(separator: ", "))])"
 
                 if let initializerExpr = member.initializerExpr {
                     return "self.\(member.name) = (try? \(body)) ?? (\(initializerExpr))"
