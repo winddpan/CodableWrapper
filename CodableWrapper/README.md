@@ -22,8 +22,8 @@ The project objective is to enhance the usage experience of the Codable protocol
 ## Installation
 
 #### Cocoapods
+> *No longer supported since 1.0.0, use version 0.3.3 if your project uses <Xcode 15 or <iOS 13.*
 ```pod 'CodableWrapper', '0.3.3'```
-> No longer supported since 1.0.0, use version 0.3.3 if your project uses <Xcode 15 or <iOS 13.
 
 #### Swift Package Manager
 
@@ -112,7 +112,7 @@ final class CodableWrapperTests: XCTestCase {
   @Codable
   struct TestModel {
       let name: String
-      var balance: Double = 0
+      let balance: Double = 0
   }
   
   // { "name": "jhon" }
@@ -134,7 +134,7 @@ final class CodableWrapperTests: XCTestCase {
   ```swift
   @Codable
   struct TestModel {
-      var userName: String = ""
+      let userName: String = ""
   }
   
   // { "user_name": "jhon" }
@@ -145,7 +145,7 @@ final class CodableWrapperTests: XCTestCase {
   ```swift
   @Codable
   public struct TestModel {
-      public var userName: String = ""
+      public let userName: String = ""
   
       // Automatic generated
       public init(userName: String = "") {
@@ -162,7 +162,7 @@ final class CodableWrapperTests: XCTestCase {
   @Codable
   struct TestModel {
       @CodingKey("u1", "u2", "u9")
-      var userName: String = ""
+      let userName: String = ""
   }
   
   // { "u9": "jhon" }
@@ -176,7 +176,7 @@ final class CodableWrapperTests: XCTestCase {
   @Codable
   struct TestModel {
       @CodingNestedKey("data.u1", "data.u2", "data.u9")
-      var userName: String = ""
+      let userName: String = ""
   }
   
   // { "data": {"u9": "jhon"} }
@@ -193,7 +193,7 @@ final class CodableWrapperTests: XCTestCase {
   }
   
   @CodableSubclass
-  class SubModel: BaseModel {
+  class BaseModel: BaseModel {
       let age: Int
   }
   
@@ -245,5 +245,43 @@ final class CodableWrapperTests: XCTestCase {
           let jsonObject = try JSONSerialization.jsonObject(with: encode, options: []) as! [String: Any]
           XCTAssertEqual(jsonObject["time"] as! TimeInterval, 12345)
       }
+  }
+  ```
+
+# Podspec Config
+
+* Swift Package will be build automatically when you first `pod install`, the first build need a few time.
+* This means that when there is a `relase` shortcut in the directory `CodableWrapper/.build`, the Package builds successfully.
+* There is a situation that `pod install` will build automatically, if the Package auto build is not completed, the build will fail when you build the project.
+
+  ```
+  script = <<-SCRIPT
+    env -i PATH="$PATH" "$SHELL" -l -c "swift build -c release --package-path \\"$PODS_TARGET_SRCROOT\\""
+    SCRIPT
+  ```
+
+* The first important setting, it's used to set the SwiftMacros plugin path for the main project.
+* You need to replace this with your custom path
+
+  ```
+  post_install do |installer|
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['OTHER_SWIFT_FLAGS'] = '$(inherited) -Xfrontend -load-plugin-executable -Xfrontend $(PODS_ROOT)/../CodableWrapper/.build/release/CodableWrapperMacros#CodableWrapperMacros'
+      end
+    end
+  end
+  ```
+
+* The second important setting, both of them are used to set the SwiftMacros plugin path for the Development Pods in the Pod project. 
+* You need to replace them with your custom path
+
+  ```
+  s.pod_target_xcconfig = {
+    "OTHER_SWIFT_FLAGS" => "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_ROOT)/../CodableWrapper/.build/release/CodableWrapperMacros#CodableWrapperMacros"
+  }
+      
+  s.user_target_xcconfig = {
+    "OTHER_SWIFT_FLAGS" => "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_ROOT)/../CodableWrapper/.build/release/CodableWrapperMacros#CodableWrapperMacros"
   }
   ```
