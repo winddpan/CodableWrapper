@@ -1,0 +1,24 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '13.0'
+
+inhibit_all_warnings!
+use_frameworks! :linkage => :static
+
+target 'CodableWrapperDemo' do
+  pod 'CodableWrapper',    :path => './CodableWrapper', :inhibit_warnings => false
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['OTHER_SWIFT_FLAGS'] = '$(inherited) -Xfrontend -load-plugin-executable -Xfrontend $(PODS_ROOT)/../CodableWrapper/.build/release/CodableWrapperMacros#CodableWrapperMacros'
+      
+      config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+      config.build_settings['VALID_ARCHS'] = 'arm64 x86_64'
+      config.build_settings['CLANG_WARN_DOCUMENTATION_COMMENTS'] = 'NO'
+      if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 13.0
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+      end
+    end
+  end
+end
