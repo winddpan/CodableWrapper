@@ -267,7 +267,7 @@ final class CodableWrapperTests: XCTestCase {
   post_install do |installer|
     installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|
-        config.build_settings['OTHER_SWIFT_FLAGS'] = '$(inherited) -Xfrontend -load-plugin-executable -Xfrontend $(PODS_ROOT)/../CodableWrapper/.build/release/CodableWrapperMacros#CodableWrapperMacros'
+        config.build_settings['OTHER_SWIFT_FLAGS'] = '$(inherited) -Xfrontend -load-plugin-executable -Xfrontend $(PODS_ROOT)/../../../CodableWrapper/.build/release/CodableWrapperMacros#CodableWrapperMacros'
       end
     end
   end
@@ -278,10 +278,10 @@ final class CodableWrapperTests: XCTestCase {
 
   ```
   s.pod_target_xcconfig = {
-    "OTHER_SWIFT_FLAGS" => "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_ROOT)/../CodableWrapper/.build/release/CodableWrapperMacros#CodableWrapperMacros"
+    "OTHER_SWIFT_FLAGS" => "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_ROOT)/../../../CodableWrapper/.build/release/CodableWrapperMacros#CodableWrapperMacros"
   }
       
   s.user_target_xcconfig = {
-    "OTHER_SWIFT_FLAGS" => "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_ROOT)/../CodableWrapper/.build/release/CodableWrapperMacros#CodableWrapperMacros"
+    "OTHER_SWIFT_FLAGS" => "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_ROOT)/../../../CodableWrapper/.build/release/CodableWrapperMacros#CodableWrapperMacros"
   }
   ```
