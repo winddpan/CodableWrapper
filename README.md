@@ -22,8 +22,8 @@ The project objective is to enhance the usage experience of the Codable protocol
 ## Installation
 
 #### Cocoapods
-> *No longer supported since 1.0.0, use version 0.3.3 if your project uses <Xcode 15 or <iOS 13.*
 ```pod 'CodableWrapper', '0.3.3'```
+> No longer supported since 1.0.0, use version 0.3.3 if your project uses <Xcode 15 or <iOS 13.
 
 #### Swift Package Manager
 
@@ -112,7 +112,7 @@ final class CodableWrapperTests: XCTestCase {
   @Codable
   struct TestModel {
       let name: String
-      let balance: Double = 0
+      var balance: Double = 0
   }
   
   // { "name": "jhon" }
@@ -134,7 +134,7 @@ final class CodableWrapperTests: XCTestCase {
   ```swift
   @Codable
   struct TestModel {
-      let userName: String = ""
+      var userName: String = ""
   }
   
   // { "user_name": "jhon" }
@@ -145,7 +145,7 @@ final class CodableWrapperTests: XCTestCase {
   ```swift
   @Codable
   public struct TestModel {
-      public let userName: String = ""
+      public var userName: String = ""
   
       // Automatic generated
       public init(userName: String = "") {
@@ -162,7 +162,7 @@ final class CodableWrapperTests: XCTestCase {
   @Codable
   struct TestModel {
       @CodingKey("u1", "u2", "u9")
-      let userName: String = ""
+      var userName: String = ""
   }
   
   // { "u9": "jhon" }
@@ -176,7 +176,7 @@ final class CodableWrapperTests: XCTestCase {
   @Codable
   struct TestModel {
       @CodingNestedKey("data.u1", "data.u2", "data.u9")
-      let userName: String = ""
+      var userName: String = ""
   }
   
   // { "data": {"u9": "jhon"} }
@@ -193,7 +193,7 @@ final class CodableWrapperTests: XCTestCase {
   }
   
   @CodableSubclass
-  class BaseModel: BaseModel {
+  class SubModel: BaseModel {
       let age: Int
   }
   
