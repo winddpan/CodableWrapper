@@ -1,0 +1,16 @@
+PODS:
+  - CodableWrapper (1.0.3)
+
+DEPENDENCIES:
+  - CodableWrapper (from `../../CodableWrapper`)
+
+EXTERNAL SOURCES:
+  CodableWrapper:
+    :path: "../../CodableWrapper"
+
+SPEC CHECKSUMS:
+  CodableWrapper: 74b4cae6504c5aa15262c34beb7980d4ca1e0f70
+
+PODFILE CHECKSUM: d8b2a0e21e79cf43d6a5637676461a442b7b1831
+
+COCOAPODS: 1.12.1
