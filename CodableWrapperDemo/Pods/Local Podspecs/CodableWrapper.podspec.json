@@ -21,10 +21,10 @@
     "Bin"
   ],
   "pod_target_xcconfig": {
-    "OTHER_SWIFT_FLAGS": "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_ROOT)/../../../CodableWrapper/.build/release/CodableWrapperMacros#CodableWrapperMacros"
+    "OTHER_SWIFT_FLAGS": "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_ROOT)/../../.build/release/CodableWrapperMacros#CodableWrapperMacros"
   },
   "user_target_xcconfig": {
-    "OTHER_SWIFT_FLAGS": "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_ROOT)/../../../CodableWrapper/.build/release/CodableWrapperMacros#CodableWrapperMacros"
+    "OTHER_SWIFT_FLAGS": "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_ROOT)/../../.build/release/CodableWrapperMacros#CodableWrapperMacros"
   },
   "script_phases": {
     "name": "Build CodableWrapper macro plugin",
