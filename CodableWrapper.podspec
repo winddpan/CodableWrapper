@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '13.0'
 
   s.source_files = 'Sources/CodableWrapper/*{.swift}'
-  s.preserve_paths = ["Package.swift", "Sources/CodableWrapperMacros", "Bin"]
+  s.preserve_paths = ["Package.swift", "Sources/CodableWrapperMacros", "Tests", "Bin"]
   
   s.pod_target_xcconfig = {
     "OTHER_SWIFT_FLAGS" => "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros#CodableWrapperMacros"
