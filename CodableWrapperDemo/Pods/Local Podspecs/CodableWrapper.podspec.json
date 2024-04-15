@@ -18,17 +18,18 @@
   "preserve_paths": [
     "Package.swift",
     "Sources/CodableWrapperMacros",
+    "Tests",
     "Bin"
   ],
   "pod_target_xcconfig": {
-    "OTHER_SWIFT_FLAGS": "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_ROOT)/../../.build/release/CodableWrapperMacros#CodableWrapperMacros"
+    "OTHER_SWIFT_FLAGS": "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros#CodableWrapperMacros"
   },
   "user_target_xcconfig": {
-    "OTHER_SWIFT_FLAGS": "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_ROOT)/../../.build/release/CodableWrapperMacros#CodableWrapperMacros"
+    "OTHER_SWIFT_FLAGS": "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros#CodableWrapperMacros"
   },
   "script_phases": {
     "name": "Build CodableWrapper macro plugin",
-    "script": "    env -i PATH=\"$PATH\" \"$SHELL\" -l -c \"swift build -c release --package-path \\\"$PODS_TARGET_SRCROOT\\\"\"\n",
+    "script": "    env -i PATH=\"$PATH\" \"$SHELL\" -l -c \"swift build -c release --package-path \\\"$PODS_TARGET_SRCROOT\\\" --build-path \\\"${PODS_BUILD_DIR}/CodableWrapper\\\"\"\n",
     "execution_position": "before_compile"
   }
 }

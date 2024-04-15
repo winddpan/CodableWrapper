@@ -11,12 +11,12 @@ import UIKit
 class DataDecoder: JSONDecoder {
     private static let shared = DataDecoder()
 
-    static func decode<T: Decodable>(dictionary: [AnyHashable: Any]?) -> T? {
-        return shared._decode(dictionary: dictionary)
+    static func decode<T: Decodable, D>(data: D?) -> T? {
+        return shared._decode(data: data)
     }
 
-    func _decode<T: Decodable>(dictionary: [AnyHashable: Any]?) -> T? {
-        if let data = try? JSONSerialization.data(withJSONObject: dictionary as Any) {
+    func _decode<T: Decodable, D>(data: D?) -> T? {
+        if let data = try? JSONSerialization.data(withJSONObject: data as Any) {
             do {
                 return try decode(T.self, from: data)
             } catch {
@@ -45,7 +45,7 @@ class ViewController: UIViewController {
             "name": "aaa",
             "age": 18,
         ]
-        if let model: TestB = DataDecoder.decode(dictionary: dic) {
+        if let model: TestB = DataDecoder.decode(data: dic) {
             print(model.name ?? "")
             print(model.age)
             print(model.weight)
