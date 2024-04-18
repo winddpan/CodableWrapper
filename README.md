@@ -21,9 +21,8 @@ The project objective is to enhance the usage experience of the Codable protocol
 
 ## Installation
 
-#### Cocoapods
-```pod 'CodableWrapper', '0.3.3'```
-> No longer supported since 1.0.0, use version 0.3.3 if your project uses <Xcode 15 or <iOS 13.
+#### Cocoapods [Beta test] (https://github.com/winddpan/CodableWrapper/tree/1.1.0)
+``` pod 'CodableWrapper', :git => 'https://github.com/winddpan/CodableWrapper.git', :branch => '1.1.0' ```
 
 #### Swift Package Manager
 
