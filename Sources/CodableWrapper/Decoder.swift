@@ -24,10 +24,13 @@ public extension KeyedDecodingContainer where K == AnyCodingKey {
 }
 
 private extension KeyedDecodingContainer where K == AnyCodingKey {
-    func tryNormalKeyDecode<Value>(type: Value.Type, key: String) -> Value? {
+    func tryNormalKeyDecode<Value: Decodable>(type: Value.Type, key: String) -> Value? {
         func _decode(key: String) -> Value? {
             guard let key = Key(stringValue: key) else {
                 return nil
+            }
+            if let value = try? decodeIfPresent(type, forKey: key) {
+                return value
             }
             let value = try? decodeIfPresent(AnyDecodable.self, forKey: key)?.value
             if let value = value {
@@ -37,10 +40,8 @@ private extension KeyedDecodingContainer where K == AnyCodingKey {
                 if let _bridged = (Value.self as? _BuiltInBridgeType.Type)?._transform(from: value), let __bridged = _bridged as? Value {
                     return __bridged
                 }
-                if let valueType = Value.self as? Decodable.Type {
-                    if let value = try? valueType.decode(from: self, forKey: key) as? Value {
-                        return value
-                    }
+                if let value = try? Value.decode(from: self, forKey: key) {
+                    return value
                 }
             }
             return nil
@@ -54,7 +55,7 @@ private extension KeyedDecodingContainer where K == AnyCodingKey {
         return nil
     }
 
-    private func tryNestedKeyDecode<Value>(type: Value.Type, key: String) -> Value? {
+    private func tryNestedKeyDecode<Value: Decodable>(type: Value.Type, key: String) -> Value? {
         var keyComps = key.components(separatedBy: ".")
         guard let rootKey = AnyCodingKey(stringValue: keyComps.removeFirst()) else {
             return nil

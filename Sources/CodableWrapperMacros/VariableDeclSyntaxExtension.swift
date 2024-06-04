@@ -34,7 +34,7 @@ extension VariableDeclSyntax {
     }
 
     var inferType: String? {
-        var type = bindings.compactMap(\.typeAnnotation).first?.type.description
+        var type: String? = bindings.compactMap(\.typeAnnotation).first?.type.trimmedDescription
         // try infer type
         if type == nil, let initExpr = bindings.compactMap(\.initializer).first?.value {
             if initExpr.is(StringLiteralExprSyntax.self) {
@@ -45,6 +45,9 @@ extension VariableDeclSyntax {
                 type = "Double"
             } else if initExpr.is(BooleanLiteralExprSyntax.self) {
                 type = "Bool"
+            } else if let funcDecl = initExpr.as(FunctionCallExprSyntax.self),
+                      let declRef = funcDecl.calledExpression.as(DeclReferenceExprSyntax.self) {
+                type = declRef.trimmedDescription
             }
         }
         return type
