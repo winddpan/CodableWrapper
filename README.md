@@ -245,3 +245,8 @@ final class CodableWrapperTests: XCTestCase {
       }
   }
   ```
+
+
+# Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=winddpan/CodableWrapper&type=Date)](https://star-history.com/#winddpan/CodableWrapper&Date)
