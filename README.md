@@ -21,7 +21,7 @@ The project objective is to enhance the usage experience of the Codable protocol
 
 ## Installation
 
-#### Cocoapods
+#### CocoaPods
 ``` pod 'CodableWrapper' ```
 
 #### Swift Package Manager
