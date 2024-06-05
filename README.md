@@ -2,7 +2,7 @@
 
 | Xcode     | Minimun Deployments | Version                                                        |
 | --------- | ------------------- | -------------------------------------------------------------- |
-| Xcode15   | >= iOS13 / macOS11  | 1.0                                                            |
+| Xcode15   | >= iOS13 / macOS11  | 1.0+                                                           |
 | < Xcode15 | < iOS13 / macOS11   | [0.3.3](https://github.com/winddpan/CodableWrapper/tree/0.3.3) |
 
 # About
@@ -21,8 +21,8 @@ The project objective is to enhance the usage experience of the Codable protocol
 
 ## Installation
 
-#### Cocoapods [Beta test](https://github.com/winddpan/CodableWrapper/tree/1.1.0)
-``` pod 'CodableWrapper', :git => 'https://github.com/winddpan/CodableWrapper.git', :branch => '1.1.0' ```
+#### Cocoapods
+``` pod 'CodableWrapper' ```
 
 #### Swift Package Manager
 ``` https://github.com/winddpan/CodableWrapper ```
