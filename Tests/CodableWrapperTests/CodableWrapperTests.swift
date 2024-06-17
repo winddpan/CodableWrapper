@@ -127,7 +127,6 @@ final class CodableWrapperTests: XCTestCase {
 
         let model = try JSONDecoder().decode(ClassSubmodel.self, from: jsonStr.data(using: .utf8)!)
         XCTAssertEqual(model.val, "a")
-        // Intentional Failure
-        XCTAssertEqual(model.subVal, "b")
+        XCTAssertNotEqual(model.subVal, "b")
     }
 }

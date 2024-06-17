@@ -65,4 +65,11 @@ extension VariableDeclSyntax {
         }
         return false
     }
+
+    var isLazyVar: Bool {
+        if modifiers.contains(where: { $0.name.trimmedDescription == "lazy" }) {
+            return true
+        }
+        return false
+    }
 }

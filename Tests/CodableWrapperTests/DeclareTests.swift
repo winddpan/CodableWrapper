@@ -17,6 +17,8 @@ class ClassModel0: Codable {
     var val1111 = true
     var val2: Int?
 
+    lazy var lazyVal: Double = val111 * 2
+
 //    var val3 = [String: String].init()
 //    var val4 = [123] + [4]
 }

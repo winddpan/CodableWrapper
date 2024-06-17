@@ -180,7 +180,11 @@ private extension ModelMemberPropertyContainer {
             }
             let patterns = variable.bindings.map(\.pattern)
             let names = patterns.compactMap { $0.as(IdentifierPatternSyntax.self)?.identifier.text }
-            return try names.map { name -> ModelMemberProperty in
+
+            return try names.compactMap { name -> ModelMemberProperty? in
+                guard !variable.isLazyVar else {
+                    return nil
+                }
                 guard let type = variable.inferType else {
                     throw ASTError("please declare property type: \(name)")
                 }
