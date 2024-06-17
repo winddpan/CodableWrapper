@@ -188,10 +188,15 @@ private extension ModelMemberPropertyContainer {
                 guard let type = variable.inferType else {
                     throw ASTError("please declare property type: \(name)")
                 }
+                let attributes = variable.attributes
+                if attributes.first(where: { element in
+                    element.as(AttributeSyntax.self)?.attributeName.as(IdentifierTypeSyntax.self)?.description == "CodingKeyIgnored"
+                }) != nil {
+                    return nil
+                }
 
                 var mp = ModelMemberProperty(name: name, type: type)
                 mp.modifiers = variable.modifiers
-                let attributes = variable.attributes
 
                 // isOptional
                 mp.isOptional = variable.isOptionalType
