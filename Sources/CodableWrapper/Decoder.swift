@@ -32,6 +32,9 @@ private extension KeyedDecodingContainer where K == AnyCodingKey {
             if !contains(key) {
                 return nil
             }
+            if let value = try? decode(type, forKey: key) {
+                return value
+            }
             let value = try? decode(AnyDecodable.self, forKey: key).value
             if let value {
                 if let converted = value as? Value {
@@ -43,9 +46,6 @@ private extension KeyedDecodingContainer where K == AnyCodingKey {
                 if let value = try? Value.decode(from: self, forKey: key) {
                     return value
                 }
-            }
-            if let value = try? decode(type, forKey: key) {
-                return value
             }
             return nil
         }
