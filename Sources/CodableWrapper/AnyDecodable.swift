@@ -32,7 +32,7 @@ import Foundation
 struct AnyDecodable: Decodable {
     public let value: Any
 
-    public init<T>(_ value: T?) {
+    public init(_ value: (some Any)?) {
         self.value = value ?? ()
     }
 }
@@ -50,11 +50,13 @@ extension _AnyDecodable {
         let container = try decoder.singleValueContainer()
 
         if container.decodeNil() {
-            #if canImport(Foundation)
-                self.init(NSNull())
-            #else
-                self.init(Self?.none)
-            #endif
+#if canImport(Foundation)
+            self.init(NSNull())
+#else
+            self.init(Self?.none)
+#endif
+        } else if let dictionary = try? container.decode([String: AnyDecodable].self) {
+            self.init(dictionary.mapValues { $0.value })
         } else if let bool = try? container.decode(Bool.self) {
             self.init(bool)
         } else if let int = try? container.decode(Int.self) {
@@ -66,9 +68,7 @@ extension _AnyDecodable {
         } else if let string = try? container.decode(String.self) {
             self.init(string)
         } else if let array = try? container.decode([AnyDecodable].self) {
-            self.init(array.map { $0.value })
-        } else if let dictionary = try? container.decode([String: AnyDecodable].self) {
-            self.init(dictionary.mapValues { $0.value })
+            self.init(array.map(\.value))
         } else {
             throw DecodingError.dataCorruptedError(in: container, debugDescription: "AnyDecodable value cannot be decoded")
         }
@@ -78,10 +78,10 @@ extension _AnyDecodable {
 extension AnyDecodable: Equatable {
     public static func == (lhs: AnyDecodable, rhs: AnyDecodable) -> Bool {
         switch (lhs.value, rhs.value) {
-        #if canImport(Foundation)
-            case is (NSNull, NSNull), is (Void, Void):
-                return true
-        #endif
+#if canImport(Foundation)
+        case is (NSNull, NSNull), is (Void, Void):
+            return true
+#endif
         case let (lhs as Bool, rhs as Bool):
             return lhs == rhs
         case let (lhs as Int, rhs as Int):
@@ -124,11 +124,11 @@ extension AnyDecodable: CustomStringConvertible {
     public var description: String {
         switch value {
         case is Void:
-            return String(describing: nil as Any?)
+            String(describing: nil as Any?)
         case let value as CustomStringConvertible:
-            return value.description
+            value.description
         default:
-            return String(describing: value)
+            String(describing: value)
         }
     }
 }
@@ -137,9 +137,9 @@ extension AnyDecodable: CustomDebugStringConvertible {
     public var debugDescription: String {
         switch value {
         case let value as CustomDebugStringConvertible:
-            return "AnyDecodable(\(value.debugDescription))"
+            "AnyDecodable(\(value.debugDescription))"
         default:
-            return "AnyDecodable(\(description))"
+            "AnyDecodable(\(description))"
         }
     }
 }

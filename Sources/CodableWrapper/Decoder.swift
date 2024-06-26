@@ -29,11 +29,11 @@ private extension KeyedDecodingContainer where K == AnyCodingKey {
             guard let key = Key(stringValue: key) else {
                 return nil
             }
-            if let value = try? decodeIfPresent(type, forKey: key) {
-                return value
+            if !contains(key) {
+                return nil
             }
-            let value = try? decodeIfPresent(AnyDecodable.self, forKey: key)?.value
-            if let value = value {
+            let value = try? decode(AnyDecodable.self, forKey: key).value
+            if let value {
                 if let converted = value as? Value {
                     return converted
                 }
@@ -43,6 +43,9 @@ private extension KeyedDecodingContainer where K == AnyCodingKey {
                 if let value = try? Value.decode(from: self, forKey: key) {
                     return value
                 }
+            }
+            if let value = try? decode(type, forKey: key) {
+                return value
             }
             return nil
         }
@@ -66,7 +69,7 @@ private extension KeyedDecodingContainer where K == AnyCodingKey {
         for keyComp in keyComps {
             container = try? container?.nestedContainer(keyedBy: AnyCodingKey.self, forKey: .init(stringValue: keyComp)!)
         }
-        if let container = container {
+        if let container {
             if let value = container.tryNormalKeyDecode(type: type, key: lastKey) {
                 return value
             }
@@ -77,6 +80,6 @@ private extension KeyedDecodingContainer where K == AnyCodingKey {
 
 private extension Decodable {
     static func decode<K>(from container: KeyedDecodingContainer<K>, forKey key: KeyedDecodingContainer<K>.Key) throws -> Self {
-        return try container.decode(Self.self, forKey: key)
+        try container.decode(Self.self, forKey: key)
     }
 }
