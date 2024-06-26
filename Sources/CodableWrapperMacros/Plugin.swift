@@ -5,6 +5,7 @@ import SwiftSyntaxMacros
 struct CodableWrapperPlugin: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
         Codable.self,
+        SwiftDataCodable.self,
         CodableSubclass.self,
         CodingKey.self,
         CodingNestedKey.self,

@@ -1,7 +1,7 @@
 import SwiftSyntax
 import SwiftSyntaxMacros
 
-public struct Codable: ExtensionMacro, MemberMacro {
+public struct SwiftDataCodable: ExtensionMacro, MemberMacro {
     public static func expansion(of node: AttributeSyntax,
                                  attachedTo declaration: some DeclGroupSyntax,
                                  providingExtensionsOf type: some TypeSyntaxProtocol,
@@ -12,9 +12,9 @@ public struct Codable: ExtensionMacro, MemberMacro {
         } else if let declaration = declaration.as(ClassDeclSyntax.self) {
             inheritedTypes = declaration.inheritanceClause?.inheritedTypes
         } else {
-            throw ASTError("use @Codable in `struct` or `class`")
+            throw ASTError("use @SwiftDataCodable in `struct` or `class`")
         }
-        if let inheritedTypes = inheritedTypes,
+        if let inheritedTypes,
            inheritedTypes.contains(where: { inherited in inherited.type.trimmedDescription == "Codable" }) {
             return []
         }
@@ -33,8 +33,8 @@ public struct Codable: ExtensionMacro, MemberMacro {
         // TODO: diagnostic do not implement `init(from:)` or `encode(to:))`
 
         let propertyContainer = try ModelMemberPropertyContainer(decl: declaration, context: context)
-        let decoder = try propertyContainer.genDecoderInitializer(config: .init(isOverride: false, swiftDataMode: false))
-        let encoder = try propertyContainer.genEncodeFunction(config: .init(isOverride: false, swiftDataMode: false))
+        let decoder = try propertyContainer.genDecoderInitializer(config: .init(isOverride: false, swiftDataMode: true))
+        let encoder = try propertyContainer.genEncodeFunction(config: .init(isOverride: false, swiftDataMode: true))
 
         var hasWiseInit = true
         if case let .argumentList(list) = node.arguments, list.first?.expression.description == "false" {
@@ -44,7 +44,7 @@ public struct Codable: ExtensionMacro, MemberMacro {
         if !hasWiseInit {
             return [decoder, encoder]
         } else {
-            let memberwiseInit = try propertyContainer.genMemberwiseInit(config: .init(isOverride: false, swiftDataMode: false))
+            let memberwiseInit = try propertyContainer.genMemberwiseInit(config: .init(isOverride: false, swiftDataMode: true))
             return [decoder, encoder, memberwiseInit]
         }
     }

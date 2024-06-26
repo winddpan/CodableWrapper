@@ -14,7 +14,7 @@ enum Animal: String, Codable {
     case fish
 }
 
-@Codable
+@SwiftDataCodable
 struct ExampleModel: Codable {
     @CodingKey("aString")
     var stringVal: String = "scyano"

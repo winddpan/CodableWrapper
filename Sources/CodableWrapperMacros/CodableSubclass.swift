@@ -11,8 +11,8 @@ public struct CodableSubclass: MemberMacro {
         }
 
         let propertyContainer = try ModelMemberPropertyContainer(decl: declaration, context: context)
-        let decoder = try propertyContainer.genDecoderInitializer(config: .init(isOverride: true))
-        let encoder = try propertyContainer.genEncodeFunction(config: .init(isOverride: true))
+        let decoder = try propertyContainer.genDecoderInitializer(config: .init(isOverride: true, swiftDataMode: false))
+        let encoder = try propertyContainer.genEncodeFunction(config: .init(isOverride: true, swiftDataMode: false))
         return [decoder, encoder]
     }
 }

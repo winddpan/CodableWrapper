@@ -3,6 +3,10 @@
 public macro Codable(wiseInit: Bool = true) = #externalMacro(module: "CodableWrapperMacros", type: "Codable")
 
 @attached(member, names: named(init(from:)), named(encode(to:)), arbitrary)
+@attached(extension, conformances: Codable)
+public macro SwiftDataCodable(wiseInit: Bool = true) = #externalMacro(module: "CodableWrapperMacros", type: "SwiftDataCodable")
+
+@attached(member, names: named(init(from:)), named(encode(to:)), arbitrary)
 public macro CodableSubclass() = #externalMacro(module: "CodableWrapperMacros", type: "CodableSubclass")
 
 @attached(peer)

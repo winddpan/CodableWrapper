@@ -21,6 +21,39 @@ public extension KeyedDecodingContainer where K == AnyCodingKey {
 
         throw CodableWrapperError("decode failure: keys: \(keys), nestedKeys: \(nestedKeys)")
     }
+
+    func swiftDataDecode<Value: Decodable>(type: Value.Type,
+                                           keys: [String],
+                                           nestedKeys: [String],
+                                           decodedDictionary: [String: Any]) throws -> Value {
+        for key in nestedKeys {
+            if let value = tryNestedKeyDecode(type: type, key: key) {
+                return value
+            }
+        }
+        for key in keys {
+            let valueInDictionary = decodedDictionary[key]
+            if isSwiftDataAvailable(valueInDictionary), let value = tryNormalKeyDecode(type: type, key: key) {
+                return value
+            }
+        }
+        // if Value is Optional，return nil
+        if let valueType = Value.self as? ExpressibleByNilLiteral.Type {
+            return valueType.init(nilLiteral: ()) as! Value
+        }
+
+        throw CodableWrapperError("decode failure: keys: \(keys), nestedKeys: \(nestedKeys)")
+    }
+
+    private func isSwiftDataAvailable(_ value: Any?) -> Bool {
+        if value == nil {
+            return false
+        }
+        if let value = value as? [String: Any], value.isEmpty {
+            return false
+        }
+        return true
+    }
 }
 
 private extension KeyedDecodingContainer where K == AnyCodingKey {
