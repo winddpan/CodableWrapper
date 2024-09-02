@@ -22,7 +22,7 @@ The project objective is to enhance the usage experience of the Codable protocol
 ## Installation
 
 #### CocoaPods
-``` pod 'CodableWrapper' ```
+``` pod 'CodableWrapper', :git => 'https://github.com/winddpan/CodableWrapper.git' ```
 
 #### Swift Package Manager
 ``` https://github.com/winddpan/CodableWrapper ```
