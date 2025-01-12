@@ -25,11 +25,11 @@ Pod::Spec.new do |s|
   s.preserve_paths = ["Package.swift", "Sources/CodableWrapperMacros", "Tests", "Bin"]
   
   s.pod_target_xcconfig = {
-    "OTHER_SWIFT_FLAGS" => "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros#CodableWrapperMacros"
+    "OTHER_SWIFT_FLAGS" => "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros-tool#CodableWrapperMacros"
   }
   
   s.user_target_xcconfig = {
-    "OTHER_SWIFT_FLAGS" => "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros#CodableWrapperMacros"
+    "OTHER_SWIFT_FLAGS" => "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros-tool#CodableWrapperMacros"
   }
 
   script = <<-SCRIPT
