@@ -1,0 +1,22 @@
+PODS:
+  - CodableWrapper (1.1.1)
+  - TestA (0.0.1):
+    - CodableWrapper
+
+DEPENDENCIES:
+  - CodableWrapper (from `../../CodableWrapper`)
+  - TestA (from `./TestA`)
+
+EXTERNAL SOURCES:
+  CodableWrapper:
+    :path: "../../CodableWrapper"
+  TestA:
+    :path: "./TestA"
+
+SPEC CHECKSUMS:
+  CodableWrapper: c7386f18a3ebea71762cd34679411ab890774b21
+  TestA: 9b98b19ceef3ed38049a60f220e4834f8f6dbf95
+
+PODFILE CHECKSUM: ed8be24e7b38ee0c7ce4f293b58628b1ab08dcb9
+
+COCOAPODS: 1.16.2
