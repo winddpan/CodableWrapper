@@ -22,14 +22,14 @@
     "Bin"
   ],
   "pod_target_xcconfig": {
-    "OTHER_SWIFT_FLAGS": "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros#CodableWrapperMacros"
+    "OTHER_SWIFT_FLAGS": "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros-tool#CodableWrapperMacros"
   },
   "user_target_xcconfig": {
-    "OTHER_SWIFT_FLAGS": "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros#CodableWrapperMacros"
+    "OTHER_SWIFT_FLAGS": "-Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros-tool#CodableWrapperMacros"
   },
   "script_phases": {
     "name": "Build CodableWrapper macro plugin",
-    "script": "    arch=$(sysctl -n machdep.cpu.brand_string)\n\n    result=\"\"\n    if [[ \"$arch\" == *\"Apple\"* ]]; then\n      result=\"arm64\"\n    else\n      result=\"x86_64\"\n    fi\n\n    codable_path=\"${PODS_BUILD_DIR}/CodableWrapper\"\n    release_path=\"$codable_path/release\"\n    tool_path=\"CodableWrapperMacros-tool\"\n    target_binary=\"$release_path/CodableWrapperMacros\"\n\n    env -i PATH=\"$PATH\" \"$SHELL\" -l -c \"arch -$result swift build -c release --package-path '$PODS_TARGET_SRCROOT' --build-path '$codable_path'\"\n\n    if [ -f \"$release_path/$tool_path\" ] && [ ! -f $target_binary ]\n    then\n        cp \"$release_path/$tool_path\" $target_binary\n    fi\n",
+    "script": "    env -i PATH=\"$PATH\" \"$SHELL\" -l -c \"swift build -c release --package-path \\\"$PODS_TARGET_SRCROOT\\\" --build-path \\\"${PODS_BUILD_DIR}/CodableWrapper\\\"\"\n",
     "execution_position": "before_compile"
   }
 }

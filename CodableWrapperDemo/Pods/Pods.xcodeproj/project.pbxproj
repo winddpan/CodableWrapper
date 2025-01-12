@@ -8,22 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		0489EFCF722B45E5E6BC143C82909D82 /* TestA-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 56016D90EE36E163278F353E400494DA /* TestA-dummy.m */; };
-		0830B5CF0E9762F5741F0B60601A99A8 /* Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96B6E3150C1D93C77C7BFB3387AABF6 /* Encoder.swift */; };
 		15B9E37B1A34CFF239CD84A5A8F34689 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
 		19D83AF09D92158EF0515F073FE5D571 /* Pods-CodableWrapperDemo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 134BFA112BDA7394A66C9D40CD7793F2 /* Pods-CodableWrapperDemo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2C372949B9FFEEB8A8F3B7B6CA26C4D2 /* CodableWrapper-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = CBC96106C7F63149B09D785631E3591A /* CodableWrapper-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3494A8087DF09E58DE58DCDF1A9D9759 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8735BE5E785A2FAA2A5B3B3F5DB6B5 /* Decoder.swift */; };
-		388CFC9709C59101D798BAC6FBE9D49E /* AnyDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB6FAD60DFE628B1562E24941E80B07 /* AnyDecodable.swift */; };
-		38AC0F2235EC97D2F7119DC9CB9DAC0E /* BuiltInBridgeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CB5734169FC3543E93E5EF8831D4AE /* BuiltInBridgeType.swift */; };
+		3C54974AF082C1F692996F800C9AA1EF /* CodableWrapper-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F596DC558DC3C13F670056261CEA8A2 /* CodableWrapper-dummy.m */; };
 		3D3A4F0E3CD1CAB6B610234362194F08 /* TestA-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EDD33B7964731154E60B8695EDA30B2 /* TestA-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5758325DEA85CB563D15C0C7838FE1E0 /* AnyCodingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE2F2F73E3DC4E0420BED7FBF75B91E /* AnyCodingKey.swift */; };
-		687ABC938B97E5AC74F2416C3FF29421 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C4BF611B6697FCCD0548FA9D3722FB /* Error.swift */; };
-		86BA2C6857B59F4ECB757E4EA6EDC4A1 /* SnakeCamelConvert.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB2DB7CFE624C058EEA1C00E545A534 /* SnakeCamelConvert.swift */; };
-		95FAA876634428F9EE6539D9F0D7192E /* CodableWrapperMacros.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE06AB321C924F28F68D074421150A0 /* CodableWrapperMacros.swift */; };
-		C0AEBC244312060E0F7B673B70B2C45B /* TransformOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC6C6ADD06E3602FA339BDCEF825249 /* TransformOf.swift */; };
-		C3D0052E960A3CB3EAB8A8E757C6B8E1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
-		C5DBE0098A9B996A50AA5D5F041DC729 /* CodableWrapper-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F596DC558DC3C13F670056261CEA8A2 /* CodableWrapper-dummy.m */; };
-		CD1266037A8CC4D4E41BA3667EC82C16 /* TransformType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0CAE1BDFB111ED447443DC7EFCCD82 /* TransformType.swift */; };
+		44A81E88D6BCF49CEFA433E789D1E20E /* CodableWrapperMacros.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE06AB321C924F28F68D074421150A0 /* CodableWrapperMacros.swift */; };
+		4AD001F6446C32885B09A4A058E99EAA /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8735BE5E785A2FAA2A5B3B3F5DB6B5 /* Decoder.swift */; };
+		5A3D4E7189D7A4A63452D68F8E24D0FC /* CodableWrapper-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = CBC96106C7F63149B09D785631E3591A /* CodableWrapper-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5CCE5F72DEF2AEE7605E529A95640622 /* TransformType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0CAE1BDFB111ED447443DC7EFCCD82 /* TransformType.swift */; };
+		6C6A6ACFFEF18799B383D5F542BA8E15 /* BuiltInBridgeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CB5734169FC3543E93E5EF8831D4AE /* BuiltInBridgeType.swift */; };
+		6F498F9F3713ED2F9C5FF9D5EE45B823 /* Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96B6E3150C1D93C77C7BFB3387AABF6 /* Encoder.swift */; };
+		815E8609D5DC5D3ECA3678AAD27C5F30 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C4BF611B6697FCCD0548FA9D3722FB /* Error.swift */; };
+		A3FDB509611A4A1C8584AC2AF9085F15 /* AnyDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB6FAD60DFE628B1562E24941E80B07 /* AnyDecodable.swift */; };
+		AB22A27F8CE145DB609AC389FBCDD034 /* TransformOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC6C6ADD06E3602FA339BDCEF825249 /* TransformOf.swift */; };
+		AFE6A4F60B7231BFCF34CC80F45CFABB /* AnyCodingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE2F2F73E3DC4E0420BED7FBF75B91E /* AnyCodingKey.swift */; };
+		B75E7369954CF56A524F4BB8B7604555 /* SnakeCamelConvert.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB2DB7CFE624C058EEA1C00E545A534 /* SnakeCamelConvert.swift */; };
+		C9E781E813086AA35EEE9AF65B77C324 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
 		DC651280C29050F4AB2DAE51A8F57C24 /* Pods-CodableWrapperDemo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CEB538298471C55709B31B32036683E /* Pods-CodableWrapperDemo-dummy.m */; };
 		F051D8017675FB712B0FBD5C7AA13309 /* TestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DA3EFD80FC0CEE5F006D5E2265A8BF /* TestController.swift */; };
 		F57725E05E58F956B85A05A9FE9BC705 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
@@ -109,19 +109,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		38E08067D21A0B2841BEF4F4F797A693 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C3D0052E960A3CB3EAB8A8E757C6B8E1 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B60FEA7A6010AF94153DE3D84A45ECA9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				F57725E05E58F956B85A05A9FE9BC705 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA1CA9ADB3F9C482B02247D229E8435C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9E781E813086AA35EEE9AF65B77C324 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,11 +307,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DC8BD6E07E55A009F517FFBF77AF4998 /* Headers */ = {
+		B931D7BB832DAC804A12B97F540548C6 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C372949B9FFEEB8A8F3B7B6CA26C4D2 /* CodableWrapper-umbrella.h in Headers */,
+				5A3D4E7189D7A4A63452D68F8E24D0FC /* CodableWrapper-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,13 +359,13 @@
 		};
 		F61439FF308AE1B69D184EA6AFE851D7 /* CodableWrapper */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 08B5F837C148AB215AD721D7255F75F4 /* Build configuration list for PBXNativeTarget "CodableWrapper" */;
+			buildConfigurationList = 4A174D8D58D210F6A9E2511A1C8CC00C /* Build configuration list for PBXNativeTarget "CodableWrapper" */;
 			buildPhases = (
-				DC8BD6E07E55A009F517FFBF77AF4998 /* Headers */,
-				F4A410BBA14B849983659F74BB8A2305 /* [CP-User] Build CodableWrapper macro plugin */,
-				824618DFA24489CDF83D2A8732600E5A /* Sources */,
-				38E08067D21A0B2841BEF4F4F797A693 /* Frameworks */,
-				4DD75CB6AB9396EF316473AC9FDFB283 /* Resources */,
+				B931D7BB832DAC804A12B97F540548C6 /* Headers */,
+				85811D10BACC4FCF04EF10BB7E98D8A1 /* [CP-User] Build CodableWrapper macro plugin */,
+				9D2663401BB7ACCEE1B362DC1328518F /* Sources */,
+				BA1CA9ADB3F9C482B02247D229E8435C /* Frameworks */,
+				72F42522598D5180D5970457786FD9BC /* Resources */,
 			);
 			buildRules = (
 			);
@@ -415,7 +415,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4DD75CB6AB9396EF316473AC9FDFB283 /* Resources */ = {
+		72F42522598D5180D5970457786FD9BC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -432,7 +432,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F4A410BBA14B849983659F74BB8A2305 /* [CP-User] Build CodableWrapper macro plugin */ = {
+		85811D10BACC4FCF04EF10BB7E98D8A1 /* [CP-User] Build CodableWrapper macro plugin */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -440,7 +440,7 @@
 			name = "[CP-User] Build CodableWrapper macro plugin";
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "    arch=$(sysctl -n machdep.cpu.brand_string)\n\n    result=\"\"\n    if [[ \"$arch\" == *\"Apple\"* ]]; then\n      result=\"arm64\"\n    else\n      result=\"x86_64\"\n    fi\n\n    codable_path=\"${PODS_BUILD_DIR}/CodableWrapper\"\n    release_path=\"$codable_path/release\"\n    tool_path=\"CodableWrapperMacros-tool\"\n    target_binary=\"$release_path/CodableWrapperMacros\"\n\n    env -i PATH=\"$PATH\" \"$SHELL\" -l -c \"arch -$result swift build -c release --package-path '$PODS_TARGET_SRCROOT' --build-path '$codable_path'\"\n\n    if [ -f \"$release_path/$tool_path\" ] && [ ! -f $target_binary ]\n    then\n        cp \"$release_path/$tool_path\" $target_binary\n    fi\n";
+			shellScript = "    env -i PATH=\"$PATH\" \"$SHELL\" -l -c \"swift build -c release --package-path \\\"$PODS_TARGET_SRCROOT\\\" --build-path \\\"${PODS_BUILD_DIR}/CodableWrapper\\\"\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -453,21 +453,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		824618DFA24489CDF83D2A8732600E5A /* Sources */ = {
+		9D2663401BB7ACCEE1B362DC1328518F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5758325DEA85CB563D15C0C7838FE1E0 /* AnyCodingKey.swift in Sources */,
-				388CFC9709C59101D798BAC6FBE9D49E /* AnyDecodable.swift in Sources */,
-				38AC0F2235EC97D2F7119DC9CB9DAC0E /* BuiltInBridgeType.swift in Sources */,
-				C5DBE0098A9B996A50AA5D5F041DC729 /* CodableWrapper-dummy.m in Sources */,
-				95FAA876634428F9EE6539D9F0D7192E /* CodableWrapperMacros.swift in Sources */,
-				3494A8087DF09E58DE58DCDF1A9D9759 /* Decoder.swift in Sources */,
-				0830B5CF0E9762F5741F0B60601A99A8 /* Encoder.swift in Sources */,
-				687ABC938B97E5AC74F2416C3FF29421 /* Error.swift in Sources */,
-				86BA2C6857B59F4ECB757E4EA6EDC4A1 /* SnakeCamelConvert.swift in Sources */,
-				C0AEBC244312060E0F7B673B70B2C45B /* TransformOf.swift in Sources */,
-				CD1266037A8CC4D4E41BA3667EC82C16 /* TransformType.swift in Sources */,
+				AFE6A4F60B7231BFCF34CC80F45CFABB /* AnyCodingKey.swift in Sources */,
+				A3FDB509611A4A1C8584AC2AF9085F15 /* AnyDecodable.swift in Sources */,
+				6C6A6ACFFEF18799B383D5F542BA8E15 /* BuiltInBridgeType.swift in Sources */,
+				3C54974AF082C1F692996F800C9AA1EF /* CodableWrapper-dummy.m in Sources */,
+				44A81E88D6BCF49CEFA433E789D1E20E /* CodableWrapperMacros.swift in Sources */,
+				4AD001F6446C32885B09A4A058E99EAA /* Decoder.swift in Sources */,
+				6F498F9F3713ED2F9C5FF9D5EE45B823 /* Encoder.swift in Sources */,
+				815E8609D5DC5D3ECA3678AAD27C5F30 /* Error.swift in Sources */,
+				B75E7369954CF56A524F4BB8B7604555 /* SnakeCamelConvert.swift in Sources */,
+				AB22A27F8CE145DB609AC389FBCDD034 /* TransformOf.swift in Sources */,
+				5CCE5F72DEF2AEE7605E529A95640622 /* TransformType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,50 +504,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		282097241374B5E976F8F97D12E33158 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E151646AEEBF6B25ED9F1AC21E0761F0 /* TestA.release.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = NO;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
-				GCC_PREFIX_HEADER = "Target Support Files/TestA/TestA-prefix.pch";
-				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "Target Support Files/TestA/TestA-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/TestA/TestA.modulemap";
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros#CodableWrapperMacros";
-				PRODUCT_MODULE_NAME = TestA;
-				PRODUCT_NAME = TestA;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_INSTALL_OBJC_HEADER = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = "arm64 x86_64";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		59E1D5E9A05B18A4EC8089AF77815439 /* Release */ = {
+		198B1F766608C48839DA0154D87B92B2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CD1D25A1AB37BDD924F990933AD32C98 /* CodableWrapper.release.xcconfig */;
 			buildSettings = {
@@ -575,7 +532,7 @@
 				);
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/CodableWrapper/CodableWrapper.modulemap";
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros#CodableWrapperMacros";
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros-tool#CodableWrapperMacros";
 				PRODUCT_MODULE_NAME = CodableWrapper;
 				PRODUCT_NAME = CodableWrapper;
 				SDKROOT = iphoneos;
@@ -591,25 +548,24 @@
 			};
 			name = Release;
 		};
-		64D3C23B36BCD7635E6BE107038D5BAD /* Debug */ = {
+		282097241374B5E976F8F97D12E33158 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6408F2A800EBE385BBFD9C8C93A74E57 /* CodableWrapper.debug.xcconfig */;
+			baseConfigurationReference = E151646AEEBF6B25ED9F1AC21E0761F0 /* TestA.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_MODULE_VERIFIER = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
-				GCC_PREFIX_HEADER = "Target Support Files/CodableWrapper/CodableWrapper-prefix.pch";
+				GCC_PREFIX_HEADER = "Target Support Files/TestA/TestA-prefix.pch";
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "Target Support Files/CodableWrapper/CodableWrapper-Info.plist";
+				INFOPLIST_FILE = "Target Support Files/TestA/TestA-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -618,21 +574,22 @@
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/CodableWrapper/CodableWrapper.modulemap";
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros#CodableWrapperMacros";
-				PRODUCT_MODULE_NAME = CodableWrapper;
-				PRODUCT_NAME = CodableWrapper;
+				MODULEMAP_FILE = "Target Support Files/TestA/TestA.modulemap";
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros-tool#CodableWrapperMacros";
+				PRODUCT_MODULE_NAME = TestA;
+				PRODUCT_NAME = TestA;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "arm64 x86_64";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
 		};
 		8481B7BE174CA0FA41D66131BE5BAF3F /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -661,7 +618,7 @@
 				);
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/TestA/TestA.modulemap";
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros#CodableWrapperMacros";
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros-tool#CodableWrapperMacros";
 				PRODUCT_MODULE_NAME = TestA;
 				PRODUCT_NAME = TestA;
 				SDKROOT = iphoneos;
@@ -833,7 +790,7 @@
 				MODULEMAP_FILE = "Target Support Files/Pods-CodableWrapperDemo/Pods-CodableWrapperDemo.modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros#CodableWrapperMacros";
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros-tool#CodableWrapperMacros";
 				PODS_ROOT = "$(SRCROOT)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -846,6 +803,49 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
+		};
+		D959053075981CC8728307830234FCD8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6408F2A800EBE385BBFD9C8C93A74E57 /* CodableWrapper.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				GCC_PREFIX_HEADER = "Target Support Files/CodableWrapper/CodableWrapper-prefix.pch";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Target Support Files/CodableWrapper/CodableWrapper-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/CodableWrapper/CodableWrapper.modulemap";
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros-tool#CodableWrapperMacros";
+				PRODUCT_MODULE_NAME = CodableWrapper;
+				PRODUCT_NAME = CodableWrapper;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 x86_64";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
 		};
 		D95D9954EF465BF442687C2D59061DB9 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -876,7 +876,7 @@
 				MODULEMAP_FILE = "Target Support Files/Pods-CodableWrapperDemo/Pods-CodableWrapperDemo.modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros#CodableWrapperMacros";
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -load-plugin-executable -Xfrontend $(PODS_BUILD_DIR)/CodableWrapper/release/CodableWrapperMacros-tool#CodableWrapperMacros";
 				PODS_ROOT = "$(SRCROOT)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -892,20 +892,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		08B5F837C148AB215AD721D7255F75F4 /* Build configuration list for PBXNativeTarget "CodableWrapper" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				64D3C23B36BCD7635E6BE107038D5BAD /* Debug */,
-				59E1D5E9A05B18A4EC8089AF77815439 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8DE5143C03248BB6CD542DE3963D6F3A /* Debug */,
 				9E406C6AAF85E580207CD97B0044DEAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4A174D8D58D210F6A9E2511A1C8CC00C /* Build configuration list for PBXNativeTarget "CodableWrapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D959053075981CC8728307830234FCD8 /* Debug */,
+				198B1F766608C48839DA0154D87B92B2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
