@@ -2,8 +2,8 @@
 
 | Xcode     | Minimun Deployments | Version                                                        |
 | --------- | ------------------- | -------------------------------------------------------------- |
-| Xcode15   | >= iOS13 / macOS11  | 1.0+                                                           |
-| < Xcode15 | < iOS13 / macOS11   | [0.3.3](https://github.com/winddpan/CodableWrapper/tree/0.3.3) |
+| Xcode15+   | iOS13+ / macOS11+  | 1.0+                                                           |
+| < Xcode15 |  < iOS13 / macOS11   | [0.3.3](https://github.com/winddpan/CodableWrapper/tree/0.3.3) |
 
 # About
 
