@@ -12,11 +12,11 @@ let package = Package(
         .library(
             name: "CodableWrapper",
             targets: ["CodableWrapper"]
-        ),
+        )
     ],
     dependencies: [
         // Depend on the latest Swift 5.9 SwiftSyntax
-        .package(url: "https://github.com/apple/swift-syntax", from: "509.0.0"),
+        .package(url: "https://github.com/swiftlang/swift-syntax", "509.0.0"..<"601.0.0-prerelease")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -35,8 +35,9 @@ let package = Package(
         ),
 
         // Library that exposes a macro as part of its API, which is used in client programs.
-        .target(name: "CodableWrapper",
-                dependencies: ["CodableWrapperMacros"]),
+        .target(
+            name: "CodableWrapper",
+            dependencies: ["CodableWrapperMacros"]),
 
         // A test target used to develop the macro implementation.
         .testTarget(
