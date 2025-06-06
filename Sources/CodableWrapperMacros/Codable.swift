@@ -45,7 +45,7 @@ public struct Codable: ExtensionMacro, MemberMacro {
             return [decoder, encoder]
         } else {
             let memberwiseInit = try propertyContainer.genMemberwiseInit(config: .init(isOverride: false))
-            return [decoder, encoder, memberwiseInit]
+            return [decoder, encoder] + memberwiseInit
         }
     }
 }

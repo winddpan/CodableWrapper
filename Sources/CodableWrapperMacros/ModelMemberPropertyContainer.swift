@@ -148,7 +148,8 @@ struct ModelMemberPropertyContainer {
         return encoder
     }
 
-    func genMemberwiseInit(config: GenConfig) throws -> DeclSyntax {
+    func genMemberwiseInit(config: GenConfig) throws -> [DeclSyntax] {
+        var allHasInitializerExpr = true
         let parameters = memberProperties.map { property in
             var text = property.name
             text += ": " + property.type
@@ -156,18 +157,43 @@ struct ModelMemberPropertyContainer {
                 text += "= \(initializerExpr)"
             } else if property.isOptional {
                 text += "= nil"
+            } else {
+                allHasInitializerExpr = false
             }
             return text
         }
 
         let overrideInit = config.isOverride ? "super.init()\n" : ""
 
-        return
-            """
-            \(raw: attributesPrefix(option: [.public]))init(\(raw: parameters.joined(separator: ", "))) {
-                \(raw: overrideInit)\(raw: memberProperties.map { "self.\($0.name) = \($0.name)" }.joined(separator: "\n"))
+        var inits: [DeclSyntax] = []
+
+        let initArgs = """
+        \(raw: attributesPrefix(option: [.public]))init(\n\(raw: parameters.joined(separator: ", \n"))\n) {
+            \(raw: overrideInit)\(raw: memberProperties.map { "self.\($0.name) = \($0.name)" }.joined(separator: "\n"))
+        }
+        """ as DeclSyntax
+        inits.append(initArgs)
+
+        if allHasInitializerExpr {
+            let argsInit = memberProperties.map { property in
+                var text = "self.\(property.name)"
+                if let initializerExpr = property.initializerExpr {
+                    text += " = \(initializerExpr)"
+                } else if property.isOptional {
+                    text += " = nil"
+                }
+                return text
+            }
+
+            let initDecl = """
+            \(raw: attributesPrefix(option: [.public]))init() {
+                \(raw: overrideInit)\(raw: argsInit.joined(separator: "\n"))
             }
             """ as DeclSyntax
+            inits.append(initDecl)
+        }
+
+        return inits
     }
 }
 
