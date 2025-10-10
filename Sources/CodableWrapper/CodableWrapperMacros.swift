@@ -9,6 +9,9 @@ public macro CodableSubclass() = #externalMacro(module: "CodableWrapperMacros", 
 public macro CodingKey(_ key: String ...) = #externalMacro(module: "CodableWrapperMacros", type: "CodingKey")
 
 @attached(peer)
+public macro CodingKeyIgnored() = #externalMacro(module: "CodableWrapperMacros", type: "CodingKeyIgnored")
+
+@attached(peer)
 public macro CodingNestedKey(_ key: String ...) = #externalMacro(module: "CodableWrapperMacros", type: "CodingNestedKey")
 
 @attached(peer)

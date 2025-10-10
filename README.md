@@ -1,9 +1,9 @@
 # Requirements
 
-| Xcode     | Minimun Deployments | Version                                                        |
-| --------- | ------------------- | -------------------------------------------------------------- |
-| Xcode15+   | iOS13+ / macOS11+  | 1.0+                                                           |
-| < Xcode15 |  < iOS13 / macOS11   | [0.3.3](https://github.com/winddpan/CodableWrapper/tree/0.3.3) |
+| Xcode    | Minimun Deployments | Version                                                        |
+| -------- | ------------------- | -------------------------------------------------------------- |
+| Xcode15+ | iOS13+ / macOS11+   | 1.0+                                                           |
+| Xcode15- | iOS13- / macOS11-   | [0.3.3](https://github.com/winddpan/CodableWrapper/tree/0.3.3) |
 
 # About
 
@@ -22,9 +22,11 @@ The project objective is to enhance the usage experience of the Codable protocol
 ## Installation
 
 #### CocoaPods
+
 ``` pod 'CodableWrapper', :git => 'https://github.com/winddpan/CodableWrapper.git' ```
 
 #### Swift Package Manager
+
 ``` https://github.com/winddpan/CodableWrapper ```
 
 # Example
@@ -151,6 +153,15 @@ final class CodableWrapperTests: XCTestCase {
       }
   }
   ```
+  
+  ```swift
+  @Codable(wiseInit: false)
+  public struct TestModel {
+      public var userName: String = ""
+  
+      // Disable WiseInit Automatic generated
+  }
+  ```
 
 ## @CodingKey
 
@@ -164,6 +175,20 @@ final class CodableWrapperTests: XCTestCase {
   }
   
   // { "u9": "jhon" }
+  ```
+
+## @CodingKeyIgnored
+
+- Ignored propery on encode and decode
+  
+  ```swift
+  struct NonCodable {}
+  
+  @Codable
+  struct TestModel {
+      @CodingKeyIgnored
+      var nonCodable: NonCodable?
+  }
   ```
 
 ## @CodingNestedKey

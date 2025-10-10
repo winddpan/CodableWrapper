@@ -14,8 +14,13 @@ enum Animal: String, Codable {
     case fish
 }
 
+struct NonCodable {}
+
 @Codable
 struct ExampleModel: Codable {
+    @CodingKeyIgnored
+    var nonCodable: NonCodable?
+    
     @CodingKey("aString")
     var stringVal: String = "scyano"
 

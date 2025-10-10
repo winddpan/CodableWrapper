@@ -208,6 +208,8 @@ private extension ModelMemberPropertyContainer {
             let names = patterns.compactMap { $0.as(IdentifierPatternSyntax.self)?.identifier.text }
 
             return try names.compactMap { name -> ModelMemberProperty? in
+                let attributes = variable.attributes
+
                 guard !variable.isLazyVar else {
                     return nil
                 }
@@ -215,10 +217,15 @@ private extension ModelMemberPropertyContainer {
                     throw ASTError("please declare property type: \(name)")
                 }
 
+                // CodingKeyIgnored
+                if let _ = attributes.first(where: { element in
+                    element.as(AttributeSyntax.self)?.attributeName.as(IdentifierTypeSyntax.self)?.description == "CodingKeyIgnored"
+                }) {
+                    return nil
+                }
+
                 var mp = ModelMemberProperty(name: name, type: type)
                 mp.modifiers = variable.modifiers
-                let attributes = variable.attributes
-
                 // isOptional
                 mp.isOptional = variable.isOptionalType
 
