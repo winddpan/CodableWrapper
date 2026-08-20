@@ -68,7 +68,7 @@ struct ModelMemberPropertyContainer {
     }
 
     func genDecoderInitializer(config: GenConfig) throws -> DeclSyntax {
-        let body = memberProperties.enumerated().map { idx, member in
+        let propertyBody = memberProperties.enumerated().map { idx, member in
             if let transformerExpr = member.transformerExpr {
                 let transformerVar = context.makeUniqueName(String(idx))
                 let tempJsonVar = member.name
@@ -101,10 +101,18 @@ struct ModelMemberPropertyContainer {
         }
         .joined(separator: "\n")
 
+        let body = [
+            propertyBody,
+            config.isOverride ? "try super.init(from: decoder)" : "",
+            try endFunctionCalls(for: .decode),
+        ]
+        .filter { !$0.isEmpty }
+        .joined(separator: "\n")
+
         let decoder: DeclSyntax = """
         \(raw: attributesPrefix(option: [.public, .required]))init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: AnyCodingKey.self)
-            \(raw: body)\(raw: config.isOverride ? "\ntry super.init(from: decoder)" : "")
+            \(raw: body)
         }
         """
 
@@ -112,7 +120,7 @@ struct ModelMemberPropertyContainer {
     }
 
     func genEncodeFunction(config: GenConfig) throws -> DeclSyntax {
-        let body = memberProperties.enumerated().map { idx, member in
+        let propertyBody = memberProperties.enumerated().map { idx, member in
             if let transformerExpr = member.transformerExpr {
                 let transformerVar = context.makeUniqueName(String(idx))
 
@@ -138,14 +146,41 @@ struct ModelMemberPropertyContainer {
         }
         .joined(separator: "\n")
 
+        let body = [
+            config.isOverride ? "try super.encode(to: encoder)" : "",
+            "let container = encoder.container(keyedBy: AnyCodingKey.self)",
+            propertyBody,
+            try endFunctionCalls(for: .encode),
+        ]
+        .filter { !$0.isEmpty }
+        .joined(separator: "\n")
+
         let encoder: DeclSyntax = """
         \(raw: attributesPrefix(option: [.open, .public]))\(raw: config.isOverride ? "override " : "")func encode(to encoder: Encoder) throws {
-            \(raw: config.isOverride ? "try super.encode(to: encoder)\n" : "")let container = encoder.container(keyedBy: AnyCodingKey.self)
             \(raw: body)
         }
         """
 
         return encoder
+    }
+
+    private func endFunctionCalls(for kind: CodableEndKind) throws -> String {
+        try decl.memberBlock.members.compactMap { member -> String? in
+            guard let function = member.decl.as(FunctionDeclSyntax.self),
+                  function.attributes.contains(where: { element in
+                      guard let attribute = element.as(AttributeSyntax.self) else {
+                          return false
+                      }
+                      return attribute.attributeName.trimmedDescription.split(separator: ".").last == Substring(kind.macroName)
+                  }) else {
+                return nil
+            }
+
+            _ = try kind.validate(function)
+            let tryPrefix = function.signature.effectSpecifiers?.throwsClause == nil ? "" : "try "
+            return "\(tryPrefix)\(function.name.trimmedDescription)()"
+        }
+        .joined(separator: "\n")
     }
 
     func genMemberwiseInit(config: GenConfig) throws -> [DeclSyntax] {

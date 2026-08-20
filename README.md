@@ -18,6 +18,7 @@ The project objective is to enhance the usage experience of the Codable protocol
 * Automatic compatibility between camel case and snake case
 * Convenience `Codable` subclass
 * Transformer
+* Decode and encode completion hooks
 
 ## Installation
 
@@ -221,6 +222,26 @@ final class CodableWrapperTests: XCTestCase {
   }
   
   // {"user_name": "jhon", "age": 22}
+  ```
+
+## @DecodeEnd / @EncodeEnd
+
+* Run parameterless instance methods after all properties have been decoded or encoded. Multiple methods run in declaration order. Throwing methods are supported.
+
+  ```swift
+  @Codable
+  struct TestModel {
+      var userName: String = ""
+
+      @DecodeEnd
+      func finishFirstDecodeStep() {}
+
+      @DecodeEnd
+      func finishSecondDecodeStep() throws {}
+
+      @EncodeEnd
+      func finishEncoding() {}
+  }
   ```
 
 ## @CodingTransformer

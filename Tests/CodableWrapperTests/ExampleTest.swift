@@ -7,6 +7,7 @@
 //
 import CodableWrapper
 import XCTest
+import os
 
 enum Animal: String, Codable {
     case dog
@@ -20,7 +21,7 @@ struct NonCodable {}
 struct ExampleModel: Codable {
     @CodingKeyIgnored
     var nonCodable: NonCodable?
-    
+
     @CodingKey("aString")
     var stringVal: String = "scyano"
 
@@ -45,7 +46,7 @@ struct ExampleModel: Codable {
 
     var testFloats: [Float]?
 
-    static var empty: ExampleModel = .init()
+    nonisolated(unsafe) static var empty: ExampleModel = .init()
 }
 
 @Codable
@@ -229,8 +230,8 @@ class ExampleTest: XCTestCase {
         let expectation = XCTestExpectation(description: "")
         let expectation2 = XCTestExpectation(description: "")
 
-        var array: [ExampleModel] = []
-        var array2: [ExampleModel] = []
+        let array = OSAllocatedUnfairLock(initialState: [ExampleModel]())
+        let array2 = OSAllocatedUnfairLock(initialState: [ExampleModel]())
 
         DispatchQueue.global().async {
             do {
@@ -245,7 +246,9 @@ class ExampleTest: XCTestCase {
                     XCTAssertEqual(model.array, [1.998, 2.998, 3.998])
                     // print(model.intVal)
 
-                    array.append(model)
+                    array.withLock {
+                        $0.append(model)
+                    }
                 }
                 expectation.fulfill()
             } catch let e {
@@ -265,7 +268,9 @@ class ExampleTest: XCTestCase {
                     XCTAssertEqual(model.unImpl, nil)
                     XCTAssertEqual(model.array, [123_456_789])
 
-                    array2.append(model)
+                    array2.withLock {
+                        $0.append(model)
+                    }
                 }
                 expectation2.fulfill()
             } catch let e {

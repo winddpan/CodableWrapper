@@ -19,7 +19,7 @@ struct DateWrapper {
         self.timestamp = timestamp
     }
 
-    static var transformer = TransformOf<DateWrapper, TimeInterval>(fromJSON: { DateWrapper(timestamp: $0 ?? 0) }, toJSON: { $0.timestamp })
+    nonisolated(unsafe) static let transformer = TransformOf<DateWrapper, TimeInterval>(fromJSON: { DateWrapper(timestamp: $0 ?? 0) }, toJSON: { $0.timestamp })
 }
 
 enum EnumInt: Int, Codable {

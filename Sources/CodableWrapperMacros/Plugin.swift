@@ -10,5 +10,7 @@ struct CodableWrapperPlugin: CompilerPlugin {
         CodingKeyIgnored.self,
         CodingNestedKey.self,
         CodingTransformer.self,
+        DecodeEnd.self,
+        EncodeEnd.self,
     ]
 }
